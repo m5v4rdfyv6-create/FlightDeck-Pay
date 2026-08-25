@@ -1301,11 +1301,210 @@ input:focus,select:focus{
   display:none!important;
 }
 
+
+/* ===== iPhone slide-out navigation drawer ===== */
+.mobileMenuBtn{
+  display:none;
+}
+
+.mobileNavBackdrop{
+  display:none;
+}
+
+@media(max-width:899px){
+  .app{
+    padding-bottom:calc(28px + env(safe-area-inset-bottom))!important;
+  }
+
+  .header{
+    position:relative!important;
+    padding-left:54px!important;
+  }
+
+  .mobileMenuBtn{
+    position:absolute!important;
+    left:4px!important;
+    top:8px!important;
+    z-index:80!important;
+
+    width:42px!important;
+    height:42px!important;
+
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:5px!important;
+
+    border:1px solid #304a54!important;
+    border-radius:12px!important;
+    background:#102129!important;
+    box-shadow:0 8px 20px rgba(0,0,0,.20)!important;
+  }
+
+  .mobileMenuBtn span{
+    display:block!important;
+    width:18px!important;
+    height:2px!important;
+    border-radius:999px!important;
+    background:#e3b65e!important;
+    transition:transform .18s ease,opacity .18s ease!important;
+  }
+
+  .mobileMenuBtn.open span:nth-child(1){
+    transform:translateY(7px) rotate(45deg)!important;
+  }
+
+  .mobileMenuBtn.open span:nth-child(2){
+    opacity:0!important;
+  }
+
+  .mobileMenuBtn.open span:nth-child(3){
+    transform:translateY(-7px) rotate(-45deg)!important;
+  }
+
+  .nav{
+    position:fixed!important;
+    z-index:75!important;
+
+    top:0!important;
+    bottom:0!important;
+    left:0!important;
+    right:auto!important;
+
+    width:min(82vw,300px)!important;
+    height:100vh!important;
+    max-height:none!important;
+
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+
+    gap:6px!important;
+    padding:
+      calc(72px + env(safe-area-inset-top))
+      12px
+      calc(20px + env(safe-area-inset-bottom))
+      12px!important;
+
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+
+    border-radius:0 22px 22px 0!important;
+    background:linear-gradient(180deg,#0c1b22,#09161c)!important;
+
+    transform:translateX(-105%)!important;
+    transition:transform .22s ease!important;
+
+    box-shadow:18px 0 40px rgba(0,0,0,.35)!important;
+  }
+
+  .nav.mobileOpen{
+    transform:translateX(0)!important;
+  }
+
+  .nav:before{
+    display:none!important;
+    content:none!important;
+  }
+
+  .nav button{
+    flex:0 0 auto!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+
+    height:48px!important;
+    min-height:48px!important;
+    max-height:48px!important;
+
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+
+    gap:11px!important;
+    padding:0 13px!important;
+
+    font-size:11px!important;
+    white-space:nowrap!important;
+    border-radius:11px!important;
+  }
+
+  .nav button svg{
+    width:18px!important;
+    height:18px!important;
+    min-width:18px!important;
+    min-height:18px!important;
+    max-width:18px!important;
+    max-height:18px!important;
+    flex:0 0 18px!important;
+  }
+
+  .fdNavGlyph{
+    width:18px!important;
+    height:18px!important;
+    min-width:18px!important;
+    max-width:18px!important;
+
+    font-size:16px!important;
+    line-height:18px!important;
+    text-align:center!important;
+
+    flex:0 0 18px!important;
+  }
+
+  .proMini{
+    margin-left:auto!important;
+    font-size:7px!important;
+    padding:2px 4px!important;
+  }
+
+  .mobileNavBackdrop{
+    position:fixed!important;
+    inset:0!important;
+    z-index:70!important;
+
+    display:block!important;
+
+    background:rgba(0,0,0,.48)!important;
+    backdrop-filter:blur(2px)!important;
+    -webkit-backdrop-filter:blur(2px)!important;
+  }
+
+  .mobileNavBackdrop[hidden]{
+    display:none!important;
+  }
+
+  body.mobileNavLocked{
+    overflow:hidden!important;
+  }
+}
+
+@media(max-width:420px){
+  .nav{
+    width:min(86vw,290px)!important;
+  }
+
+  .header{
+    padding-left:50px!important;
+  }
+
+  .mobileMenuBtn{
+    width:40px!important;
+    height:40px!important;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="header">
+    <button id="mobileMenuBtn" class="mobileMenuBtn" type="button" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="brand">
       <div class="brandLogo" aria-hidden="true">
         <img src="icon-192.png" alt="">
@@ -1404,7 +1603,7 @@ input:focus,select:focus{
       <div id="tgRecentPreview" class="tgPreviewList"></div>
     </div>
     <div id="tgGoalModule" class="tgModule tgGoalModule tgProRestricted" data-pro-label="PRO · GOALS & MILESTONES">
-      <div class="tgModuleHead"><span>Monthly Goal</span><button id="tgGoalsLink" type="button">Open goals</button></div>
+      <div class="tgModuleHead"><span id="tgGoalTitle">Current Week Goal</span><button id="tgGoalsLink" type="button">Open goals</button></div>
       <div class="tgGoalBar"><span id="tgGoalFill"></span></div>
       <div class="tgGoalMeta"><strong id="tgGoalText">$0 / $0</strong><span id="tgGoalPct">0%</span></div>
     </div>
@@ -1818,7 +2017,7 @@ input:focus,select:focus{
       <div>
         <div class="eyebrow">PILOT GOALS</div>
         <h2>Goals & Milestones</h2>
-        <p>Track your monthly pay goal and pilot-point milestone progress.</p>
+        <p>Track your current pay-period week goal and pilot-point milestone progress.</p>
       </div>
     </div>
 
@@ -1826,7 +2025,7 @@ input:focus,select:focus{
       <div class="fdGoalCard">
         <div class="fdGoalRing" id="goalRing"><span id="goalPercent">0%</span></div>
         <div class="fdGoalCopy">
-          <span>Monthly Pay Goal</span>
+          <span id="weeklyGoalLabel">Current Week Pay Goal</span>
           <strong id="goalCurrent">$0 / $0</strong>
           <small id="goalStatus">Start logging entries to build progress.</small>
         </div>
@@ -1880,6 +2079,7 @@ input:focus,select:focus{
         </div>
       </div>
       <button id="saveEventBtn" class="primary" type="button">Save Event</button>
+      <div id="eventSaveStatus" class="settingsNote" style="margin-top:8px" aria-live="polite"></div>
     </div>
 
     <div id="eventsList" class="fdEventList"></div>
@@ -1941,7 +2141,7 @@ input:focus,select:focus{
           <input id="fullState" type="number" min="0" max="100" step="0.1">
         </div>
         <div>
-          <label for="fullGoal">Take-home goal</label>
+          <label for="fullGoal">Pay-period take-home goal (2 weeks)</label>
           <input id="fullGoal" type="number" min="0" step="1">
         </div>
         <div>
@@ -2042,6 +2242,7 @@ input:focus,select:focus{
   </button>
 
 </nav>
+<div id="mobileNavBackdrop" class="mobileNavBackdrop" hidden></div>
 
 <div id="settingsOverlay" class="overlay" hidden>
   <div class="sheet">
@@ -2074,7 +2275,7 @@ input:focus,select:focus{
         <input id="setState" type="number" min="0" max="100" step="0.1">
       </div>
       <div>
-        <label for="setGoal">Take-home goal</label>
+        <label for="setGoal">Pay-period take-home goal (2 weeks)</label>
         <input id="setGoal" type="number" min="0" step="1">
       </div>
       <div>
@@ -3768,10 +3969,32 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     else if(pilotPoints>=7500)pilotLevel="Instrument Pilot";
     else if(pilotPoints>=2500)pilotLevel="Private Pilot";
 
+    const currentPeriodIndex=periodIndex(today);
+    const currentPeriodBounds=periodBounds(currentPeriodIndex);
+    const daysIntoPeriod=Math.max(0,dayDiff(currentPeriodBounds[0],today));
+    const currentWeekNumber=daysIntoPeriod<7 ? 1 : 2;
+    const currentWeekStart=currentWeekNumber===1
+      ? currentPeriodBounds[0]
+      : addDays(currentPeriodBounds[0],7);
+    const currentWeekEnd=addDays(currentWeekStart,6);
+
+    const currentWeekEntries=allEntries.filter(e=>{
+      const d=parseDate(e.date);
+      if(!d) return false;
+      const iso=isoDate(d);
+      return iso>=isoDate(currentWeekStart) && iso<=isoDate(currentWeekEnd);
+    });
+
+    const currentWeek=summarize(currentWeekEntries);
+
     return {
       currentYear,
       ytd,
       all,
+      currentWeek,
+      currentWeekNumber,
+      currentWeekStart:isoDate(currentWeekStart),
+      currentWeekEnd:isoDate(currentWeekEnd),
       pilotPoints,
       pilotLevel,
       settings:{...settings}
@@ -3879,9 +4102,28 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   function fmtDate(d){ return d ? new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d) : ""; }
 
   const fdExtraKey="flightdeckExtraFeatures";
-  let fdExtra={events:[]};
-  try{ fdExtra=Object.assign({events:[]},JSON.parse(localStorage.getItem(fdExtraKey)||"{}")); }catch(e){}
-  function saveExtra(){ localStorage.setItem(fdExtraKey,JSON.stringify(fdExtra)); }
+
+  function loadExtra(){
+    try{
+      const parsed=JSON.parse(localStorage.getItem(fdExtraKey)||"{}");
+      return Object.assign({events:[]},parsed&&typeof parsed==="object"?parsed:{});
+    }catch(e){
+      console.warn("Could not read FlightDeck extra features",e);
+      return {events:[]};
+    }
+  }
+
+  let fdExtra=loadExtra();
+
+  function saveExtra(){
+    try{
+      localStorage.setItem(fdExtraKey,JSON.stringify(fdExtra));
+      return true;
+    }catch(e){
+      console.warn("Could not save FlightDeck extra features",e);
+      return false;
+    }
+  }
 
   function showExtraPage(name){
     ["pageReports","pageGoals","pageEvents","pageRecent","pageSettingsFull"].forEach(function(id){
@@ -3973,12 +4215,35 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
   function renderGoals(c){
     if(!el("goalRing"))return;
-    const goal=Math.max(0,num(c.s.paycheckGoal,1500));
-    const pct=goal?Math.min(100,c.net/goal*100):100;
+
+    const core=window.flightDeckCore;
+    const metrics=core && typeof core.getMetrics==="function" ? core.getMetrics() : null;
+
+    const payPeriodGoal=Math.max(0,num(c.s.paycheckGoal,1500));
+    const weeklyGoal=payPeriodGoal/2;
+    const weeklyNet=metrics ? metrics.currentWeek.net : 0;
+    const pct=weeklyGoal?Math.min(100,weeklyNet/weeklyGoal*100):100;
+
     el("goalRing").style.background="conic-gradient(#49c7c5 0 "+(pct*3.6)+"deg,#23323a "+(pct*3.6)+"deg 360deg)";
     el("goalPercent").textContent=Math.round(pct)+"%";
-    el("goalCurrent").textContent=money(c.net)+" / "+money(goal);
-    el("goalStatus").textContent=pct>=100?"Goal reached.":"You're "+Math.round(pct)+"% of the way to your goal.";
+    el("goalCurrent").textContent=money(weeklyNet)+" / "+money(weeklyGoal);
+
+    if(el("weeklyGoalLabel") && metrics){
+      el("weeklyGoalLabel").textContent="Week "+metrics.currentWeekNumber+" Pay Goal";
+    }
+
+    if(metrics){
+      const start=safeDate(metrics.currentWeekStart);
+      const end=safeDate(metrics.currentWeekEnd);
+      const range=fmtDate(start)+" - "+fmtDate(end);
+      el("goalStatus").textContent=
+        pct>=100
+          ? "Week "+metrics.currentWeekNumber+" goal reached • "+range
+          : "Week "+metrics.currentWeekNumber+" • "+range+" • "+Math.round(pct)+"% complete";
+    }else{
+      el("goalStatus").textContent="Start logging entries to build progress.";
+    }
+
     const pts=num(c.pilotPoints,0);
     el("pointsValue").textContent=pts.toLocaleString()+" pts";
     el("pointsLevel").textContent=c.pilotLevel||pointLevel(pts);
@@ -3993,7 +4258,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   function renderEvents(){
-    const box=el("eventsList"); if(!box)return; box.innerHTML="";
+    const box=el("eventsList"); if(!box)return;
+    fdExtra=loadExtra();
+    box.innerHTML="";
     const items=(fdExtra.events||[]).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date)));
     if(!items.length){ box.innerHTML='<div class="empty">No upcoming events yet.</div>'; return; }
     items.forEach(function(ev){
@@ -4005,9 +4272,11 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       const actions=document.createElement("div"); actions.className="fdEventActions";
       const del=document.createElement("button"); del.type="button"; del.className="fdMiniBtn danger"; del.textContent="Delete";
       del.addEventListener("click",function(){
-        fdExtra.events=fdExtra.events.filter(x=>x.id!==ev.id);
+        fdExtra=loadExtra();
+        fdExtra.events=(fdExtra.events||[]).filter(x=>String(x.id)!==String(ev.id));
         saveExtra();
         renderEvents();
+        window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
         window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
       });
       actions.append(del); card.append(left,actions); box.appendChild(card);
@@ -4059,14 +4328,51 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
     if(el("saveEventBtn"))el("saveEventBtn").addEventListener("click",function(){
       const title=String(el("eventTitle").value||"").trim();
-      const date=el("eventDate").value;
-      if(!title||!date)return;
-      fdExtra.events.push({id:String(Date.now())+"-"+Math.random(),title,date});
-      saveExtra();
+      const date=String(el("eventDate").value||"").trim();
+      const status=el("eventSaveStatus");
+
+      if(!title||!date){
+        if(status)status.textContent="Enter an event name and date.";
+        return;
+      }
+
+      fdExtra=loadExtra();
+      if(!Array.isArray(fdExtra.events))fdExtra.events=[];
+
+      const event={
+        id:String(Date.now())+"-"+String(Math.random()).slice(2),
+        title,
+        date,
+        createdAt:new Date().toISOString()
+      };
+
+      fdExtra.events.push(event);
+
+      if(!saveExtra()){
+        if(status)status.textContent="Could not save event on this device.";
+        return;
+      }
+
+      // Verify the event actually persisted before clearing the form.
+      const verify=loadExtra();
+      const saved=Array.isArray(verify.events) && verify.events.some(x=>String(x.id)===String(event.id));
+
+      if(!saved){
+        if(status)status.textContent="Event did not persist. Please try again.";
+        return;
+      }
+
+      fdExtra=verify;
       el("eventTitle").value="";
-      el("eventComposer").hidden=true;
+      if(status)status.textContent="Event saved.";
+
       renderEvents();
       window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
+
+      setTimeout(()=>{
+        if(el("eventComposer"))el("eventComposer").hidden=true;
+        if(status)status.textContent="";
+      },500);
     });
 
     if(el("saveFullSettings"))el("saveFullSettings").addEventListener("click",function(){
@@ -4178,7 +4484,10 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     if(eventBox){
       eventBox.innerHTML="";
       let evs=[];
-      try{evs=(JSON.parse(localStorage.getItem("flightdeckExtraFeatures")||"{}").events)||[]}catch(e){}
+      try{
+        const extra=JSON.parse(localStorage.getItem("flightdeckExtraFeatures")||"{}");
+        evs=Array.isArray(extra?.events)?extra.events:[];
+      }catch(e){}
       evs=evs.slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).slice(0,4);
       if(!evs.length)eventBox.innerHTML='<div class="empty">No upcoming events.</div>';
       evs.forEach(function(ev){
@@ -4190,12 +4499,16 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       });
     }
 
-    const goal=Math.max(0,num(s.paycheckGoal,1500));
-    const ciNet=(core.taxFor && typeof periodIndex==="undefined") ? 0 : 0;
-    // Dashboard goal uses YTD net only as an overview; detailed goal calculations live on Goals page.
-    const pct=goal?Math.min(100,y.net/goal*100):100;
+    const payPeriodGoal=Math.max(0,num(s.paycheckGoal,1500));
+    const weeklyGoal=payPeriodGoal/2;
+    const weeklyNet=metrics.currentWeek.net;
+    const pct=weeklyGoal?Math.min(100,weeklyNet/weeklyGoal*100):100;
+
+    if(byId("tgGoalTitle")){
+      byId("tgGoalTitle").textContent="Week "+metrics.currentWeekNumber+" Pay Goal";
+    }
     if(byId("tgGoalFill"))byId("tgGoalFill").style.width=pct+"%";
-    if(byId("tgGoalText"))byId("tgGoalText").textContent=money(y.net)+" / "+money(goal);
+    if(byId("tgGoalText"))byId("tgGoalText").textContent=money(weeklyNet)+" / "+money(weeklyGoal);
     if(byId("tgGoalPct"))byId("tgGoalPct").textContent=Math.round(pct)+"%";
   }
 
@@ -4471,6 +4784,73 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     syncAllProSurfaces();
     setTimeout(syncAllProSurfaces,300);
     setTimeout(syncAllProSurfaces,1200);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function el(id){return document.getElementById(id)}
+
+  function isMobile(){
+    return window.matchMedia("(max-width: 899px)").matches;
+  }
+
+  function openMobileNav(){
+    if(!isMobile())return;
+    const nav=document.querySelector(".nav");
+    const btn=el("mobileMenuBtn");
+    const backdrop=el("mobileNavBackdrop");
+
+    if(nav)nav.classList.add("mobileOpen");
+    if(btn){
+      btn.classList.add("open");
+      btn.setAttribute("aria-expanded","true");
+    }
+    if(backdrop)backdrop.hidden=false;
+    document.body.classList.add("mobileNavLocked");
+  }
+
+  function closeMobileNav(){
+    const nav=document.querySelector(".nav");
+    const btn=el("mobileMenuBtn");
+    const backdrop=el("mobileNavBackdrop");
+
+    if(nav)nav.classList.remove("mobileOpen");
+    if(btn){
+      btn.classList.remove("open");
+      btn.setAttribute("aria-expanded","false");
+    }
+    if(backdrop)backdrop.hidden=true;
+    document.body.classList.remove("mobileNavLocked");
+  }
+
+  function toggleMobileNav(){
+    const nav=document.querySelector(".nav");
+    if(nav && nav.classList.contains("mobileOpen")) closeMobileNav();
+    else openMobileNav();
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    const btn=el("mobileMenuBtn");
+    const backdrop=el("mobileNavBackdrop");
+    const nav=document.querySelector(".nav");
+
+    if(btn)btn.addEventListener("click",toggleMobileNav);
+    if(backdrop)backdrop.addEventListener("click",closeMobileNav);
+
+    if(nav){
+      nav.querySelectorAll("button").forEach(function(button){
+        button.addEventListener("click",function(){
+          if(isMobile())closeMobileNav();
+        });
+      });
+    }
+
+    window.addEventListener("resize",function(){
+      if(!isMobile())closeMobileNav();
+    });
   });
 })();
 </script>
