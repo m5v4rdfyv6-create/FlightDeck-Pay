@@ -503,6 +503,12 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .proGate h2{font-size:28px;letter-spacing:-.04em;margin:13px 0 6px}.proGate p{margin:0;color:#9ea9ba;font-size:13px;line-height:1.5}.proPrice{font-size:38px;font-weight:950;letter-spacing:-.05em;margin-top:16px}.proLifetime{color:#8592a7;font-size:11px;margin-top:2px}.proFeatures{display:grid;gap:7px;margin-top:14px;font-size:12px;color:#d2d9e5}.proFeatures div:before{content:'✓';display:inline-block;margin-right:8px;color:#79a9ff;font-weight:950}
 .accountBox{margin-bottom:14px;padding:14px;border-radius:16px;border:1px solid #29313d;background:linear-gradient(180deg,#0d1118,#080a0e)}
 .accountTop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.accountTitle{font-size:14px;font-weight:950}.accountEmail{font-size:11px;color:#858f9f;margin-top:3px;overflow-wrap:anywhere}.accountBadge{padding:6px 9px;border-radius:999px;border:1px solid #353c47;background:#11151b;color:#9aa3b1;font-size:9px;font-weight:950;letter-spacing:.08em;white-space:nowrap}.accountBadge.pro{background:#102752;border-color:#3267bc;color:#a9c7ff}.accountActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.accountActions .primary{margin-top:0}.secondaryBtn{width:100%;min-height:44px;border-radius:12px;border:1px solid #303744;background:#0b0e13;color:#c9d1df;font-weight:850}.accountHint{font-size:11px;color:#7f8998;line-height:1.45;margin-top:9px}.accountStatus{font-size:11px;line-height:1.45;margin-top:9px;color:#91a7ce}.accountStatus.error{color:#ff8e8e}.proBuyBtn{background:linear-gradient(180deg,#4588ff,#2466dc);box-shadow:0 8px 24px rgba(40,117,255,.2)}
+
+.proInlineGate{padding:16px;border-radius:16px;border:1px solid #2f4f86;background:linear-gradient(180deg,#0c1730,#080b12);text-align:left}
+.proInlineTop{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.proInlineTitle{font-size:13px;font-weight:950;color:#e7ecf5}.proInlineCopy{font-size:11px;line-height:1.45;color:#8f9bb0;margin-top:5px}
+.proInlineGate .proBuyBtn{margin-top:11px;min-height:42px}.proLockPill{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;background:#102752;border:1px solid #3267bc;color:#a9c7ff;font-size:8px;font-weight:950;letter-spacing:.08em}
+.proSection[hidden],.proInlineGate[hidden]{display:none!important}
 @media(max-width:520px){.accountActions{grid-template-columns:1fr}.proGate h2{font-size:25px}.proPrice{font-size:34px}}
 
 </style>
@@ -543,9 +549,16 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
         </div>
         <div class="horizon" aria-hidden="true"><div class="horizonWing"></div></div>
       </div>
-      <div class="goalRow"><span>Paycheck goal</span><strong id="goalLabel">$0 / $1,500</strong></div>
-      <div class="goalBar"><span id="goalBar" style="width:0%"></span></div>
-      <div class="goalHint" id="goalHint">Add hours to start tracking your goal.</div>
+      <div id="currentGoalPro" class="proSection">
+        <div class="goalRow"><span>Paycheck goal <span class="proMini">PRO</span></span><strong id="goalLabel">$0 / $1,500</strong></div>
+        <div class="goalBar"><span id="goalBar" style="width:0%"></span></div>
+        <div class="goalHint" id="goalHint">Add hours to start tracking your goal.</div>
+      </div>
+      <div id="currentGoalGate" class="proInlineGate" hidden>
+        <div class="proInlineTop"><div class="proInlineTitle">Paycheck goal</div><span class="proLockPill">PRO</span></div>
+        <div class="proInlineCopy">Upgrade to track progress toward a custom paycheck goal.</div>
+        <button class="primary proBuyBtn proInlineBuy" type="button">Unlock Pro — $9.99 lifetime</button>
+      </div>
     </div>
 
     <div class="grid2">
@@ -575,10 +588,15 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       </div>
     </div>
 
-    <div class="panel" style="margin-bottom:12px">
-      <div class="sectionTitle">Projected paycheck</div>
+    <div id="currentProjectionPro" class="panel proSection" style="margin-bottom:12px">
+      <div class="sectionTitle">Projected paycheck <span class="proMini">PRO</span></div>
       <div class="statLine"><span>Projected net by period end</span><strong class="blueText" id="projectedNet">$0.00</strong></div>
       <div class="statLine"><span>Projected gross</span><strong id="projectedGross">$0.00</strong></div>
+    </div>
+    <div id="currentProjectionGate" class="panel proInlineGate" style="margin-bottom:12px" hidden>
+      <div class="proInlineTop"><div class="proInlineTitle">Projected paycheck</div><span class="proLockPill">PRO</span></div>
+      <div class="proInlineCopy">See projected gross and take-home pay by the end of the current period.</div>
+      <button class="primary proBuyBtn proInlineBuy" type="button">Unlock Pro — $9.99 lifetime</button>
     </div>
 
     <div class="panel" style="margin-bottom:12px">
@@ -592,16 +610,36 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       </div>
     </div>
 
-    <div class="panel">
-      <div class="sectionTitle">Daily earnings</div>
+    <div id="currentDailyPro" class="panel proSection">
+      <div class="sectionTitle">Daily earnings <span class="proMini">PRO</span></div>
       <div id="dailyList" class="dailyGroup"></div>
+    </div>
+    <div id="currentDailyGate" class="panel proInlineGate" hidden>
+      <div class="proInlineTop"><div class="proInlineTitle">Daily earnings breakdown</div><span class="proLockPill">PRO</span></div>
+      <div class="proInlineCopy">See exactly what you earned each day in the current pay period.</div>
+      <button class="primary proBuyBtn proInlineBuy" type="button">Unlock Pro — $9.99 lifetime</button>
     </div>
   </section>
 
   <section id="pageHistory" class="page" hidden>
-    <div class="panel" style="margin-bottom:12px">
-      <div class="sectionTitle redText">Pay history</div>
-      <div id="historyList"></div>
+    <div id="historyGate" class="proGate">
+      <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
+      <h2>Unlock pay history</h2>
+      <p>See completed pay periods, past earnings, and your paycheck history with lifetime Pro.</p>
+      <div class="proPrice">$9.99</div>
+      <div class="proLifetime">one-time purchase · lifetime Pro access</div>
+      <div class="proFeatures">
+        <div>Full completed pay-period history</div>
+        <div>Past gross and take-home earnings</div>
+        <div>Current projections and daily earnings</div>
+      </div>
+      <button id="historyGateBuy" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
+    </div>
+    <div id="historyProContent" class="proSection">
+      <div class="panel" style="margin-bottom:12px">
+        <div class="sectionTitle redText">Pay history <span class="proMini">PRO</span></div>
+        <div id="historyList"></div>
+      </div>
     </div>
   </section>
 
@@ -677,14 +715,14 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 <section id="pageStats" class="page" hidden>
     <div id="proGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
-      <h2>Unlock advanced stats</h2>
-      <p>Keep tracking for free. Upgrade once to unlock your full earnings analytics.</p>
+      <h2>Unlock FlightDeck Pay Pro</h2>
+      <p>Keep basic tracking free. Upgrade once to unlock history, projections, daily earnings, and advanced analytics.</p>
       <div class="proPrice">$9.99</div>
       <div class="proLifetime">one-time purchase · lifetime Pro access</div>
       <div class="proFeatures">
-        <div>Paycheck trends and performance snapshots</div>
-        <div>Highest paycheck and highest earning day</div>
-        <div>Hours mix, best period, and earning efficiency</div>
+        <div>Full pay history and current paycheck projections</div>
+        <div>Daily earnings and paycheck-goal tracking</div>
+        <div>Advanced stats, trends, and performance snapshots</div>
       </div>
       <button id="proGateBuy" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
       <div id="proGateStatus" class="accountStatus"></div>
@@ -824,7 +862,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   </button>
   <button id="navHistory" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 1 1-6.3 4H3l3.5-3.5L10 9H7.7A5 5 0 1 0 12 7v3l4-4-4-4v3Z"/></svg>
-    History
+    History <span class="proMini">PRO</span>
   </button>
   <button id="navEntries" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 5h14v3H5V5Zm0 5h14v3H5v-3Zm0 5h14v3H5v-3Z"/></svg>
@@ -1103,6 +1141,10 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
     if(el("refreshProBtn")) el("refreshProBtn").textContent=isPro?"Pro active":"Refresh Pro access";
     if(el("proGate")) el("proGate").hidden=isPro;
     if(el("statsProContent")) el("statsProContent").hidden=!isPro;
+    if(el("historyGate")) el("historyGate").hidden=isPro;
+    if(el("historyProContent")) el("historyProContent").hidden=!isPro;
+    ["currentGoalPro","currentProjectionPro","currentDailyPro"].forEach(id=>{ if(el(id)) el(id).hidden=!isPro; });
+    ["currentGoalGate","currentProjectionGate","currentDailyGate"].forEach(id=>{ if(el(id)) el(id).hidden=isPro; });
   }
 
   async function refreshEntitlement(showMessage=false){
@@ -1456,6 +1498,8 @@ if(entriesPage)renderEntriesPage();
   el("signOutBtn").addEventListener("click",signOutAccount);
   el("buyProBtn").addEventListener("click",startProCheckout);
   el("proGateBuy").addEventListener("click",startProCheckout);
+  if(el("historyGateBuy")) el("historyGateBuy").addEventListener("click",startProCheckout);
+  document.querySelectorAll(".proInlineBuy").forEach(btn=>btn.addEventListener("click",startProCheckout));
   el("refreshProBtn").addEventListener("click",()=>refreshEntitlement(true));
 
   const entriesToggle = el("entriesToggle");
