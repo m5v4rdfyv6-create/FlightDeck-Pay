@@ -1033,6 +1033,186 @@ input:focus,select:focus{
   cursor:pointer;
 }
 
+
+/* ===== Single Settings + Mobile Nav Fix ===== */
+
+/* Only the dedicated Settings page is user-facing. */
+#settingsBtn,
+#settingsOverlay{
+  display:none!important;
+}
+
+/* Make the dedicated settings page clearly full-width and complete. */
+#pageSettingsFull .panel{
+  max-width:none!important;
+}
+#pageSettingsFull .formGrid{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+#pageSettingsFull input,
+#pageSettingsFull select{
+  width:100%!important;
+}
+
+/* Desktop: keep one Settings item only in sidebar. */
+#navSettingsFull{
+  display:flex!important;
+}
+
+/* Mobile nav: compact horizontally scrollable dock instead of giant icons/rows. */
+@media(max-width:899px){
+  body{
+    padding-left:0!important;
+  }
+
+  .app{
+    padding-bottom:calc(86px + env(safe-area-inset-bottom))!important;
+  }
+
+  .nav{
+    position:fixed!important;
+    left:8px!important;
+    right:8px!important;
+    bottom:calc(8px + env(safe-area-inset-bottom))!important;
+    top:auto!important;
+
+    width:auto!important;
+    height:64px!important;
+    min-height:64px!important;
+    max-height:64px!important;
+
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+
+    gap:4px!important;
+    padding:5px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+
+    border-radius:18px!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+
+  .nav::-webkit-scrollbar{
+    display:none;
+  }
+
+  .nav:before{
+    display:none!important;
+    content:none!important;
+  }
+
+  .nav button{
+    flex:0 0 68px!important;
+    width:68px!important;
+    min-width:68px!important;
+    max-width:68px!important;
+
+    min-height:52px!important;
+    height:52px!important;
+    max-height:52px!important;
+
+    padding:4px 3px!important;
+    margin:0!important;
+
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+
+    gap:2px!important;
+    border-radius:12px!important;
+
+    font-size:8px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+
+  .nav button svg{
+    width:16px!important;
+    height:16px!important;
+    min-width:16px!important;
+    min-height:16px!important;
+    max-width:16px!important;
+    max-height:16px!important;
+    flex:0 0 16px!important;
+  }
+
+  .fdNavGlyph{
+    display:block!important;
+    width:16px!important;
+    height:16px!important;
+    min-width:16px!important;
+    max-width:16px!important;
+    font-size:14px!important;
+    line-height:16px!important;
+    overflow:hidden!important;
+    text-align:center!important;
+    flex:0 0 16px!important;
+  }
+
+  .proMini{
+    font-size:6px!important;
+    line-height:1!important;
+    padding:1px 3px!important;
+    margin-left:1px!important;
+  }
+
+  .brandLogo{
+    width:44px!important;
+    height:44px!important;
+    min-width:44px!important;
+    min-height:44px!important;
+    max-width:44px!important;
+    max-height:44px!important;
+    border-radius:13px!important;
+  }
+
+  .brandLogo img,
+  .brandLogo svg{
+    max-width:26px!important;
+    max-height:26px!important;
+  }
+
+  .brand h1{
+    font-size:25px!important;
+  }
+
+  .brand p{
+    font-size:10px!important;
+  }
+
+  #pageSettingsFull .formGrid{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* Extra-small phones */
+@media(max-width:390px){
+  .nav button{
+    flex-basis:62px!important;
+    width:62px!important;
+    min-width:62px!important;
+    max-width:62px!important;
+    font-size:7px!important;
+  }
+
+  .fdNavGlyph{
+    font-size:13px!important;
+  }
+
+  .brandLogo{
+    width:40px!important;
+    height:40px!important;
+    min-width:40px!important;
+    min-height:40px!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1668,7 +1848,34 @@ input:focus,select:focus{
       </div>
       <button id="saveFullSettings" class="primary" type="button">Save Settings</button>
     </div>
-  </section>
+  
+    <div id="singleSettingsAccount" class="panel" style="margin-top:12px">
+      <div class="sectionTitle">App & Account</div>
+
+      <div class="statLine">
+        <span>Storage</span>
+        <strong>Local + account sync where enabled</strong>
+      </div>
+
+      <div class="statLine">
+        <span>Plan</span>
+        <strong id="singleSettingsPlan">Free</strong>
+      </div>
+
+      <div class="statLine">
+        <span>Pro access</span>
+        <strong id="singleSettingsProState">Locked</strong>
+      </div>
+
+      <button id="singleSettingsUpgradeBtn" class="fdAccentBtn" type="button" style="width:100%;margin-top:10px">
+        Unlock Pro — $9.99 lifetime
+      </button>
+
+      <div class="settingsNote" style="margin-top:12px">
+        Pay rates, tax estimates, paycheck goal, payday, account status, and Pro access are managed from this page.
+      </div>
+    </div>
+</section>
 
 </div>
 
@@ -3834,6 +4041,55 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
     /* Entitlement refresh/sign-in can happen asynchronously. */
     setInterval(syncNewProUI,700);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function n(id){ return document.getElementById(id); }
+
+  function isProNow(){
+    try{
+      return typeof isPro !== "undefined" && Boolean(isPro);
+    }catch(e){
+      return false;
+    }
+  }
+
+  function syncSingleSettings(){
+    const pro=isProNow();
+    if(n("singleSettingsPlan")) n("singleSettingsPlan").textContent=pro?"Pro":"Free";
+    if(n("singleSettingsProState")) n("singleSettingsProState").textContent=pro?"Unlocked":"Locked";
+    if(n("singleSettingsUpgradeBtn")){
+      n("singleSettingsUpgradeBtn").style.display=pro?"none":"block";
+    }
+  }
+
+  function openUpgrade(){
+    try{
+      if(typeof startProCheckout==="function"){
+        startProCheckout();
+        return;
+      }
+    }catch(e){}
+
+    const fallback=
+      n("buyProBtn") ||
+      n("proGateBuy") ||
+      n("historyGateBuy");
+
+    if(fallback) fallback.click();
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    if(n("singleSettingsUpgradeBtn")){
+      n("singleSettingsUpgradeBtn").addEventListener("click",openUpgrade);
+    }
+
+    syncSingleSettings();
+    setInterval(syncSingleSettings,800);
   });
 })();
 </script>
