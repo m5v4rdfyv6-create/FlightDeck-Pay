@@ -904,6 +904,132 @@ input,select{
   .grid2{grid-template-columns:1fr!important}
 }
 
+
+/* live weather/date cluster */
+.mockHeroInfo{
+  position:absolute;
+  z-index:3;
+  right:18px;
+  top:17px;
+  display:flex;
+  align-items:stretch;
+  gap:9px;
+}
+.mockHeroInfo .mockHeroDate{
+  position:static!important;
+  right:auto!important;
+  top:auto!important;
+}
+.mockWeatherPill{
+  min-width:142px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 13px;
+  border:1px solid #1c3045;
+  border-radius:13px;
+  background:rgba(4,15,27,.82);
+  color:#fff;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  text-align:left;
+}
+.mockWeatherPill:active{transform:scale(.97)}
+.mockWeatherIcon{
+  width:32px;height:32px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  background:#172237;color:#dce8f6;font-size:18px;
+}
+.mockWeatherPill strong{display:block;font-size:11px;white-space:nowrap}
+.mockWeatherPill small{
+  display:block;max-width:98px;overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;color:#8c9aab;font-size:9px;margin-top:2px
+}
+@media(max-width:619px){
+  .mockHeroInfo{
+    right:10px;
+    top:10px;
+    gap:6px;
+  }
+  .mockWeatherPill{
+    min-width:118px;
+    padding:8px 9px;
+  }
+  .mockHeroInfo .mockHeroDate{
+    min-width:120px;
+    padding:8px 9px;
+  }
+}
+@media(max-width:460px){
+  .mockHeroInfo{
+    display:none;
+  }
+}
+
+
+.analyticsIntro{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  padding:20px 22px;
+  margin-bottom:12px;
+  border:1px solid #1b3550;
+  border-radius:19px;
+  background:
+    radial-gradient(circle at 88% 0%,rgba(83,84,255,.15),transparent 30%),
+    linear-gradient(180deg,#0a1725,#06101a);
+}
+.analyticsIntro h2{
+  margin:5px 0 0;
+  font-size:28px;
+  letter-spacing:-.045em;
+}
+.analyticsIntro p{
+  margin:7px 0 0;
+  color:#8190a3;
+  font-size:12px;
+  line-height:1.5;
+}
+.analyticsBadge{
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid #6548aa;
+  background:#24183e;
+  color:#b895ff;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.09em;
+  white-space:nowrap;
+}
+
+
+.dashboardSummaryLabel{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin:3px 2px 9px;
+}
+.dashboardSummaryLabel span{
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:#dce7f5;
+}
+.dashboardSummaryLabel small{
+  color:#6f7f93;
+  font-size:10px;
+}
+@media(max-width:619px){
+  .dashboardSummaryLabel{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:3px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -947,12 +1073,22 @@ input,select{
           <span>＋</span> Log New Entry
         </button>
       </div>
-      <div class="mockHeroDate">
-        <div class="mockDateIcon">▣</div>
-        <div><strong id="mockDateMain">Today</strong><small id="mockDateSub"></small></div>
+      <div class="mockHeroInfo">
+        <button id="mockWeather" class="mockWeatherPill" type="button" aria-label="Load or refresh local weather">
+          <div class="mockWeatherIcon" id="mockWeatherIcon">◐</div>
+          <div>
+            <strong id="mockWeatherTemp">Weather</strong>
+            <small id="mockWeatherText">Tap to load</small>
+          </div>
+        </button>
+        <div class="mockHeroDate">
+          <div class="mockDateIcon">▣</div>
+          <div><strong id="mockDateMain">Today</strong><small id="mockDateSub"></small></div>
+        </div>
       </div>
     </div>
 
+    <div class="dashboardSummaryLabel"><span>Dashboard Summary</span><small>Detailed analytics are on the Analytics page</small></div>
     <div class="mockMetricGrid">
       <div class="mockMetric metricGreen">
         <div class="mockMetricTop"><span>TOTAL PAY (YTD)</span><b>$</b></div>
@@ -1162,6 +1298,14 @@ input,select{
 </section>
 
 <section id="pageStats" class="page" hidden>
+    <div class="analyticsIntro">
+      <div>
+        <div class="eyebrow">FlightDeck Analytics</div>
+        <h2>Performance & Earnings</h2>
+        <p>Pay trends, hours mix, averages, efficiency, best periods, and year-to-date performance.</p>
+      </div>
+      <div class="analyticsBadge">PRO ANALYTICS</div>
+    </div>
     <div id="proGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock FlightDeck Pay Pro</h2>
@@ -1179,7 +1323,7 @@ input,select{
     <div id="statsProContent" hidden>
     <div class="statsHero">
       <div>
-        <div class="eyebrow">Performance snapshot</div>
+        <div class="eyebrow">Analytics dashboard</div>
         <div class="statsHeroValue" id="statsYearTotal">$0.00</div>
         <div class="statsHeroSub">gross earnings this year</div>
       </div>
@@ -3062,6 +3206,154 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     });
     setTimeout(syncMockDashboard,350);
     setTimeout(syncMockDashboard,1200);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function byId(id){ return document.getElementById(id); }
+
+  function weatherLabel(code){
+    code = Number(code);
+    if(code === 0) return ["Clear Skies","☀"];
+    if(code === 1) return ["Mostly Clear","◐"];
+    if(code === 2) return ["Partly Cloudy","⛅"];
+    if(code === 3) return ["Overcast","☁"];
+    if(code === 45 || code === 48) return ["Fog","≋"];
+    if([51,53,55,56,57].includes(code)) return ["Drizzle","☂"];
+    if([61,63,65,66,67,80,81,82].includes(code)) return ["Rain","☂"];
+    if([71,73,75,77,85,86].includes(code)) return ["Snow","❄"];
+    if([95,96,99].includes(code)) return ["Thunderstorms","ϟ"];
+    return ["Current Weather","◐"];
+  }
+
+  function setWeather(temp,label,icon){
+    if(byId("mockWeatherTemp")) byId("mockWeatherTemp").textContent=temp;
+    if(byId("mockWeatherText")) byId("mockWeatherText").textContent=label;
+    if(byId("mockWeatherIcon")) byId("mockWeatherIcon").textContent=icon;
+  }
+
+  async function getWeather(){
+    if(!navigator.geolocation){
+      setWeather("Weather","Location unavailable","◐");
+      return;
+    }
+
+    setWeather("Loading…","Getting location","◐");
+
+    navigator.geolocation.getCurrentPosition(async function(pos){
+      try{
+        const lat=pos.coords.latitude;
+        const lon=pos.coords.longitude;
+        const url=
+          "https://api.open-meteo.com/v1/forecast"+
+          "?latitude="+encodeURIComponent(lat)+
+          "&longitude="+encodeURIComponent(lon)+
+          "&current=temperature_2m,weather_code"+
+          "&temperature_unit=fahrenheit"+
+          "&timezone=auto";
+
+        const response=await fetch(url,{cache:"no-store"});
+        if(!response.ok) throw new Error("weather");
+        const data=await response.json();
+        const current=data && data.current ? data.current : null;
+        if(!current) throw new Error("weather");
+
+        const pair=weatherLabel(current.weather_code);
+        const temp=Math.round(Number(current.temperature_2m))+"°F";
+        setWeather(temp,pair[0],pair[1]);
+
+        localStorage.setItem("flightDeckWeatherCache",JSON.stringify({
+          temp:temp,label:pair[0],icon:pair[1],savedAt:Date.now()
+        }));
+      }catch(e){
+        setWeather("Weather","Tap to retry","◐");
+      }
+    },function(){
+      setWeather("Weather","Location permission needed","◐");
+    },{
+      enableHighAccuracy:false,
+      timeout:10000,
+      maximumAge:600000
+    });
+  }
+
+  function restoreWeather(){
+    try{
+      const cached=JSON.parse(localStorage.getItem("flightDeckWeatherCache")||"null");
+      if(cached && Date.now()-Number(cached.savedAt||0)<30*60*1000){
+        setWeather(cached.temp,cached.label,cached.icon);
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }
+
+  function setDateAndGreeting(){
+    const d=new Date();
+    const h=d.getHours();
+
+    if(byId("mockGreeting")){
+      byId("mockGreeting").textContent=
+        (h<12?"Good morning":h<17?"Good afternoon":"Good evening")+", Pilot 👋";
+    }
+    if(byId("mockDateMain")){
+      byId("mockDateMain").textContent=
+        new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
+    }
+    if(byId("mockDateSub")){
+      byId("mockDateSub").textContent=
+        new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
+    }
+  }
+
+  function syncDashboardSummary(){
+    if(byId("mockTotalPay") && byId("statsYearTotal"))
+      byId("mockTotalPay").textContent=byId("statsYearTotal").textContent;
+
+    if(byId("mockFlightTime") && byId("entriesFlight"))
+      byId("mockFlightTime").textContent=byId("entriesFlight").textContent.replace(" hrs","");
+
+    if(byId("mockAvgRate") && byId("efficiencyValue"))
+      byId("mockAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
+
+    if(byId("mockEntriesCount") && byId("entriesCount"))
+      byId("mockEntriesCount").textContent=byId("entriesCount").textContent;
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    setDateAndGreeting();
+
+    if(byId("mockLogEntryBtn") && byId("navEntries")){
+      byId("mockLogEntryBtn").addEventListener("click",function(){
+        byId("navEntries").click();
+      });
+    }
+
+    if(byId("mockWeather")){
+      byId("mockWeather").addEventListener("click",getWeather);
+    }
+
+    if(!restoreWeather()){
+      setWeather("Weather","Tap to load","◐");
+    }
+
+    syncDashboardSummary();
+
+    ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount"].forEach(function(id){
+      const node=byId(id);
+      if(node){
+        new MutationObserver(syncDashboardSummary).observe(node,{
+          childList:true,subtree:true,characterData:true
+        });
+      }
+    });
+
+    setInterval(setDateAndGreeting,60000);
+    setTimeout(syncDashboardSummary,350);
+    setTimeout(syncDashboardSummary,1200);
   });
 })();
 </script>
