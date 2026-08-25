@@ -565,213 +565,227 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .seoAboutLinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .seoAboutLinks a{display:inline-flex;align-items:center;min-height:38px;padding:8px 11px;border-radius:11px;border:1px solid #284c87;background:#091932;color:#9fc0ff;text-decoration:none;font-size:12px;font-weight:850}
 
-/* =========================================================
-   FLIGHTDECK PAY — APPROVED MOCKUP BUILD
-   ========================================================= */
+/* ============================================================
+   FLIGHTDECK PAY — APPROVED DARK DASHBOARD
+   ============================================================ */
 :root{
-  --mk-bg:#020811;
-  --mk-panel:#07111d;
-  --mk-panel2:#0a1624;
-  --mk-border:#16283a;
-  --mk-blue:#1383ff;
-  --mk-green:#16df91;
-  --mk-purple:#a557ff;
-  --mk-orange:#ff7d22;
-  --mk-muted:#8b99ad;
+  --ap-bg:#020811;
+  --ap-panel:#07111c;
+  --ap-panel2:#091522;
+  --ap-line:#17283a;
+  --ap-blue:#1784ff;
+  --ap-green:#18df91;
+  --ap-purple:#a657ff;
+  --ap-orange:#ff7d22;
+  --ap-muted:#8593a7;
 }
 
 html,body{
   background:
-    radial-gradient(circle at 58% -8%,rgba(19,131,255,.17),transparent 29%),
-    linear-gradient(180deg,#020811 0%,#030913 55%,#02070e 100%)!important;
-  color:#f5f8fc!important;
+    radial-gradient(circle at 72% -12%,rgba(20,113,255,.13),transparent 30%),
+    linear-gradient(180deg,#020811 0%,#030913 56%,#02070e 100%)!important;
+  color:#f4f8fd!important;
 }
+
 body:before{
   content:"";
   pointer-events:none;
   position:fixed;
   inset:0;
+  opacity:.26;
   background:
-    linear-gradient(rgba(73,137,196,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(73,137,196,.025) 1px,transparent 1px);
-  background-size:38px 38px;
-  opacity:.7;
+    linear-gradient(rgba(70,125,180,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(70,125,180,.03) 1px,transparent 1px);
+  background-size:40px 40px;
 }
-.app{max-width:1200px!important}
+
+.app{max-width:1180px!important}
 
 .header{
-  padding:8px 2px 14px!important;
-  margin-bottom:10px!important;
+  padding:8px 2px 16px!important;
+  margin-bottom:12px!important;
+  border-bottom:1px solid rgba(39,74,108,.16);
 }
 .brandLogo{
-  width:54px!important;height:54px!important;border-radius:17px!important;
-  border:1px solid #14518d!important;
-  background:#05101a!important;
-  box-shadow:0 0 28px rgba(18,131,255,.15),inset 0 1px 0 rgba(255,255,255,.04)!important;
+  width:56px!important;height:56px!important;border-radius:18px!important;
+  border:1px solid #15528f!important;
+  background:#04101a!important;
+  box-shadow:0 0 30px rgba(23,132,255,.16),inset 0 1px 0 rgba(255,255,255,.04)!important;
 }
-.brand h1{font-size:31px!important}
-.brand p{color:#7d8ca2!important}
+.brand h1{font-size:32px!important}
+.brand p{color:#7e8da2!important}
 .iconBtn{
   background:#07101a!important;border-color:#1b3045!important;
   box-shadow:0 10px 28px rgba(0,0,0,.25)!important;
 }
 
-/* approved hero */
-.mockDashboardHero{
-  position:relative;
-  min-height:278px;
-  overflow:hidden;
-  border:1px solid #17324a;
-  border-radius:22px;
-  margin-bottom:16px;
-  background:
-    url("dashboard-hero-plane.png") right center/57% 100% no-repeat,
-    linear-gradient(90deg,#030b15 0%,#04101d 52%,#081726 100%);
-  box-shadow:0 22px 52px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025);
-}
-.mockHeroShade{
-  position:absolute;inset:0;
-  background:
-    linear-gradient(90deg,rgba(2,8,17,.98) 0%,rgba(2,8,17,.94) 40%,rgba(2,8,17,.45) 67%,rgba(2,8,17,.08) 100%),
-    linear-gradient(0deg,rgba(2,8,17,.18),transparent 60%);
-}
-.mockHeroCopy{
-  position:relative;z-index:2;
-  width:57%;
-  padding:34px 34px 30px;
-}
-.mockGreeting{
-  color:#9ba8b9;
-  font-size:12px;
-  font-weight:700;
+/* hero */
+.approvedHero{
+  min-height:255px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  padding:28px 30px;
   margin-bottom:14px;
+  border:1px solid #14283b;
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 83% 22%,rgba(21,113,255,.12),transparent 30%),
+    linear-gradient(180deg,#06101b,#040b13);
+  box-shadow:0 22px 52px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.025);
 }
-.mockHeroCopy h2{
+.approvedGreeting{
+  color:#a0aabd;
+  font-size:12px;
+  margin-bottom:15px;
+}
+.approvedHeroCopy h2{
   margin:0;
-  font-size:43px;
+  font-size:44px;
   line-height:1.04;
   letter-spacing:-.055em;
 }
-.mockHeroCopy h2 span{
+.approvedHeroCopy h2 span{
   background:linear-gradient(90deg,#2189ff,#7377ff);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
-.mockHeroCopy p{
-  max-width:430px;
-  margin:16px 0 0;
-  color:#9aa8bb;
+.approvedHeroCopy p{
+  color:#9aa7b8;
   line-height:1.55;
+  margin:16px 0 0;
   font-size:14px;
 }
-.mockLogEntryBtn{
-  margin-top:22px;
+.approvedLogEntry{
   min-height:48px;
-  padding:0 18px;
-  border:0;border-radius:13px;
-  color:#fff;
-  background:linear-gradient(180deg,#1989ff,#0768e7);
-  font-weight:850;
-  box-shadow:0 10px 28px rgba(11,109,232,.28),inset 0 1px 0 rgba(255,255,255,.15);
-}
-.mockLogEntryBtn span{font-size:21px;vertical-align:-2px;margin-right:4px}
-.mockHeroDate{
-  position:absolute;z-index:3;
-  right:18px;top:17px;
-  min-width:150px;
-  display:flex;align-items:center;gap:10px;
-  padding:10px 13px;
-  border:1px solid #1c3045;
+  padding:0 19px;
+  margin-top:22px;
+  border:0;
   border-radius:13px;
-  background:rgba(4,15,27,.82);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  color:#fff;
+  background:linear-gradient(180deg,#1b8bff,#086ae7);
+  font-weight:850;
+  box-shadow:0 10px 26px rgba(8,105,230,.27),inset 0 1px 0 rgba(255,255,255,.14);
 }
-.mockHeroDate .mockDateIcon{
-  width:32px;height:32px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  background:#0b2b55;color:#5aa7ff;
-}
-.mockHeroDate strong{display:block;font-size:11px}
-.mockHeroDate small{display:block;color:#8c9aab;font-size:9px;margin-top:2px}
+.approvedLogEntry:active{transform:scale(.98)}
+.approvedLogEntry span{font-size:20px;vertical-align:-1px}
 
-/* metric cards */
-.mockMetricGrid{
+.approvedHeroCards{
+  display:flex;
+  gap:10px;
+  align-items:stretch;
+}
+.approvedTopCard{
+  min-width:150px;
+  min-height:62px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 13px;
+  border:1px solid #1a3045;
+  border-radius:13px;
+  color:#fff;
+  background:#07111c;
+  text-align:left;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+button.approvedTopCard:active{transform:scale(.97)}
+.approvedTopIcon{
+  width:34px;height:34px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:#0a2c55;
+  color:#61a9ff;
+  font-size:17px;
+}
+.approvedTopCard strong{display:block;font-size:11px}
+.approvedTopCard small{display:block;color:#8d9aab;font-size:9px;margin-top:3px}
+
+/* top dashboard stats */
+.approvedMetrics{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
-.mockMetric{
-  position:relative;overflow:hidden;
-  min-height:145px;
+.approvedMetric{
+  min-height:150px;
+  position:relative;
+  overflow:hidden;
   padding:16px;
-  border-radius:17px;
   border:1px solid #172a3c;
+  border-radius:17px;
   background:linear-gradient(180deg,#081522,#050d16);
-  box-shadow:0 14px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.025);
+  box-shadow:0 14px 32px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025);
 }
-.mockMetricTop{
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
+.approvedMetricTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
 }
-.mockMetricTop span{
-  color:#8290a3;font-size:9px;font-weight:850;letter-spacing:.06em;
+.approvedMetricTop span{
+  color:#8492a5;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:.055em;
 }
-.mockMetricTop b{
+.approvedMetricTop b{
   width:31px;height:31px;border-radius:9px;
   display:flex;align-items:center;justify-content:center;
-  font-size:15px;
 }
-.mockMetric>strong{
+.approvedMetric>strong{
   display:block;
   margin-top:9px;
   font-size:25px;
   letter-spacing:-.045em;
 }
-.mockMetric>small{
-  color:#738195;font-size:9px;
+.approvedMetric>small{color:#748296;font-size:9px}
+.approvedMetric.green>strong{color:var(--ap-green)}
+.approvedMetric.blue>strong{color:#3897ff}
+.approvedMetric.purple>strong{color:var(--ap-purple)}
+.approvedMetric.orange>strong{color:var(--ap-orange)}
+.approvedMetric.green b{background:#063c2e;color:#4af0ad}
+.approvedMetric.blue b{background:#0a2d56;color:#67adff}
+.approvedMetric.purple b{background:#29194d;color:#c084ff}
+.approvedMetric.orange b{background:#482811;color:#ffa15c}
+.approvedMiniLine{
+  position:absolute;
+  left:15px;right:15px;bottom:13px;
+  height:28px;
+  opacity:.9;
 }
-.metricGreen>strong{color:var(--mk-green)}
-.metricGreen .mockMetricTop b{background:#063c2e;color:#47efac}
-.metricBlue>strong{color:#3897ff}
-.metricBlue .mockMetricTop b{background:#0b2c55;color:#69adff}
-.metricPurple>strong{color:#aa62ff}
-.metricPurple .mockMetricTop b{background:#2a194d;color:#bc82ff}
-.metricOrange>strong{color:#ff8127}
-.metricOrange .mockMetricTop b{background:#482811;color:#ff9c53}
-.mockSpark{
-  position:absolute;left:14px;right:14px;bottom:12px;height:25px;
-  display:flex;align-items:flex-end;gap:3px;
+.approvedMiniLine:before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:8px;height:14px;
+  clip-path:polygon(0 70%,10% 35%,20% 58%,30% 20%,40% 55%,50% 38%,60% 58%,70% 28%,80% 55%,90% 20%,100% 0,100% 16%,90% 38%,80% 72%,70% 44%,60% 74%,50% 55%,40% 70%,30% 36%,20% 75%,10% 50%,0 86%);
 }
-.mockSpark i{flex:1;border-radius:2px 2px 0 0;opacity:.85}
-.metricGreen .mockSpark i{background:#0ad88a}
-.metricBlue .mockSpark i{background:#1984ff}
-.metricPurple .mockSpark i{background:#9851ef}
-.metricOrange .mockSpark i{background:#ff7417}
-.mockSpark i:nth-child(1){height:22%}.mockSpark i:nth-child(2){height:46%}
-.mockSpark i:nth-child(3){height:30%}.mockSpark i:nth-child(4){height:58%}
-.mockSpark i:nth-child(5){height:39%}.mockSpark i:nth-child(6){height:68%}
-.mockSpark i:nth-child(7){height:88%}
+.green .approvedMiniLine:before{background:#0ddb8a}
+.blue .approvedMiniLine:before{background:#1984ff}
+.purple .approvedMiniLine:before{background:#9e55f2}
+.orange .approvedMiniLine:before{background:#ff7417}
 
-/* existing modules made to match concept */
+/* existing content */
 .period,.hero,.card,.panel,.statsHero,.statCard,.historyCard{
   background:linear-gradient(180deg,#081521,#050d16)!important;
   border-color:#172b3d!important;
   box-shadow:0 14px 32px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025)!important;
 }
 .period{
-  background:linear-gradient(135deg,#0a2444,#071422)!important;
-  border-color:#1d4774!important;
+  background:linear-gradient(135deg,#092340,#071422)!important;
+  border-color:#1c4772!important;
 }
 .hero{
   background:
-    radial-gradient(circle at 85% 22%,rgba(26,128,255,.22),transparent 26%),
+    radial-gradient(circle at 85% 22%,rgba(26,128,255,.20),transparent 26%),
     linear-gradient(145deg,#0a2341,#07111d)!important;
   border-color:#205792!important;
 }
-.heroNet{font-size:43px!important}
 .eyebrow{color:#76aef9!important}
 .progress span,.goalBar span{
   background:linear-gradient(90deg,#1383ff,#4a8cff)!important;
-  box-shadow:0 0 16px rgba(19,131,255,.23);
 }
 .card.blue{
   border-color:#1c4e83!important;
@@ -788,13 +802,50 @@ body:before{
 .blueText{color:#4c9dff!important}
 .redText{color:#ff6570!important}
 .miscText{color:#ab6eff!important}
-.sectionTitle{font-size:16px!important}
 .meta,.statsCaption,.entrySub{color:#7f8da0!important}
 
-/* filters / entries */
+/* analytics */
+.approvedAnalyticsIntro{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  padding:20px 22px;
+  margin-bottom:12px;
+  border:1px solid #1b3550;
+  border-radius:19px;
+  background:
+    radial-gradient(circle at 88% 0%,rgba(83,84,255,.14),transparent 30%),
+    linear-gradient(180deg,#0a1725,#06101a);
+}
+.approvedAnalyticsIntro h2{
+  margin:5px 0 0;
+  font-size:28px;
+  letter-spacing:-.045em;
+}
+.approvedAnalyticsIntro p{
+  margin:7px 0 0;
+  color:#8190a3;
+  font-size:12px;
+}
+.approvedAnalyticsPill{
+  padding:8px 10px;
+  border-radius:999px;
+  height:max-content;
+  border:1px solid #6548aa;
+  background:#24183e;
+  color:#b895ff;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+
+/* entries */
 .entryComposer{border-color:#1c3958!important}
 input,select{
-  background:#030a11!important;border-color:#26384b!important;color:#fff!important;
+  background:#030a11!important;
+  border-color:#26384b!important;
+  color:#fff!important;
 }
 .typeChoice{background:#06101a!important;border-color:#243448!important}
 .typeChoice.active.flight{background:linear-gradient(180deg,#135bb4,#0b3c7c)!important}
@@ -817,17 +868,13 @@ input,select{
 .nav button.active.history{background:linear-gradient(180deg,#532d49,#311b30)!important}
 .nav button.active.stats{background:linear-gradient(180deg,#173e68,#102b49)!important}
 
-/* desktop left rail exactly like concept */
+/* desktop side rail */
 @media(min-width:900px){
   body{padding-left:214px}
   .app{
     max-width:1220px!important;
     margin:0 auto!important;
     padding:20px 24px 44px!important;
-  }
-  .header{
-    padding-left:0!important;
-    border-bottom:1px solid #102235;
   }
   .nav{
     left:14px!important;right:auto!important;top:14px!important;bottom:14px!important;
@@ -844,15 +891,17 @@ input,select{
     margin-bottom:8px;
     color:#f3f7fb;
     font-size:16px;line-height:1.05;font-weight:950;
-    background:
-      url("icon-192.png") left 4px center/38px 38px no-repeat;
+    background:url("icon-192.png") left 4px center/38px 38px no-repeat;
     border-bottom:1px solid #15283b;
   }
   .nav button{
     min-height:50px!important;
-    flex-direction:row!important;justify-content:flex-start!important;
-    gap:11px!important;padding:0 12px!important;
-    border-radius:12px!important;font-size:11px!important;
+    flex-direction:row!important;
+    justify-content:flex-start!important;
+    gap:11px!important;
+    padding:0 12px!important;
+    border-radius:12px!important;
+    font-size:11px!important;
   }
   .nav button svg{width:18px!important;height:18px!important}
   #pageCurrent{
@@ -861,173 +910,44 @@ input,select{
     gap:12px;
   }
   #pageCurrent[hidden]{display:none!important}
-  .mockDashboardHero,.mockMetricGrid,.period{grid-column:1/-1}
+  .approvedHero,.approvedMetrics,.period{grid-column:1/-1}
   #pageCurrent>.hero{grid-column:1/8;margin-bottom:0!important}
-  #pageCurrent>.grid2{grid-column:8/-1;margin-bottom:0!important;display:grid!important;grid-template-columns:1fr!important}
-  #pageCurrent>.grid2>.card{min-height:0}
-  #pageCurrent>.panel,#pageCurrent>.proInlineGate{grid-column:span 6;margin-bottom:0!important}
+  #pageCurrent>.grid2{
+    grid-column:8/-1;
+    margin-bottom:0!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+  }
+  #pageCurrent>.panel,#pageCurrent>.proInlineGate{
+    grid-column:span 6;
+    margin-bottom:0!important;
+  }
   #pageCurrent>.panel:last-child,#pageCurrent>.proInlineGate:last-child{grid-column:1/-1}
   .statsGrid.premium{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 }
 
-/* tablet */
 @media(min-width:620px) and (max-width:899px){
-  .mockMetricGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .approvedMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-/* mobile like the concept phone */
 @media(max-width:619px){
-  .app{padding-top:max(14px,env(safe-area-inset-top))!important}
-  .header{margin-bottom:10px!important}
-  .brand h1{font-size:27px!important}
-  .brand p{font-size:11px!important}
-  .mockDashboardHero{
-    min-height:330px;
-    background:
-      linear-gradient(180deg,rgba(2,8,17,.28),rgba(2,8,17,.94) 58%,#020811 100%),
-      url("dashboard-hero-plane.png") top center/cover no-repeat;
-  }
-  .mockHeroShade{
-    background:linear-gradient(180deg,rgba(2,8,17,.15),rgba(2,8,17,.55) 36%,rgba(2,8,17,.96) 64%,rgba(2,8,17,1));
-  }
-  .mockHeroCopy{
-    position:absolute;left:0;right:0;bottom:0;
-    width:auto;padding:20px 18px 22px;
-  }
-  .mockGreeting{font-size:10px;margin-bottom:8px}
-  .mockHeroCopy h2{font-size:32px}
-  .mockHeroCopy p{display:none}
-  .mockLogEntryBtn{margin-top:14px;width:100%}
-  .mockHeroDate{display:none}
-  .mockMetricGrid{grid-template-columns:1fr;gap:9px}
-  .mockMetric{min-height:122px}
-  .grid2{grid-template-columns:1fr!important}
-}
-
-
-/* live weather/date cluster */
-.mockHeroInfo{
-  position:absolute;
-  z-index:3;
-  right:18px;
-  top:17px;
-  display:flex;
-  align-items:stretch;
-  gap:9px;
-}
-.mockHeroInfo .mockHeroDate{
-  position:static!important;
-  right:auto!important;
-  top:auto!important;
-}
-.mockWeatherPill{
-  min-width:142px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 13px;
-  border:1px solid #1c3045;
-  border-radius:13px;
-  background:rgba(4,15,27,.82);
-  color:#fff;
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  text-align:left;
-}
-.mockWeatherPill:active{transform:scale(.97)}
-.mockWeatherIcon{
-  width:32px;height:32px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  background:#172237;color:#dce8f6;font-size:18px;
-}
-.mockWeatherPill strong{display:block;font-size:11px;white-space:nowrap}
-.mockWeatherPill small{
-  display:block;max-width:98px;overflow:hidden;text-overflow:ellipsis;
-  white-space:nowrap;color:#8c9aab;font-size:9px;margin-top:2px
-}
-@media(max-width:619px){
-  .mockHeroInfo{
-    right:10px;
-    top:10px;
-    gap:6px;
-  }
-  .mockWeatherPill{
-    min-width:118px;
-    padding:8px 9px;
-  }
-  .mockHeroInfo .mockHeroDate{
-    min-width:120px;
-    padding:8px 9px;
-  }
-}
-@media(max-width:460px){
-  .mockHeroInfo{
-    display:none;
-  }
-}
-
-
-.analyticsIntro{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:18px;
-  padding:20px 22px;
-  margin-bottom:12px;
-  border:1px solid #1b3550;
-  border-radius:19px;
-  background:
-    radial-gradient(circle at 88% 0%,rgba(83,84,255,.15),transparent 30%),
-    linear-gradient(180deg,#0a1725,#06101a);
-}
-.analyticsIntro h2{
-  margin:5px 0 0;
-  font-size:28px;
-  letter-spacing:-.045em;
-}
-.analyticsIntro p{
-  margin:7px 0 0;
-  color:#8190a3;
-  font-size:12px;
-  line-height:1.5;
-}
-.analyticsBadge{
-  padding:8px 10px;
-  border-radius:999px;
-  border:1px solid #6548aa;
-  background:#24183e;
-  color:#b895ff;
-  font-size:9px;
-  font-weight:950;
-  letter-spacing:.09em;
-  white-space:nowrap;
-}
-
-
-.dashboardSummaryLabel{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  margin:3px 2px 9px;
-}
-.dashboardSummaryLabel span{
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:.05em;
-  text-transform:uppercase;
-  color:#dce7f5;
-}
-.dashboardSummaryLabel small{
-  color:#6f7f93;
-  font-size:10px;
-}
-@media(max-width:619px){
-  .dashboardSummaryLabel{
-    align-items:flex-start;
+  .approvedHero{
+    min-height:0;
     flex-direction:column;
-    gap:3px;
+    padding:22px 18px;
   }
+  .approvedHeroCopy h2{font-size:33px}
+  .approvedHeroCopy p{font-size:12px}
+  .approvedLogEntry{width:100%}
+  .approvedHeroCards{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .approvedTopCard{min-width:0}
+  .approvedMetrics{grid-template-columns:1fr;gap:9px}
+  .approvedMetric{min-height:122px}
+  .grid2{grid-template-columns:1fr!important}
 }
 
 </style>
@@ -1063,58 +983,64 @@ input,select{
   </div>
 
   <section id="pageCurrent" class="page">
-    <div class="mockDashboardHero">
-      <div class="mockHeroShade"></div>
-      <div class="mockHeroCopy">
-        <div class="mockGreeting" id="mockGreeting">Good evening, Pilot 👋</div>
-        <h2>Track Your Flights.<br><span>Maximize Your Pay.</span></h2>
-        <p>Your hours. Your earnings. Your future. Let every flight count.</p>
-        <button id="mockLogEntryBtn" class="mockLogEntryBtn" type="button">
-          <span>＋</span> Log New Entry
-        </button>
-      </div>
-      <div class="mockHeroInfo">
-        <button id="mockWeather" class="mockWeatherPill" type="button" aria-label="Load or refresh local weather">
-          <div class="mockWeatherIcon" id="mockWeatherIcon">◐</div>
-          <div>
-            <strong id="mockWeatherTemp">Weather</strong>
-            <small id="mockWeatherText">Tap to load</small>
-          </div>
-        </button>
-        <div class="mockHeroDate">
-          <div class="mockDateIcon">▣</div>
-          <div><strong id="mockDateMain">Today</strong><small id="mockDateSub"></small></div>
+  <div class="approvedHero">
+    <div class="approvedHeroCopy">
+      <div class="approvedGreeting" id="approvedGreeting">Good evening, Pilot 👋</div>
+      <h2>Track Your Flights.<br><span>Maximize Your Pay.</span></h2>
+      <p>Your hours. Your earnings. Your future.<br>Let's make every flight count.</p>
+      <button id="approvedLogEntry" class="approvedLogEntry" type="button">
+        <span>＋</span> Log New Entry
+      </button>
+    </div>
+
+    <div class="approvedHeroCards">
+      <button id="approvedWeather" class="approvedTopCard" type="button" aria-label="Load current weather">
+        <div class="approvedTopIcon" id="approvedWeatherIcon">◐</div>
+        <div>
+          <strong id="approvedWeatherTemp">Weather</strong>
+          <small id="approvedWeatherText">Tap to load</small>
+        </div>
+      </button>
+
+      <div class="approvedTopCard">
+        <div class="approvedTopIcon">▣</div>
+        <div>
+          <strong id="approvedDate">Today</strong>
+          <small id="approvedDay"></small>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="dashboardSummaryLabel"><span>Dashboard Summary</span><small>Detailed analytics are on the Analytics page</small></div>
-    <div class="mockMetricGrid">
-      <div class="mockMetric metricGreen">
-        <div class="mockMetricTop"><span>TOTAL PAY (YTD)</span><b>$</b></div>
-        <strong id="mockTotalPay">$0.00</strong>
-        <small>Gross earnings logged this year</small>
-        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="mockMetric metricBlue">
-        <div class="mockMetricTop"><span>TOTAL FLIGHT TIME</span><b>◷</b></div>
-        <strong id="mockFlightTime">0.0</strong>
-        <small>Flight / Sim hours logged</small>
-        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="mockMetric metricPurple">
-        <div class="mockMetricTop"><span>HOURLY RATE (AVG)</span><b>⌁</b></div>
-        <strong id="mockAvgRate">$0.00</strong>
-        <small>Average gross per logged hour</small>
-        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="mockMetric metricOrange">
-        <div class="mockMetricTop"><span>ENTRIES (YTD)</span><b>✈</b></div>
-        <strong id="mockEntriesCount">0</strong>
-        <small>Total entries this year</small>
-        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
+  <div class="approvedMetrics">
+    <div class="approvedMetric green">
+      <div class="approvedMetricTop"><span>TOTAL PAY (YTD)</span><b>$</b></div>
+      <strong id="approvedTotalPay">$0.00</strong>
+      <small>Gross earnings logged this year</small>
+      <div class="approvedMiniLine"></div>
     </div>
+
+    <div class="approvedMetric blue">
+      <div class="approvedMetricTop"><span>TOTAL FLIGHT TIME</span><b>◷</b></div>
+      <strong id="approvedFlightTime">0.0</strong>
+      <small>Flight / Sim hours logged</small>
+      <div class="approvedMiniLine"></div>
+    </div>
+
+    <div class="approvedMetric purple">
+      <div class="approvedMetricTop"><span>HOURLY RATE (AVG)</span><b>⌁</b></div>
+      <strong id="approvedAvgRate">$0.00</strong>
+      <small>Average gross per logged hour</small>
+      <div class="approvedMiniLine"></div>
+    </div>
+
+    <div class="approvedMetric orange">
+      <div class="approvedMetricTop"><span>ENTRIES (YTD)</span><b>✈</b></div>
+      <strong id="approvedEntriesCount">0</strong>
+      <small>Total entries this year</small>
+      <div class="approvedMiniLine"></div>
+    </div>
+  </div>
 
     <div class="period">
       <div style="min-width:0;flex:1">
@@ -1298,14 +1224,14 @@ input,select{
 </section>
 
 <section id="pageStats" class="page" hidden>
-    <div class="analyticsIntro">
-      <div>
-        <div class="eyebrow">FlightDeck Analytics</div>
-        <h2>Performance & Earnings</h2>
-        <p>Pay trends, hours mix, averages, efficiency, best periods, and year-to-date performance.</p>
-      </div>
-      <div class="analyticsBadge">PRO ANALYTICS</div>
+  <div class="approvedAnalyticsIntro">
+    <div>
+      <div class="eyebrow">FLIGHTDECK ANALYTICS</div>
+      <h2>Performance & Earnings</h2>
+      <p>Detailed pay trends, hours mix, averages, efficiency, and best periods.</p>
     </div>
+    <div class="approvedAnalyticsPill">PRO ANALYTICS</div>
+  </div>
     <div id="proGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock FlightDeck Pay Pro</h2>
@@ -1323,7 +1249,7 @@ input,select{
     <div id="statsProContent" hidden>
     <div class="statsHero">
       <div>
-        <div class="eyebrow">Analytics dashboard</div>
+        <div class="eyebrow">Performance snapshot</div>
         <div class="statsHeroValue" id="statsYearTotal">$0.00</div>
         <div class="statsHeroSub">gross earnings this year</div>
       </div>
@@ -3171,57 +3097,15 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
 <script>
 (function(){
-  function byId(id){return document.getElementById(id)}
-  function syncMockDashboard(){
-    const totalPay=byId("mockTotalPay");
-    const flightTime=byId("mockFlightTime");
-    const avgRate=byId("mockAvgRate");
-    const entryCount=byId("mockEntriesCount");
-    if(totalPay && byId("statsYearTotal")) totalPay.textContent=byId("statsYearTotal").textContent;
-    if(flightTime && byId("entriesFlight")) flightTime.textContent=byId("entriesFlight").textContent.replace(" hrs","");
-    if(avgRate && byId("efficiencyValue")) avgRate.textContent=byId("efficiencyValue").textContent.replace("/hr","");
-    if(entryCount && byId("entriesCount")) entryCount.textContent=byId("entriesCount").textContent;
-  }
-  function setGreeting(){
-    const h=new Date().getHours();
-    const part=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
-    if(byId("mockGreeting")) byId("mockGreeting").textContent=part+", Pilot 👋";
-    const d=new Date();
-    if(byId("mockDateMain")) byId("mockDateMain").textContent=
-      new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
-    if(byId("mockDateSub")) byId("mockDateSub").textContent=
-      new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
-  }
-  document.addEventListener("DOMContentLoaded",function(){
-    setGreeting();
-    if(byId("mockLogEntryBtn") && byId("navEntries")){
-      byId("mockLogEntryBtn").addEventListener("click",function(){byId("navEntries").click()});
-    }
-    syncMockDashboard();
-    ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount"].forEach(function(id){
-      const node=byId(id);
-      if(node){
-        new MutationObserver(syncMockDashboard).observe(node,{childList:true,subtree:true,characterData:true});
-      }
-    });
-    setTimeout(syncMockDashboard,350);
-    setTimeout(syncMockDashboard,1200);
-  });
-})();
-</script>
-
-
-<script>
-(function(){
   function byId(id){ return document.getElementById(id); }
 
-  function weatherLabel(code){
-    code = Number(code);
-    if(code === 0) return ["Clear Skies","☀"];
-    if(code === 1) return ["Mostly Clear","◐"];
-    if(code === 2) return ["Partly Cloudy","⛅"];
-    if(code === 3) return ["Overcast","☁"];
-    if(code === 45 || code === 48) return ["Fog","≋"];
+  function weatherText(code){
+    code=Number(code);
+    if(code===0) return ["Clear Skies","☀"];
+    if(code===1) return ["Mostly Clear","◐"];
+    if(code===2) return ["Partly Cloudy","⛅"];
+    if(code===3) return ["Overcast","☁"];
+    if(code===45||code===48) return ["Fog","≋"];
     if([51,53,55,56,57].includes(code)) return ["Drizzle","☂"];
     if([61,63,65,66,67,80,81,82].includes(code)) return ["Rain","☂"];
     if([71,73,75,77,85,86].includes(code)) return ["Snow","❄"];
@@ -3230,12 +3114,12 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   function setWeather(temp,label,icon){
-    if(byId("mockWeatherTemp")) byId("mockWeatherTemp").textContent=temp;
-    if(byId("mockWeatherText")) byId("mockWeatherText").textContent=label;
-    if(byId("mockWeatherIcon")) byId("mockWeatherIcon").textContent=icon;
+    if(byId("approvedWeatherTemp")) byId("approvedWeatherTemp").textContent=temp;
+    if(byId("approvedWeatherText")) byId("approvedWeatherText").textContent=label;
+    if(byId("approvedWeatherIcon")) byId("approvedWeatherIcon").textContent=icon;
   }
 
-  async function getWeather(){
+  async function refreshWeather(){
     if(!navigator.geolocation){
       setWeather("Weather","Location unavailable","◐");
       return;
@@ -3261,12 +3145,15 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
         const current=data && data.current ? data.current : null;
         if(!current) throw new Error("weather");
 
-        const pair=weatherLabel(current.weather_code);
+        const pair=weatherText(current.weather_code);
         const temp=Math.round(Number(current.temperature_2m))+"°F";
         setWeather(temp,pair[0],pair[1]);
 
-        localStorage.setItem("flightDeckWeatherCache",JSON.stringify({
-          temp:temp,label:pair[0],icon:pair[1],savedAt:Date.now()
+        localStorage.setItem("fdApprovedWeather",JSON.stringify({
+          temp:temp,
+          label:pair[0],
+          icon:pair[1],
+          savedAt:Date.now()
         }));
       }catch(e){
         setWeather("Weather","Tap to retry","◐");
@@ -3282,78 +3169,75 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   function restoreWeather(){
     try{
-      const cached=JSON.parse(localStorage.getItem("flightDeckWeatherCache")||"null");
+      const cached=JSON.parse(localStorage.getItem("fdApprovedWeather")||"null");
       if(cached && Date.now()-Number(cached.savedAt||0)<30*60*1000){
         setWeather(cached.temp,cached.label,cached.icon);
-        return true;
+        return;
       }
     }catch(e){}
-    return false;
+    setWeather("Weather","Tap to load","◐");
   }
 
-  function setDateAndGreeting(){
+  function updateDate(){
     const d=new Date();
     const h=d.getHours();
-
-    if(byId("mockGreeting")){
-      byId("mockGreeting").textContent=
+    if(byId("approvedGreeting")){
+      byId("approvedGreeting").textContent=
         (h<12?"Good morning":h<17?"Good afternoon":"Good evening")+", Pilot 👋";
     }
-    if(byId("mockDateMain")){
-      byId("mockDateMain").textContent=
+    if(byId("approvedDate")){
+      byId("approvedDate").textContent=
         new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
     }
-    if(byId("mockDateSub")){
-      byId("mockDateSub").textContent=
+    if(byId("approvedDay")){
+      byId("approvedDay").textContent=
         new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
     }
   }
 
-  function syncDashboardSummary(){
-    if(byId("mockTotalPay") && byId("statsYearTotal"))
-      byId("mockTotalPay").textContent=byId("statsYearTotal").textContent;
+  function syncDashboard(){
+    if(byId("approvedTotalPay") && byId("statsYearTotal"))
+      byId("approvedTotalPay").textContent=byId("statsYearTotal").textContent;
 
-    if(byId("mockFlightTime") && byId("entriesFlight"))
-      byId("mockFlightTime").textContent=byId("entriesFlight").textContent.replace(" hrs","");
+    if(byId("approvedFlightTime") && byId("entriesFlight"))
+      byId("approvedFlightTime").textContent=byId("entriesFlight").textContent.replace(" hrs","");
 
-    if(byId("mockAvgRate") && byId("efficiencyValue"))
-      byId("mockAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
+    if(byId("approvedAvgRate") && byId("efficiencyValue"))
+      byId("approvedAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
 
-    if(byId("mockEntriesCount") && byId("entriesCount"))
-      byId("mockEntriesCount").textContent=byId("entriesCount").textContent;
+    if(byId("approvedEntriesCount") && byId("entriesCount"))
+      byId("approvedEntriesCount").textContent=byId("entriesCount").textContent;
   }
 
   document.addEventListener("DOMContentLoaded",function(){
-    setDateAndGreeting();
+    updateDate();
+    restoreWeather();
+    syncDashboard();
 
-    if(byId("mockLogEntryBtn") && byId("navEntries")){
-      byId("mockLogEntryBtn").addEventListener("click",function(){
+    if(byId("approvedLogEntry") && byId("navEntries")){
+      byId("approvedLogEntry").addEventListener("click",function(){
         byId("navEntries").click();
       });
     }
 
-    if(byId("mockWeather")){
-      byId("mockWeather").addEventListener("click",getWeather);
+    if(byId("approvedWeather")){
+      byId("approvedWeather").addEventListener("click",refreshWeather);
     }
-
-    if(!restoreWeather()){
-      setWeather("Weather","Tap to load","◐");
-    }
-
-    syncDashboardSummary();
 
     ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount"].forEach(function(id){
       const node=byId(id);
       if(node){
-        new MutationObserver(syncDashboardSummary).observe(node,{
-          childList:true,subtree:true,characterData:true
+        new MutationObserver(syncDashboard).observe(node,{
+          childList:true,
+          subtree:true,
+          characterData:true
         });
       }
     });
 
-    setInterval(setDateAndGreeting,60000);
-    setTimeout(syncDashboardSummary,350);
-    setTimeout(syncDashboardSummary,1200);
+    setInterval(updateDate,60000);
+    setTimeout(syncDashboard,350);
+    setTimeout(syncDashboard,1200);
   });
 })();
 </script>
