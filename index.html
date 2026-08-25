@@ -2099,6 +2099,11 @@ input:focus,select:focus{
 </div>
 
 <script>
+window.flightDeckProState=false;
+window.flightDeckSignedInState=false;
+</script>
+
+<script>
 (async function(){
   const SUPABASE_URL = "https://wyxhzjgkdiesmnpiojko.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sdamSNDpYin3g-F_i0lkYA_iZn9MviG";
@@ -2377,6 +2382,17 @@ input:focus,select:focus{
     if(el("historyProContent")) el("historyProContent").hidden=!isPro;
     ["currentGoalPro","currentProjectionPro","currentDailyPro"].forEach(id=>{ if(el(id)) el(id).hidden=!isPro; });
     ["currentGoalGate","currentProjectionGate","currentDailyGate"].forEach(id=>{ if(el(id)) el(id).hidden=isPro; });
+
+    /* Expose the authoritative entitlement state to newer UI modules. */
+    window.flightDeckProState = Boolean(isPro);
+    window.flightDeckSignedInState = Boolean(currentUser);
+    window.dispatchEvent(new CustomEvent("flightdeck:prostate",{
+      detail:{
+        pro:Boolean(isPro),
+        signedIn:Boolean(currentUser),
+        email:currentUser?.email||""
+      }
+    }));
   }
 
   async function refreshEntitlement(showMessage=false){
@@ -4044,11 +4060,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   function node(id){ return document.getElementById(id); }
 
   function proActive(){
-    try{
-      return typeof isPro !== "undefined" && Boolean(isPro);
-    }catch(e){
-      return false;
-    }
+    return Boolean(window.flightDeckProState);
   }
 
   function openUpgrade(){
@@ -4126,6 +4138,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     syncNewProUI();
 
     /* Entitlement refresh/sign-in can happen asynchronously. */
+    window.addEventListener("flightdeck:prostate",syncNewProUI);
     setInterval(syncNewProUI,700);
   });
 })();
@@ -4137,11 +4150,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   function n(id){ return document.getElementById(id); }
 
   function isProNow(){
-    try{
-      return typeof isPro !== "undefined" && Boolean(isPro);
-    }catch(e){
-      return false;
-    }
+    return Boolean(window.flightDeckProState);
   }
 
   function syncSingleSettings(){
@@ -4175,6 +4184,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     }
 
     syncSingleSettings();
+    window.addEventListener("flightdeck:prostate",syncSingleSettings);
     setInterval(syncSingleSettings,800);
   });
 })();
@@ -4234,6 +4244,34 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
         },true);
       }
     });
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function syncAllProSurfaces(){
+    const pro=Boolean(window.flightDeckProState);
+
+    ["pageReports","pageGoals","pageEvents","pageRecent"].forEach(function(pageId){
+      const gate=document.getElementById(pageId+"ProGate");
+      const content=document.getElementById(pageId+"ProContent");
+      if(gate) gate.classList.toggle("show",!pro);
+      if(content) content.classList.toggle("fdLocked",!pro);
+    });
+
+    ["tgPointsCard","tgEventsModule","tgRecentModule","tgGoalModule"].forEach(function(id){
+      const card=document.getElementById(id);
+      if(card) card.classList.toggle("tgLocked",!pro);
+    });
+  }
+
+  window.addEventListener("flightdeck:prostate",syncAllProSurfaces);
+  document.addEventListener("DOMContentLoaded",function(){
+    syncAllProSurfaces();
+    setTimeout(syncAllProSurfaces,300);
+    setTimeout(syncAllProSurfaces,1200);
   });
 })();
 </script>
