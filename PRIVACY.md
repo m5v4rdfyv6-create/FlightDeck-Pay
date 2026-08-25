@@ -1,12 +1,15 @@
-# Privacy
+# FlightDeck Pay Privacy
 
-FlightDeck Pay is designed to be local-first.
+FlightDeck Pay is designed to keep personal pay-tracking records on the user's device.
 
-- No account is required.
-- No analytics or advertising SDKs are included.
-- No pay entries are sent to a developer server.
-- No remote database is used.
-- Entries and settings are stored in the browser on the user's device.
-- The service worker caches only the application files needed for offline use.
+## Stored locally
 
-Users should understand that browser-local data can be removed if they clear website data, reset the browser, or otherwise erase the site's storage.
+Flight / Sim, Ground, Miscellaneous entries, rates, tax estimates, paycheck goals, pay-period dates, and local backups are stored in browser storage on the user's device.
+
+## Account information
+
+If a user creates an account, Supabase processes the account email, authentication information, and whether the account has FlightDeck Pay Pro access. FlightDeck Pay does not upload the user's pay-entry history to Supabase.
+
+## Payments
+
+Stripe processes payment information for FlightDeck Pay Pro. FlightDeck Pay does not receive or store full card numbers.

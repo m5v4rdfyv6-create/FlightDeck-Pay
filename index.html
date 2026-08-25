@@ -494,6 +494,17 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 
 .nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 .nav button{min-width:0!important}
+
+
+/* FlightDeck Pay Pro */
+.proMini{display:inline-flex;align-items:center;justify-content:center;margin-left:3px;padding:2px 5px;border-radius:999px;font-size:7px;line-height:1;font-weight:950;letter-spacing:.08em;background:#182235;border:1px solid #33486e;color:#9fbeff;vertical-align:middle}
+.proGate{margin-bottom:12px;padding:22px;border-radius:22px;border:1px solid #355fa8;background:radial-gradient(circle at 92% 8%,rgba(60,127,255,.28),transparent 32%),linear-gradient(180deg,#0b1933,#070a11);box-shadow:0 16px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04)}
+.proGateBadge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;background:#11244a;border:1px solid #315fae;color:#a9c6ff;font-size:10px;font-weight:950;letter-spacing:.08em}
+.proGate h2{font-size:28px;letter-spacing:-.04em;margin:13px 0 6px}.proGate p{margin:0;color:#9ea9ba;font-size:13px;line-height:1.5}.proPrice{font-size:38px;font-weight:950;letter-spacing:-.05em;margin-top:16px}.proLifetime{color:#8592a7;font-size:11px;margin-top:2px}.proFeatures{display:grid;gap:7px;margin-top:14px;font-size:12px;color:#d2d9e5}.proFeatures div:before{content:'✓';display:inline-block;margin-right:8px;color:#79a9ff;font-weight:950}
+.accountBox{margin-bottom:14px;padding:14px;border-radius:16px;border:1px solid #29313d;background:linear-gradient(180deg,#0d1118,#080a0e)}
+.accountTop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.accountTitle{font-size:14px;font-weight:950}.accountEmail{font-size:11px;color:#858f9f;margin-top:3px;overflow-wrap:anywhere}.accountBadge{padding:6px 9px;border-radius:999px;border:1px solid #353c47;background:#11151b;color:#9aa3b1;font-size:9px;font-weight:950;letter-spacing:.08em;white-space:nowrap}.accountBadge.pro{background:#102752;border-color:#3267bc;color:#a9c7ff}.accountActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.accountActions .primary{margin-top:0}.secondaryBtn{width:100%;min-height:44px;border-radius:12px;border:1px solid #303744;background:#0b0e13;color:#c9d1df;font-weight:850}.accountHint{font-size:11px;color:#7f8998;line-height:1.45;margin-top:9px}.accountStatus{font-size:11px;line-height:1.45;margin-top:9px;color:#91a7ce}.accountStatus.error{color:#ff8e8e}.proBuyBtn{background:linear-gradient(180deg,#4588ff,#2466dc);box-shadow:0 8px 24px rgba(40,117,255,.2)}
+@media(max-width:520px){.accountActions{grid-template-columns:1fr}.proGate h2{font-size:25px}.proPrice{font-size:34px}}
+
 </style>
 </head>
 <body>
@@ -664,6 +675,21 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 </section>
 
 <section id="pageStats" class="page" hidden>
+    <div id="proGate" class="proGate">
+      <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
+      <h2>Unlock advanced stats</h2>
+      <p>Keep tracking for free. Upgrade once to unlock your full earnings analytics.</p>
+      <div class="proPrice">$9.99</div>
+      <div class="proLifetime">one-time purchase · lifetime Pro access</div>
+      <div class="proFeatures">
+        <div>Paycheck trends and performance snapshots</div>
+        <div>Highest paycheck and highest earning day</div>
+        <div>Hours mix, best period, and earning efficiency</div>
+      </div>
+      <button id="proGateBuy" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
+      <div id="proGateStatus" class="accountStatus"></div>
+    </div>
+    <div id="statsProContent" hidden>
     <div class="statsHero">
       <div>
         <div class="eyebrow">Performance snapshot</div>
@@ -785,6 +811,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
         </div>
       </div>
     </div>
+    </div>
   </section>
 </div>
 
@@ -805,7 +832,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   </button>
   <button id="navStats" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20V9h3v11H5Zm5 0V4h3v16h-3Zm5 0v-7h3v7h-3Z"/></svg>
-    Stats
+    Stats <span class="proMini">PRO</span>
   </button>
 </nav>
 
@@ -815,6 +842,31 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
     <div class="sheetHeader">
       <div class="sheetTitle">Settings</div>
       <button id="closeSettings" class="closeBtn" type="button">X</button>
+    </div>
+    <div id="accountBox" class="accountBox">
+      <div class="accountTop">
+        <div>
+          <div class="accountTitle">FlightDeck Pay account</div>
+          <div id="accountEmail" class="accountEmail">Not signed in</div>
+        </div>
+        <div id="accountBadge" class="accountBadge">FREE</div>
+      </div>
+      <div id="authSignedOut">
+        <div class="formGrid" style="margin-top:12px">
+          <div><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+          <div><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Password"></div>
+        </div>
+        <div class="accountActions">
+          <button id="signInBtn" class="primary" type="button">Sign in</button>
+          <button id="createAccountBtn" class="secondaryBtn" type="button">Create account</button>
+        </div>
+      </div>
+      <div id="authSignedIn" hidden>
+        <button id="buyProBtn" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
+        <button id="refreshProBtn" class="secondaryBtn" type="button" style="margin-top:8px">Refresh Pro access</button>
+        <button id="signOutBtn" class="secondaryBtn" type="button" style="margin-top:8px">Sign out</button>
+      </div>
+      <div id="accountStatus" class="accountStatus">Your pay entries stay on this device. Your account stores only login and Pro-access status.</div>
     </div>
     <div class="formGrid">
       <div>
@@ -860,8 +912,17 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.0/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
 <script>
 (async function(){
+  const SUPABASE_URL = "https://wyxhzjgkdiesmnpiojko.supabase.co";
+  const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sdamSNDpYin3g-F_i0lkYA_iZn9MviG";
+  const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  }) : null;
+  let currentUser = null;
+  let isPro = false;
+
   const STORAGE_KEY = "flightdeckPayData.v1";
   const DB_NAME = "FlightDeckPayDB";
   const DB_VERSION = 1;
@@ -902,6 +963,154 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   const el = id => document.getElementById(id);
   const today = new Date();
   let anchor;
+
+
+  function setAccountStatus(message,isError=false){
+    ["accountStatus","proGateStatus"].forEach(id=>{
+      const node=el(id); if(!node) return;
+      node.textContent=message||"";
+      node.classList.toggle("error",Boolean(isError));
+    });
+  }
+
+  function syncProUI(){
+    const signedIn=Boolean(currentUser);
+    if(el("authSignedOut")) el("authSignedOut").hidden=signedIn;
+    if(el("authSignedIn")) el("authSignedIn").hidden=!signedIn;
+    if(el("accountEmail")) el("accountEmail").textContent=signedIn?(currentUser.email||"Signed in"):"Not signed in";
+    if(el("accountBadge")){
+      el("accountBadge").textContent=isPro?"PRO":"FREE";
+      el("accountBadge").className="accountBadge"+(isPro?" pro":"");
+    }
+    if(el("buyProBtn")) el("buyProBtn").hidden=isPro;
+    if(el("refreshProBtn")) el("refreshProBtn").textContent=isPro?"Pro active":"Refresh Pro access";
+    if(el("proGate")) el("proGate").hidden=isPro;
+    if(el("statsProContent")) el("statsProContent").hidden=!isPro;
+  }
+
+  async function refreshEntitlement(showMessage=false){
+    if(!supabaseClient || !currentUser){
+      isPro=false; syncProUI(); return false;
+    }
+    try{
+      const {data,error}=await supabaseClient.from("entitlements").select("is_pro,purchased_at").eq("user_id",currentUser.id).maybeSingle();
+      if(error) throw error;
+      isPro=Boolean(data && data.is_pro);
+      syncProUI();
+      if(showMessage) setAccountStatus(isPro?"Pro is active on this account.":"This account is currently on Free.",false);
+      return isPro;
+    }catch(e){
+      console.warn("Could not refresh Pro access",e);
+      isPro=false; syncProUI();
+      if(showMessage) setAccountStatus("Could not refresh Pro access. Try again when online.",true);
+      return false;
+    }
+  }
+
+  async function initializeAccount(){
+    if(!supabaseClient){
+      setAccountStatus("Account features could not load. Your local pay tracker still works.",true);
+      syncProUI(); return;
+    }
+    try{
+      const {data}=await supabaseClient.auth.getSession();
+      currentUser=data?.session?.user||null;
+      await refreshEntitlement(false);
+    }catch(e){
+      console.warn("Account initialization failed",e);
+      currentUser=null; isPro=false; syncProUI();
+    }
+
+    supabaseClient.auth.onAuthStateChange((_event,session)=>{
+      setTimeout(async()=>{
+        currentUser=session?.user||null;
+        await refreshEntitlement(false);
+      },0);
+    });
+
+    const params=new URLSearchParams(location.search);
+    if(params.get("checkout")==="success" && params.get("session_id")){
+      if(!currentUser){
+        setAccountStatus("Payment returned successfully. Sign in with the same account to finish activating Pro.",false);
+      }else{
+        setAccountStatus("Payment received. Activating Pro…",false);
+        try{
+          const {data,error}=await supabaseClient.functions.invoke("verify-purchase",{body:{session_id:params.get("session_id")}});
+          if(error) throw error;
+          if(!data?.pro) throw new Error("Purchase was not marked paid yet");
+          await refreshEntitlement(false);
+          setAccountStatus("Pro activated. Thank you!",false);
+          history.replaceState({},"",location.pathname+location.hash);
+        }catch(e){
+          console.warn("Purchase verification failed",e);
+          setAccountStatus("Your payment may be complete, but activation has not finished. Keep this page and tap Refresh Pro access.",true);
+        }
+      }
+    }else if(params.get("checkout")==="cancelled"){
+      setAccountStatus("Checkout cancelled. You were not charged by this checkout.",false);
+      history.replaceState({},"",location.pathname+location.hash);
+    }
+  }
+
+  async function startProCheckout(){
+    if(!supabaseClient){ setAccountStatus("Checkout could not load. Try again when online.",true); return; }
+    const {data:sessionData}=await supabaseClient.auth.getSession();
+    currentUser=sessionData?.session?.user||null;
+    if(!currentUser){
+      setAccountStatus("Create an account or sign in first, then tap Unlock Pro again.",true);
+      openOverlay("settingsOverlay");
+      return;
+    }
+    if(isPro){ setAccountStatus("Pro is already active on this account.",false); return; }
+    setAccountStatus("Opening secure Stripe checkout…",false);
+    try{
+      const {data,error}=await supabaseClient.functions.invoke("create-checkout",{body:{return_url:location.href}});
+      if(error) throw error;
+      if(!data?.url) throw new Error(data?.error||"No checkout URL returned");
+      location.assign(data.url);
+    }catch(e){
+      console.warn("Checkout failed",e);
+      setAccountStatus("Checkout is not ready yet. Finish the one Stripe secret step in the setup guide, then try again.",true);
+    }
+  }
+
+  async function signInAccount(){
+    if(!supabaseClient) return;
+    const email=String(el("authEmail")?.value||"").trim();
+    const password=String(el("authPassword")?.value||"");
+    if(!email||!password){setAccountStatus("Enter your email and password.",true);return;}
+    setAccountStatus("Signing in…",false);
+    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error){setAccountStatus(error.message,true);return;}
+    currentUser=data.user||data.session?.user||null;
+    await refreshEntitlement(false);
+    setAccountStatus(isPro?"Signed in — Pro active.":"Signed in — Free account.",false);
+  }
+
+  async function createAccount(){
+    if(!supabaseClient) return;
+    const email=String(el("authEmail")?.value||"").trim();
+    const password=String(el("authPassword")?.value||"");
+    if(!email||password.length<6){setAccountStatus("Enter a valid email and a password of at least 6 characters.",true);return;}
+    setAccountStatus("Creating account…",false);
+    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:location.href.split("?")[0]}});
+    if(error){setAccountStatus(error.message,true);return;}
+    currentUser=data.session?.user||null;
+    if(data.session){
+      await refreshEntitlement(false);
+      setAccountStatus("Account created and signed in.",false);
+    }else{
+      setAccountStatus("Account created. Check your email to confirm it, then sign in.",false);
+    }
+    syncProUI();
+  }
+
+  async function signOutAccount(){
+    if(!supabaseClient) return;
+    await supabaseClient.auth.signOut();
+    currentUser=null; isPro=false; syncProUI();
+    setAccountStatus("Signed out. Your pay entries remain on this device.",false);
+  }
 
   function num(v,fallback=0){
     const n = Number(v);
@@ -1084,6 +1293,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 
   function showPage(which){
     const current=which==="current",history=which==="history",entriesPage=which==="entries",stats=which==="stats";
+    if(stats) syncProUI();
     el("pageCurrent").hidden=!current;
     el("pageHistory").hidden=!history;
     el("pageEntries").hidden=!entriesPage;
@@ -1099,6 +1309,13 @@ if(entriesPage)renderEntriesPage();
   el("navHistory").addEventListener("click",()=>showPage("history"));
   el("navEntries").addEventListener("click",()=>showPage("entries"));
   el("navStats").addEventListener("click",()=>showPage("stats"));
+
+  el("signInBtn").addEventListener("click",signInAccount);
+  el("createAccountBtn").addEventListener("click",createAccount);
+  el("signOutBtn").addEventListener("click",signOutAccount);
+  el("buyProBtn").addEventListener("click",startProCheckout);
+  el("proGateBuy").addEventListener("click",startProCheckout);
+  el("refreshProBtn").addEventListener("click",()=>refreshEntitlement(true));
 
   const entriesToggle = el("entriesToggle");
   const entriesCollapse = el("entriesCollapse");
@@ -2030,6 +2247,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   document.addEventListener("visibilitychange",()=>{
     if (document.visibilityState === "hidden") persistData();
   });
+
+  await initializeAccount();
+  syncProUI();
 
   if(!settings.setupComplete){
     populateSettings();

@@ -1,4 +1,4 @@
-const CACHE_NAME = "flightdeck-pay-v3";
+const CACHE_NAME = "flightdeck-pay-v5-paid-auth";
 const APP_SHELL = [
   "./",
   "./index.html",

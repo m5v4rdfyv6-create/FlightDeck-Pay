@@ -1,7 +1,7 @@
 {
   "name": "FlightDeck Pay",
   "short_name": "FlightDeck Pay",
-  "description": "A private, local-first pay and hours tracker for pilots and flight instructors.",
+  "description": "A local-first aviation earnings tracker with optional FlightDeck Pay Pro.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
