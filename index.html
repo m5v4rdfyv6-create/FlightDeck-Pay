@@ -957,6 +957,82 @@ input:focus,select:focus{
   .tgHeroActions{flex-direction:column}
 }
 
+
+/* ===== Dashboard-only promos + stronger Free/Pro restrictions ===== */
+#installSettingsBtn{display:none!important}
+
+/* Dashboard-only marketing/install elements are hidden by helper on other pages. */
+.dashboardOnlyHidden{display:none!important}
+
+/* New Pro feature gates */
+.fdExtraProGate{
+  display:none;
+  padding:24px;
+  margin-bottom:12px;
+  border:1px solid #765c2d;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(216,168,77,.13),transparent 32%),
+    linear-gradient(180deg,#171f20,#10191c);
+  box-shadow:0 14px 32px rgba(0,0,0,.18);
+}
+.fdExtraProGate.show{display:block}
+.fdExtraProGateBadge{
+  display:inline-flex;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#302719;
+  border:1px solid #8d6a2c;
+  color:#edbd5f;
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.09em;
+}
+.fdExtraProGate h3{
+  margin:12px 0 6px;
+  color:#f3ead7;
+  font-size:24px;
+  letter-spacing:-.035em;
+}
+.fdExtraProGate p{
+  margin:0;
+  color:#95a6a7;
+  font-size:12px;
+  line-height:1.5;
+}
+.fdExtraProGate .fdAccentBtn{margin-top:14px}
+.fdProFeatureContent.fdLocked{display:none!important}
+
+/* Dashboard preview locks for Free users */
+.tgProRestricted{
+  position:relative;
+  overflow:hidden;
+}
+.tgProRestricted.tgLocked > *{
+  filter:blur(4px);
+  opacity:.32;
+  pointer-events:none;
+  user-select:none;
+}
+.tgProRestricted.tgLocked:after{
+  content:attr(data-pro-label);
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:grid;
+  place-items:center;
+  padding:14px;
+  text-align:center;
+  color:#f0c264;
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.08em;
+  background:rgba(8,19,24,.68);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  cursor:pointer;
+}
+
 </style>
 </head>
 <body>
@@ -1043,7 +1119,7 @@ input:focus,select:focus{
       <strong id="tgRate">$0.00/hr</strong>
       <small>Average gross per hour</small>
     </div>
-    <div class="tgOverviewCard purple">
+    <div id="tgPointsCard" class="tgOverviewCard purple tgProRestricted" data-pro-label="PRO · PILOT POINTS">
       <span>PILOT POINTS</span>
       <strong id="tgPoints">0 pts</strong>
       <small id="tgLevel">Student Pilot</small>
@@ -1051,15 +1127,15 @@ input:focus,select:focus{
   </div>
 
   <div class="tgDashboardModules">
-    <div class="tgModule">
+    <div id="tgEventsModule" class="tgModule tgProRestricted" data-pro-label="PRO · UPCOMING EVENTS">
       <div class="tgModuleHead"><span>Upcoming Events</span><button id="tgEventsLink" type="button">View all</button></div>
       <div id="tgEventsPreview" class="tgPreviewList"></div>
     </div>
-    <div class="tgModule">
+    <div id="tgRecentModule" class="tgModule tgProRestricted" data-pro-label="PRO · RECENT ACTIVITY">
       <div class="tgModuleHead"><span>Recent Entries</span><button id="tgRecentLink" type="button">View all</button></div>
       <div id="tgRecentPreview" class="tgPreviewList"></div>
     </div>
-    <div class="tgModule tgGoalModule">
+    <div id="tgGoalModule" class="tgModule tgGoalModule tgProRestricted" data-pro-label="PRO · GOALS & MILESTONES">
       <div class="tgModuleHead"><span>Monthly Goal</span><button id="tgGoalsLink" type="button">Open goals</button></div>
       <div class="tgGoalBar"><span id="tgGoalFill"></span></div>
       <div class="tgGoalMeta"><strong id="tgGoalText">$0 / $0</strong><span id="tgGoalPct">0%</span></div>
@@ -1399,6 +1475,14 @@ input:focus,select:focus{
   </section>
 
   <section id="pageReports" class="page" hidden>
+    <div id="pageReportsProGate" class="fdExtraProGate">
+      <div class="fdExtraProGateBadge">FLIGHTDECK PAY PRO</div>
+      <h3>Reports are a Pro feature</h3>
+      <p>Unlock detailed pay reports, category breakdowns, estimated take-home summaries, and CSV export.</p>
+      <button class="fdAccentBtn fdExtraProBuy" type="button">Unlock Pro — $9.99 lifetime</button>
+    </div>
+    <div id="pageReportsProContent" class="fdProFeatureContent">
+
     <div class="fdPageHeader">
       <div>
         <div class="eyebrow">FLIGHTDECK REPORTS</div>
@@ -1434,9 +1518,19 @@ input:focus,select:focus{
       <div class="statLine"><span>Miscellaneous</span><strong id="reportMisc">$0.00</strong></div>
       <div class="statLine"><span>Estimated Take-Home</span><strong id="reportNet">$0.00</strong></div>
     </div>
-  </section>
+  
+    </div>
+</section>
 
   <section id="pageGoals" class="page" hidden>
+    <div id="pageGoalsProGate" class="fdExtraProGate">
+      <div class="fdExtraProGateBadge">FLIGHTDECK PAY PRO</div>
+      <h3>Goals & Pilot Points are Pro</h3>
+      <p>Unlock paycheck-goal tracking, Pilot Points, pilot levels, and milestone progress.</p>
+      <button class="fdAccentBtn fdExtraProBuy" type="button">Unlock Pro — $9.99 lifetime</button>
+    </div>
+    <div id="pageGoalsProContent" class="fdProFeatureContent">
+
     <div class="fdPageHeader">
       <div>
         <div class="eyebrow">PILOT GOALS</div>
@@ -1469,9 +1563,19 @@ input:focus,select:focus{
       <div class="sectionTitle">Milestones</div>
       <div id="milestoneList"></div>
     </div>
-  </section>
+  
+    </div>
+</section>
 
   <section id="pageEvents" class="page" hidden>
+    <div id="pageEventsProGate" class="fdExtraProGate">
+      <div class="fdExtraProGateBadge">FLIGHTDECK PAY PRO</div>
+      <h3>Upcoming Events are Pro</h3>
+      <p>Unlock your aviation calendar for renewals, checkrides, reviews, deadlines, and custom events.</p>
+      <button class="fdAccentBtn fdExtraProBuy" type="button">Unlock Pro — $9.99 lifetime</button>
+    </div>
+    <div id="pageEventsProContent" class="fdProFeatureContent">
+
     <div class="fdPageHeader">
       <div>
         <div class="eyebrow">FLIGHT CALENDAR</div>
@@ -1496,9 +1600,19 @@ input:focus,select:focus{
     </div>
 
     <div id="eventsList" class="fdEventList"></div>
-  </section>
+  
+    </div>
+</section>
 
   <section id="pageRecent" class="page" hidden>
+    <div id="pageRecentProGate" class="fdExtraProGate">
+      <div class="fdExtraProGateBadge">FLIGHTDECK PAY PRO</div>
+      <h3>Recent Activity is Pro</h3>
+      <p>Unlock the dedicated recent-activity page for a quick chronological view of your latest logged work.</p>
+      <button class="fdAccentBtn fdExtraProBuy" type="button">Unlock Pro — $9.99 lifetime</button>
+    </div>
+    <div id="pageRecentProContent" class="fdProFeatureContent">
+
     <div class="fdPageHeader">
       <div>
         <div class="eyebrow">RECENT ACTIVITY</div>
@@ -1508,7 +1622,9 @@ input:focus,select:focus{
       <button id="openEntriesBtn" class="fdAccentBtn" type="button">Open Logbook</button>
     </div>
     <div id="recentEntriesList" class="fdRecentList"></div>
-  </section>
+  
+    </div>
+</section>
 
   <section id="pageSettingsFull" class="page" hidden>
     <div class="fdPageHeader">
@@ -3625,6 +3741,99 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     if(byId("tgGoalsLink")&&byId("navGoals"))byId("tgGoalsLink").addEventListener("click",()=>byId("navGoals").click());
     setInterval(render,1500);
     setInterval(updateDate,60000);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function node(id){ return document.getElementById(id); }
+
+  function proActive(){
+    try{
+      return typeof isPro !== "undefined" && Boolean(isPro);
+    }catch(e){
+      return false;
+    }
+  }
+
+  function openUpgrade(){
+    try{
+      if(typeof startProCheckout === "function"){
+        startProCheckout();
+        return;
+      }
+    }catch(e){}
+    const buy=document.getElementById("buyProBtn") ||
+              document.getElementById("proGateBuy") ||
+              document.getElementById("historyGateBuy");
+    if(buy) buy.click();
+  }
+
+  function dashboardOnly(show){
+    const install=node("installBanner");
+    const seo=document.querySelector(".seoAbout");
+    if(install) install.classList.toggle("dashboardOnlyHidden",!show);
+    if(seo) seo.classList.toggle("dashboardOnlyHidden",!show);
+  }
+
+  function syncNewProUI(){
+    const pro=proActive();
+
+    ["pageReports","pageGoals","pageEvents","pageRecent"].forEach(function(pageId){
+      const gate=node(pageId+"ProGate");
+      const content=node(pageId+"ProContent");
+      if(gate) gate.classList.toggle("show",!pro);
+      if(content) content.classList.toggle("fdLocked",!pro);
+    });
+
+    ["tgPointsCard","tgEventsModule","tgRecentModule","tgGoalModule"].forEach(function(id){
+      const el=node(id);
+      if(el) el.classList.toggle("tgLocked",!pro);
+    });
+
+    document.querySelectorAll(".fdExtraProBuy").forEach(function(btn){
+      if(!btn.dataset.fdBound){
+        btn.dataset.fdBound="1";
+        btn.addEventListener("click",openUpgrade);
+      }
+    });
+  }
+
+  function bindDashboardLocks(){
+    ["tgPointsCard","tgEventsModule","tgRecentModule","tgGoalModule"].forEach(function(id){
+      const el=node(id);
+      if(el && !el.dataset.fdBound){
+        el.dataset.fdBound="1";
+        el.addEventListener("click",function(){
+          if(!proActive()) openUpgrade();
+        });
+      }
+    });
+  }
+
+  function bindDashboardOnlyNavigation(){
+    const current=node("navCurrent");
+    if(current) current.addEventListener("click",function(){ dashboardOnly(true); });
+
+    [
+      "navHistory","navEntries","navStats","navReports","navGoals",
+      "navEvents","navRecent","navSettingsFull"
+    ].forEach(function(id){
+      const btn=node(id);
+      if(btn) btn.addEventListener("click",function(){ dashboardOnly(false); });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    dashboardOnly(true);
+    bindDashboardOnlyNavigation();
+    bindDashboardLocks();
+    syncNewProUI();
+
+    /* Entitlement refresh/sign-in can happen asynchronously. */
+    setInterval(syncNewProUI,700);
   });
 })();
 </script>
