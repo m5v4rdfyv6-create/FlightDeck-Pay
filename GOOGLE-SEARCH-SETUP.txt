@@ -2,9 +2,9 @@ FLIGHTDECK PAY — GOOGLE SEARCH SETUP
 
 1. Deploy every file/folder in this package to the root of the existing GitHub site.
 2. Confirm these pages open:
-   /flight-instructor-pay-calculator/
-   /cfi-pay-calculator/
-   /pilot-pay-tracker/
+   /flight-instructor-pay-calculator.html
+   /cfi-pay-calculator.html
+   /pilot-pay-tracker.html
    /sitemap.xml
    /robots.txt
 3. In Google Search Console, add a URL-prefix property for:

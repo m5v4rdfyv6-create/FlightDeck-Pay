@@ -34,8 +34,8 @@ This build includes:
 - robots.txt
 - sitemap.xml
 - search-friendly metadata and structured data on the app homepage
-- /flight-instructor-pay-calculator/
-- /cfi-pay-calculator/
-- /pilot-pay-tracker/
+- /flight-instructor-pay-calculator.html
+- /cfi-pay-calculator.html
+- /pilot-pay-tracker.html
 
 Canonical URLs currently use the live workers.dev address. If you later connect a custom domain, update those URLs and sitemap entries.
