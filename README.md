@@ -1,6 +1,3 @@
-# FlightDeck Pay — PWA
-
-FlightDeck Pay is an installable web app for tracking flight/sim, ground, and miscellaneous paid hours.
 
 ## Privacy
 
@@ -8,14 +5,7 @@ FlightDeck Pay has no account system, analytics, advertising, remote database, o
 
 Because the data is local, clearing Safari website data or deleting the site data can erase saved entries. Back up important records separately.
 
-## Deploy with GitHub Pages
 
-1. Create a public GitHub repository (for example, `flightdeck-pay`).
-2. Upload the contents of this folder to the repository root.
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the `main` branch and `/ (root)`, then save.
-6. GitHub will provide an HTTPS site address for the app.
 
 ## Install on iPhone
 
@@ -26,17 +16,6 @@ Because the data is local, clearing Safari website data or deleting the site dat
 5. Tap **Add**.
 
 FlightDeck Pay then launches from its own Home Screen icon and its core interface remains available offline after the first successful load.
-
-## Files
-
-- `index.html` — the complete app interface and logic
-- `manifest.webmanifest` — install metadata
-- `service-worker.js` — offline app-shell cache
-- `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` — app icons
-
-## Important
-
-Do not add a user's exported/saved pay data to the repository. This public package contains no personal pay entries or personal default pay settings.
 
 
 ## Data persistence
