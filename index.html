@@ -1,0 +1,1867 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FlightDeck Pay</title>
+<meta name="theme-color" content="#020306">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FlightDeck Pay">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;background:#020306;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+body{min-height:100vh;overscroll-behavior:none;background:
+radial-gradient(circle at 50% -10%,rgba(40,117,255,.16),transparent 34%),
+linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+#020306;background-size:auto,28px 28px,28px 28px}
+button,input,select{font:inherit}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.app{max-width:760px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 14px calc(100px + env(safe-area-inset-bottom))}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:2px 2px 0}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brandCopy{min-width:0}
+.brandLogo{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:#07090d;border:1px solid #234c9b;box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),0 8px 24px rgba(0,0,0,.32);overflow:hidden;flex:0 0 auto}
+.brandLogo img{width:100%;height:100%;display:block;object-fit:cover;border-radius:14px}
+.brand h1{margin:0;font-size:29px;letter-spacing:-.045em;line-height:1}
+.brand p{margin:4px 0 0;color:#7f899d;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconBtn{width:46px;height:46px;border:1px solid #242a33;border-radius:14px;background:linear-gradient(180deg,#0e1118,#07090d);color:#cbd3e3;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 8px 20px rgba(0,0,0,.25);transition:transform .18s ease,background .18s ease}
+.iconBtn:active{transform:scale(.94)}
+.iconBtn.spin svg{animation:gearSpin .45s ease}
+@keyframes gearSpin{from{transform:rotate(0)}to{transform:rotate(90deg)}}
+.iconBtn svg{width:21px;height:21px}
+.nav{position:fixed;left:14px;right:14px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:30;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:6px;background:rgba(7,9,13,.96);border:1px solid #29303a;border-radius:20px;backdrop-filter:blur(20px);box-shadow:0 12px 34px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.03)}
+.nav button{min-height:50px;border:0;border-radius:13px;background:transparent;color:#7f8797;font-size:12px;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:transform .16s ease,background .22s ease,color .22s ease}
+.nav button:active{transform:scale(.94)}
+.nav button svg{width:19px;height:19px}
+.nav button.active.current{background:#0b2a66;color:#fff}
+.nav button.active.history{background:#451018;color:#fff}
+.nav button.active.stats{background:#151515;color:#fff}
+.page[hidden]{display:none!important}
+.period{padding:15px 16px;background:linear-gradient(180deg,rgba(12,34,74,.94),rgba(6,18,42,.94));border:1px solid #1f4d9d;border-radius:19px;margin-bottom:12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start;box-shadow:inset 0 1px 0 rgba(255,255,255,.03),0 12px 26px rgba(0,0,0,.18)}
+.periodTitle{font-size:14px;font-weight:900;letter-spacing:.025em;text-transform:uppercase;color:#dbe7ff}
+.meta{font-size:12px;color:#939aaa;margin-top:4px;line-height:1.4}
+.days{font-weight:850;white-space:nowrap}
+.progress{height:5px;background:#101b33;border-radius:999px;overflow:hidden;margin-top:11px}
+.progress span{display:block;height:100%;background:#347cff;border-radius:999px}
+.hero{position:relative;overflow:hidden;background:
+radial-gradient(circle at 83% 26%,rgba(40,117,255,.24),transparent 24%),
+linear-gradient(180deg,#0a1834,#050b17);border:1px solid #2d6fe0;border-radius:22px;padding:20px;margin-bottom:12px;box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 16px 32px rgba(0,0,0,.22)}
+.hero:before{content:"";position:absolute;inset:auto -28px -48px auto;width:170px;height:170px;border:1px solid rgba(105,158,255,.12);border-radius:50%;box-shadow:0 0 0 18px rgba(105,158,255,.035),0 0 0 38px rgba(105,158,255,.018)}
+.heroTop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#87abff;font-weight:900}
+.heroNet{font-size:39px;font-weight:900;letter-spacing:-.05em;margin-top:4px}
+.heroGross{font-size:13px;color:#a8b2c8;margin-top:2px}
+.horizon{width:78px;height:78px;border-radius:50%;border:2px solid #2d6fe0;background:linear-gradient(#163f84 0 49%,#6c261f 49% 51%,#2d1a14 51%);position:relative;box-shadow:inset 0 0 0 5px #070b12,inset 0 0 0 6px #263145,0 7px 18px rgba(0,0,0,.28);flex:0 0 auto}
+.horizon:before{content:"";position:absolute;left:13px;right:13px;top:50%;height:2px;background:#fff;opacity:.9}
+.horizon:after{content:"";position:absolute;left:50%;top:30%;width:2px;height:40%;background:rgba(255,255,255,.75);transform:translateX(-50%)}
+.horizonWing{position:absolute;left:17px;right:17px;top:47%;height:6px;border-left:11px solid #fff;border-right:11px solid #fff;border-top:2px solid transparent;border-bottom:2px solid transparent;opacity:.9}
+.goalRow{display:flex;justify-content:space-between;gap:10px;margin-top:17px;font-size:13px}
+.goalBar{height:8px;background:#111b32;border-radius:999px;overflow:hidden;margin-top:8px}
+.goalBar span{display:block;height:100%;background:#2875ff;border-radius:999px}
+.goalHint{font-size:12px;color:#91a8d7;margin-top:8px}
+.grid2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.card,.panel{background:linear-gradient(180deg,rgba(15,18,24,.96),rgba(8,10,14,.96));border:1px solid #242a33;border-radius:19px;padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 28px rgba(0,0,0,.16)}
+.card.blue{border-color:#1d4d9d;background:linear-gradient(180deg,rgba(11,28,58,.92),rgba(7,11,18,.96))}
+.card.red{border-color:#6d252d;background:linear-gradient(180deg,rgba(48,14,18,.55),rgba(10,9,11,.96))}
+.cardTitle{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:900;margin-bottom:12px;text-transform:uppercase;letter-spacing:.035em}
+.cardTitle svg{width:18px;height:18px}
+.blueText{color:#67a1ff}.redText{color:#ff7777}
+.statLine{display:flex;justify-content:space-between;gap:12px;font-size:14px;padding:5px 0}
+.statLine span:first-child{color:#999}
+.bigStat{font-size:25px;font-weight:900;letter-spacing:-.035em;text-shadow:0 0 18px rgba(103,161,255,.08)}
+.sectionTitle{font-size:16px;font-weight:850;margin-bottom:12px}
+.dailyGroup{margin-top:10px}
+.dayCard{padding:14px 0;border-top:1px solid #202020}
+.dayTop{display:flex;justify-content:space-between;gap:12px}
+.dayDate{font-weight:850;font-size:13px}
+.dayTotal{font-weight:850}
+.dayBreak{font-size:12px;color:#999;margin-top:5px}
+.swipeRow{position:relative;overflow:hidden;margin-top:8px;border:1px solid #222832;background:#8b1e28;border-radius:15px}.swipeAction{position:absolute;top:0;right:0;bottom:0;width:96px;border:0;background:linear-gradient(180deg,#a32632,#7f1721);color:#fff;font-size:12px;font-weight:950;display:flex;align-items:center;justify-content:center;z-index:0;letter-spacing:.02em}.swipeContent{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:13px 14px;background:linear-gradient(180deg,#0d1015,#090b0f);transition:transform .18s ease;will-change:transform;min-height:62px}.swipeRow.open .swipeContent{transform:translateX(-96px)}
+.swipeRow:first-of-type{margin-top:8px}
+.entryInfo{font-size:12px;color:#aaa}
+.entryAmount{font-size:12px;font-weight:850}
+.deleteEntry{min-height:34px;padding:5px 9px;border-radius:9px;border:1px solid #76212c;background:#451018;color:#ff8787;font-size:12px;font-weight:850;transition:transform .13s ease,background .18s ease,color .18s ease}
+.deleteEntry:active{transform:scale(.95)}
+.deleteEntry.armed{background:#7a1822;color:#fff;animation:armedPulse .7s ease infinite alternate}
+@keyframes armedPulse{from{box-shadow:0 0 0 rgba(239,68,68,0)}to{box-shadow:0 0 14px rgba(239,68,68,.32)}}
+.historyCard{border:1px solid #222;border-radius:17px;padding:15px;margin-bottom:10px;background:#090909}
+.historyHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.historyNet{font-size:22px;font-weight:900;color:#67a1ff}
+.historyDates{font-size:12px;color:#999;margin-top:3px}
+.historyHours{font-weight:850}
+.historyDetails{display:none;border-top:1px solid #222;margin-top:12px;padding-top:10px}
+.historyCard.open .historyDetails{display:block}
+.expand{margin-top:10px;width:100%;min-height:38px;border-radius:10px;border:1px solid #2b2b2b;background:#111;color:#aaa;font-weight:800}
+.statsGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.statsGrid .card{min-height:104px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:160px;padding:12px 4px 2px}
+.barWrap{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bar{width:100%;max-width:42px;background:linear-gradient(180deg,#69a2ff,#2875ff);border-radius:8px 8px 3px 3px;min-height:3px;box-shadow:0 0 14px rgba(40,117,255,.2)}
+.bar.redBar{background:#ef4444}
+.barLabel{font-size:10px;color:#777;margin-top:6px;text-align:center}
+.empty{text-align:center;color:#888;padding:30px 8px;line-height:1.5}
+.fab{position:fixed;right:20px;bottom:calc(82px + env(safe-area-inset-bottom));z-index:35;width:60px;height:60px;border-radius:19px;border:1px solid #6da2ff;background:linear-gradient(180deg,#3b82ff,#1f5fd6);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px rgba(40,117,255,.08),0 16px 34px rgba(40,117,255,.34),inset 0 1px 0 rgba(255,255,255,.22)}
+.fab svg{width:25px;height:25px}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.64);z-index:50;display:flex;align-items:flex-end}
+.overlay[hidden]{display:none}
+.sheet{width:100%;max-height:72vh;overflow:auto;background:linear-gradient(180deg,#101319,#080a0e);border-top:1px solid #343b46;border-radius:24px 24px 0 0;padding:14px 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -14px 42px rgba(0,0,0,.38)}
+.sheetHandle{width:42px;height:5px;border-radius:999px;background:#343434;margin:0 auto 14px}
+.sheetHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.sheetTitle{font-size:20px;font-weight:900}
+.closeBtn{width:38px;height:38px;border-radius:12px;border:1px solid #292929;background:#111;color:#aaa}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.typeToggle{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+.typeChoice{min-height:46px;border-radius:12px;border:1px solid #303641;background:#07090d;color:#939baa;font-weight:850;display:flex;align-items:center;justify-content:center;gap:7px;transition:transform .15s ease,background .2s ease,border-color .2s ease,color .2s ease}
+.typeChoice:active{transform:scale(.97)}
+.typeChoice.active.flight{background:#0b2a66;border-color:#347cff;color:#fff}
+.typeChoice.active.ground{background:#431116;border-color:#e84747;color:#fff}
+
+.typeChoice.active.misc{background:#252a33;border-color:#8f98a8;color:#fff}
+
+.entryComposer.miscTheme{
+  --entry-accent:#9aa4b4;
+  --entry-accent-dark:#282e38;
+  --entry-glow:rgba(154,164,180,.18);
+  border-color:#59616f;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(180,190,205,.09),transparent 35%),
+    linear-gradient(180deg,rgba(18,21,27,.96),rgba(8,10,14,.96));
+}
+
+.card.misc{
+  border-color:#4a5260;
+  background:linear-gradient(180deg,rgba(28,31,38,.82),rgba(8,10,14,.96));
+}
+
+.miscText{color:#c4cbd6}
+
+.entryBadge.misc{
+  background:#242932;
+  color:#d7dce5;
+  border:1px solid #555e6d;
+  font-size:17px;
+  font-weight:950;
+}
+
+
+label{display:block;font-size:12px;font-weight:800;color:#c9cdd6;margin-bottom:5px}
+input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343434;background:#030303;color:#fff;padding:10px 12px;font-size:16px}
+.primary{width:100%;min-height:48px;border:0;border-radius:13px;background:#2875ff;color:#fff;font-weight:900;margin-top:12px;transition:transform .14s ease,box-shadow .2s ease,background .2s ease}
+.primary:active{transform:scale(.975)}
+.primary.success{background:#175fcf;box-shadow:0 0 0 5px rgba(40,117,255,.12),0 0 24px rgba(40,117,255,.35)}
+@keyframes successPulse{0%{transform:scale(1)}40%{transform:scale(1.025)}100%{transform:scale(1)}}
+.danger{background:#451018;border:1px solid #76212c;color:#ff8787}
+.settingsNote{font-size:12px;color:#858c99;line-height:1.45;margin-top:12px}
+.paydayCard{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.paydayDate{font-weight:900;font-size:17px}
+.paydayCount{color:#67a1ff;font-weight:850}
+
+.statsHero{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:20px;margin-bottom:12px;border-radius:22px;border:1px solid #263449;background:radial-gradient(circle at 85% 15%,rgba(52,124,255,.2),transparent 32%),linear-gradient(180deg,#0c1320,#07090d);box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 14px 30px rgba(0,0,0,.22)}
+.statsHeroValue{font-size:36px;font-weight:950;letter-spacing:-.05em;margin-top:4px}
+.statsHeroSub{font-size:12px;color:#8892a3;margin-top:2px}
+.statsPulse{width:112px;height:112px;border-radius:50%;background:conic-gradient(#347cff 0 250deg,#171c25 250deg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 28px rgba(52,124,255,.16)}
+.statsPulse:before{content:"";position:absolute}
+.statsPulseInner{width:88px;height:88px;border-radius:50%;background:#07090d;border:1px solid #26303e;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.statsPulseValue{font-size:20px;font-weight:950;color:#7eacff}
+.statsPulseLabel{font-size:9px;letter-spacing:.12em;color:#6f7887;margin-top:2px;font-weight:900}
+.statsGrid.premium{grid-template-columns:1fr 1fr}
+.statCard{position:relative;overflow:hidden}
+.statCard:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-34px;bottom:-42px;background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%)}
+.statCard.accentBlue{border-color:#234c91}
+.statCard.accentRed{border-color:#64272d}
+.statIcon{width:30px;height:30px;border-radius:10px;background:#10141c;display:flex;align-items:center;justify-content:center;color:#93b7ff;margin-bottom:10px}
+.accentRed .statIcon{color:#ff8b8b}
+.statIcon svg{width:16px;height:16px}
+.statsPanel{padding:17px}
+.statsPanelHead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.statsCaption{font-size:11px;color:#747e8e;margin-top:2px}
+.trendBadge{font-size:9px;font-weight:950;letter-spacing:.09em;padding:6px 8px;border-radius:999px;background:#111722;border:1px solid #263449;color:#7fa9ff}
+.trendBadge.up{background:#0d213f;border-color:#2458aa;color:#8eb6ff}
+.trendBadge.down{background:#3a1116;border-color:#76212c;color:#ff8d8d}
+.trendChart{height:180px;display:flex;align-items:flex-end;gap:9px;padding:10px 2px 0}
+.trendCol{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.trendBar{width:100%;max-width:40px;border-radius:9px 9px 4px 4px;background:linear-gradient(180deg,#78adff,#347cff);box-shadow:0 0 16px rgba(52,124,255,.18);min-height:4px;transition:height .4s ease}
+.trendBar.last{background:linear-gradient(180deg,#ff8a8a,#e84a4a);box-shadow:0 0 16px rgba(232,74,74,.16)}
+.trendValue{font-size:9px;color:#8a94a4;margin-bottom:5px}
+.trendLabel{font-size:9px;color:#666f7c;margin-top:6px;text-align:center}
+.mixLayout{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
+.mixGauge{width:142px;height:142px;border-radius:50%;background:conic-gradient(#347cff 0 var(--flight),#e84a4a var(--flight) 360deg);display:flex;align-items:center;justify-content:center;box-shadow:0 0 26px rgba(52,124,255,.08)}
+.mixGaugeInner{width:112px;height:112px;border-radius:50%;background:#07090d;border:1px solid #252c36;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mixGaugeValue{font-size:28px;font-weight:950;letter-spacing:-.04em}
+.mixGaugeLabel{font-size:8px;letter-spacing:.11em;color:#747e8c;margin-top:2px;font-weight:900}
+.mixLegendPro{display:grid;gap:10px}
+.mixLegendRow{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.mixLegendRow span{color:#969eaa}
+.mixLegendRow strong{color:#fff}
+.legendDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
+.blueDot{background:#347cff;box-shadow:0 0 10px rgba(52,124,255,.45)}
+.redDot{background:#e84a4a;box-shadow:0 0 10px rgba(232,74,74,.35)}
+.mixDivider{height:1px;background:#20252d}
+.mixLegendRow.total span{color:#c7ced8;font-weight:850}
+.bestPeriod{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px;border-radius:16px;background:linear-gradient(180deg,#0c1118,#080a0e);border:1px solid #242b35}
+.bestPeriodAmount{font-size:23px;font-weight:950;color:#78a9ff}
+.bestPeriodDates{font-size:11px;color:#7d8795;margin-top:4px}
+.bestPeriodBadge{padding:8px 10px;border-radius:12px;background:#121722;border:1px solid #283446;color:#cbd5e5;font-size:12px;font-weight:900}
+.efficiencyRow{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.efficiencyValue{font-size:26px;font-weight:950;color:#fff}
+.efficiencyMeter{height:10px;background:#111722;border-radius:999px;overflow:hidden}
+.efficiencyMeter span{display:block;height:100%;background:linear-gradient(90deg,#347cff,#78adff);border-radius:999px;transition:width .4s ease}
+
+.swipeHint{font-size:10px;color:#5f6875;margin-left:8px;white-space:nowrap}
+.swipeContent:active{background:#0d1015}
+
+.entryBadge{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950;flex:0 0 auto}
+.entryBadge.flight{background:#0b2a66;color:#8db5ff;border:1px solid #2458aa}
+.entryBadge.ground{background:#431116;color:#ff8a8a;border:1px solid #76212c}
+.entryText{min-width:0}
+.entryTitle{font-size:13px;font-weight:900;color:#eef2f7}
+.entrySub{font-size:11px;color:#7f8996;margin-top:3px}
+.entryRight{text-align:right}
+.entryHours{font-size:12px;color:#aeb6c3}
+.entryPay{font-size:14px;font-weight:950;margin-top:2px}
+.swipeCue{font-size:10px;color:#4f5968;margin-left:4px;white-space:nowrap}
+.entriesCount{width:58px;height:58px;border-radius:18px;background:#0d2b62;border:1px solid #347cff;color:#91b7ff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:950}
+.entriesPanelHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.entriesToggle{
+  min-height:36px;
+  padding:7px 11px;
+  border-radius:10px;
+  border:1px solid #2b3441;
+  background:#0d1117;
+  color:#aeb8c7;
+  font-size:11px;
+  font-weight:900;
+  transition:transform .14s ease,background .2s ease,border-color .2s ease;
+}
+
+.entriesToggle:active{
+  transform:scale(.96);
+}
+
+.entriesCollapse{
+  overflow:hidden;
+}
+
+.entriesCollapse[hidden]{
+  display:none!important;
+}
+
+
+.entriesFilter{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
+  gap:8px;
+  align-items:end;
+  margin:10px 0 12px;
+}
+
+.entriesFilter .filterField{
+  min-width:0;
+}
+
+.entriesFilter label{
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.entriesFilter input{
+  min-height:40px;
+  padding:7px 9px;
+  font-size:14px;
+}
+
+.filterApply{
+  min-height:40px;
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid #2b3441;
+  background:#121720;
+  color:#d7dee8;
+  font-size:11px;
+  font-weight:900;
+}
+
+.filterApply:active{
+  transform:scale(.96);
+}
+
+.filterReset{
+  width:100%;
+  min-height:34px;
+  margin-top:7px;
+  border-radius:9px;
+  border:1px solid #252c36;
+  background:#0b0f14;
+  color:#8f99a8;
+  font-size:10px;
+  font-weight:850;
+}
+
+.entriesFilterStatus{
+  font-size:10px;
+  color:#758090;
+  margin-bottom:8px;
+}
+
+@media(max-width:420px){
+  .entriesFilter{
+    grid-template-columns:1fr 1fr;
+  }
+  .filterApply{
+    grid-column:1/-1;
+  }
+}
+
+.monthGroup{
+  margin-top:10px;
+  border:1px solid #232a34;
+  border-radius:14px;
+  overflow:hidden;
+  background:#0a0d12;
+}
+
+.monthGroup:first-child{
+  margin-top:0;
+}
+
+.monthHeader{
+  width:100%;
+  min-height:44px;
+  border:0;
+  background:linear-gradient(180deg,#11161e,#0b0e13);
+  color:#dce2ec;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  font-size:12px;
+  font-weight:900;
+  text-align:left;
+}
+
+.monthHeader:active{
+  transform:scale(.995);
+}
+
+.monthHeaderMeta{
+  color:#7f8998;
+  font-size:10px;
+  font-weight:800;
+}
+
+.monthBody{
+  padding:0 10px 10px;
+}
+
+.monthBody[hidden]{
+  display:none!important;
+}
+
+
+.entryDateGroup{margin-top:15px}.entryDateGroup:first-child{margin-top:0}.entryDateHeading{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:#697382;font-weight:900;margin:0 2px 6px}
+
+.addSheet{max-height:58vh;padding-top:12px}
+.addSheet .sheetHandle{margin-bottom:10px}
+.addSheet .sheetHeader{margin-bottom:12px}
+.addSheet .sheetTitle{font-size:18px}
+.addSheet .formGrid{gap:8px}
+.addSheet input,.addSheet select{min-height:44px}
+.addSheet .primary{margin-top:10px}
+.fab{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:35}
+
+.nav button{min-width:0;padding:6px 2px;font-size:10px;line-height:1.05;white-space:nowrap}
+.nav button svg{width:17px;height:17px;flex:0 0 auto}
+
+.entryComposer{margin-bottom:11px}
+
+.entryComposer{
+  --entry-accent:#347cff;
+  --entry-accent-dark:#173d80;
+  --entry-glow:rgba(52,124,255,.18);
+  border-color:var(--entry-accent);
+  transition:border-color .25s ease,box-shadow .25s ease,background .25s ease;
+}
+
+.entryComposer.flightTheme{
+  --entry-accent:#347cff;
+  --entry-accent-dark:#173d80;
+  --entry-glow:rgba(52,124,255,.18);
+  border-color:#285db5;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(52,124,255,.10),transparent 35%),
+    linear-gradient(180deg,rgba(15,18,24,.96),rgba(8,10,14,.96));
+}
+
+.entryComposer.groundTheme{
+  --entry-accent:#ef4f59;
+  --entry-accent-dark:#711c25;
+  --entry-glow:rgba(239,79,89,.18);
+  border-color:#7d2932;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(239,79,89,.10),transparent 35%),
+    linear-gradient(180deg,rgba(28,11,14,.96),rgba(8,10,14,.96));
+}
+
+.entryComposer input{
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+
+.entryComposer input:focus{
+  outline:none;
+  border-color:var(--entry-accent);
+  box-shadow:0 0 0 3px var(--entry-glow);
+}
+
+.entryComposer .entryAddButton{
+  background:var(--entry-accent);
+  border:1px solid var(--entry-accent);
+  box-shadow:0 8px 22px var(--entry-glow);
+  transition:background .25s ease,box-shadow .25s ease,transform .14s ease,border-color .25s ease;
+}
+
+.entryComposer .entryAddButton:active{
+  transform:scale(.975);
+}
+
+.entryComposer .typeChoice.active{
+  background:var(--entry-accent-dark);
+  border-color:var(--entry-accent);
+  color:#fff;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 18px var(--entry-glow);
+}
+
+.entryFormGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:9px;margin-top:9px}
+.entryField{min-width:0}
+.entryField input{display:block;width:100%;max-width:100%;min-width:0}
+.entryField input[type="date"]{padding-left:9px;padding-right:6px}
+.entryField input[type="date"]::-webkit-date-and-time-value{text-align:left;min-width:0}
+.entryAddButton{margin-top:10px}
+.entryStatus{min-height:16px;margin-top:7px}
+@media(max-width:380px){
+  .entryFormGrid{grid-template-columns:1fr}
+}
+
+
+.entryBadge{position:relative;overflow:hidden}
+.entryBadge.flight,.entryBadge.ground{font-size:0}
+
+.entryBadge.flight:before{
+  content:"";
+  width:22px;
+  height:22px;
+  display:block;
+  background:#8db5ff;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21.8 16.1 14 12V5.2c0-1.1-.9-2.2-2-2.2s-2 1.1-2 2.2V12l-7.8 4.1c-.3.2-.5.5-.5.9v1l8.3-2.2v3.3l-2.1 1.4v.8l4.1-.8 4.1.8v-.8L14 19.1v-3.3l8.3 2.2v-1c0-.4-.2-.7-.5-.9Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M21.8 16.1 14 12V5.2c0-1.1-.9-2.2-2-2.2s-2 1.1-2 2.2V12l-7.8 4.1c-.3.2-.5.5-.5.9v1l8.3-2.2v3.3l-2.1 1.4v.8l4.1-.8 4.1.8v-.8L14 19.1v-3.3l8.3 2.2v-1c0-.4-.2-.7-.5-.9Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.entryBadge.ground:before{
+  content:"";
+  width:22px;
+  height:22px;
+  display:block;
+  background:#ff8a8a;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 4h16v4H4V4Zm0 6h16v10H4V10Zm3 3v4h4v-4H7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 4h16v4H4V4Zm0 6h16v10H4V10Zm3 3v4h4v-4H7Z'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+.entryBadge.ground:after{display:none}
+@media(max-width:520px){
+  .grid2,.statsGrid,.formGrid{grid-template-columns:1fr}
+  .statsGrid.premium{grid-template-columns:1fr 1fr}
+  .heroNet{font-size:34px}
+  .statsHero{padding:17px}
+  .statsHeroValue{font-size:31px}
+  .statsPulse{width:96px;height:96px}
+  .statsPulseInner{width:74px;height:74px}
+  .statsPulseValue{font-size:17px}
+  .mixLayout{grid-template-columns:1fr;justify-items:center}
+  .mixLegendPro{width:100%}
+  .efficiencyRow{grid-template-columns:1fr}
+}
+
+.nav{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.nav button{min-width:0!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="brandLogo" aria-hidden="true">
+        <img src="icon-192.png" alt="">
+      </div>
+      <div class="brandCopy">
+        <h1>FlightDeck Pay</h1>
+        <p>Aviation Earnings Tracker</p>
+      </div>
+    </div>
+    <button id="settingsBtn" class="iconBtn" type="button" aria-label="Settings">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 .1-1 7.7 7.7 0 0 0-.1-1l2.1-1.6-2-3.4-2.5 1a8.3 8.3 0 0 0-1.7-1L15 3.3h-4L10.6 6a8.3 8.3 0 0 0-1.7 1l-2.5-1-2 3.4L6.5 11a7.7 7.7 0 0 0-.1 1 7.7 7.7 0 0 0 .1 1l-2.1 1.6 2 3.4 2.5-1a8.3 8.3 0 0 0 1.7 1l.4 2.7h4l.4-2.7a8.3 8.3 0 0 0 1.7-1l2.5 1 2-3.4L19.4 13ZM13 15.5A3.5 3.5 0 1 1 13 8a3.5 3.5 0 0 1 0 7.5Z"/></svg>
+    </button>
+  </div>
+
+  <section id="pageCurrent" class="page">
+    <div class="period">
+      <div style="min-width:0;flex:1">
+        <div class="periodTitle">Current pay period</div>
+        <div class="meta" id="periodDates"></div>
+        <div class="progress"><span id="periodProgress" style="width:0%"></span></div>
+      </div>
+      <div class="days" id="daysLeft"></div>
+    </div>
+
+    <div class="hero">
+      <div class="heroTop">
+        <div>
+          <div class="eyebrow">Estimated take-home</div>
+          <div class="heroNet" id="netPay">$0.00</div>
+          <div class="heroGross" id="grossText">$0.00 gross</div>
+        </div>
+        <div class="horizon" aria-hidden="true"><div class="horizonWing"></div></div>
+      </div>
+      <div class="goalRow"><span>Paycheck goal</span><strong id="goalLabel">$0 / $1,500</strong></div>
+      <div class="goalBar"><span id="goalBar" style="width:0%"></span></div>
+      <div class="goalHint" id="goalHint">Add hours to start tracking your goal.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="card blue">
+        <div class="cardTitle blueText">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M21.8 16.1 14 12V5.2c0-1.1-.9-2.2-2-2.2s-2 1.1-2 2.2V12l-7.8 4.1c-.3.2-.5.5-.5.9v1l8.3-2.2v3.3l-2.1 1.4v.8l4.1-.8 4.1.8v-.8L14 19.1v-3.3l8.3 2.2v-1c0-.4-.2-.7-.5-.9Z"/></svg>
+          Flight / Sim
+        </div>
+        <div class="statLine"><span>Hours</span><strong id="flightHours">0.00</strong></div>
+        <div class="statLine"><span>Gross</span><strong class="blueText" id="flightGross">$0.00</strong></div>
+      </div>
+      <div class="card red">
+        <div class="cardTitle redText">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v4H4V4Zm0 6h16v10H4V10Zm3 3v4h4v-4H7Z"/></svg>
+          Ground
+        </div>
+        <div class="statLine"><span>Hours</span><strong id="groundHours">0.00</strong></div>
+        <div class="statLine"><span>Gross</span><strong class="redText" id="groundGross">$0.00</strong></div>
+      </div>
+      <div class="card misc">
+        <div class="cardTitle miscText">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11 3h2v2.2c2.3.3 3.8 1.6 3.8 3.6h-2.4c0-.9-.5-1.5-1.4-1.8v3.6c2.7.6 4.3 1.7 4.3 4.1 0 2.3-1.7 3.8-4.3 4.2V21h-2v-2.1c-2.6-.4-4.2-1.8-4.2-4H9.2c0 1 .7 1.7 1.8 2v-4c-2.5-.6-4-1.7-4-4 0-2.1 1.5-3.6 4-3.9V3Zm0 4c-1 .2-1.6.8-1.6 1.6s.5 1.3 1.6 1.6V7Zm2 6.4v3.5c1.2-.2 1.9-.9 1.9-1.7 0-.9-.6-1.4-1.9-1.8Z"/></svg>
+          Miscellaneous
+        </div>
+        <div class="statLine"><span>Hours</span><strong id="miscHours">0.00</strong></div>
+        <div class="statLine"><span>Gross</span><strong class="miscText" id="miscGross">$0.00</strong></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <div class="sectionTitle">Projected paycheck</div>
+      <div class="statLine"><span>Projected net by period end</span><strong class="blueText" id="projectedNet">$0.00</strong></div>
+      <div class="statLine"><span>Projected gross</span><strong id="projectedGross">$0.00</strong></div>
+    </div>
+
+    <div class="panel" style="margin-bottom:12px">
+      <div class="sectionTitle">Next paycheck</div>
+      <div class="paydayCard">
+        <div>
+          <div class="paydayDate" id="paydayDate">Not set</div>
+          <div class="meta">Change this in Settings</div>
+        </div>
+        <div class="paydayCount" id="paydayCount"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="sectionTitle">Daily earnings</div>
+      <div id="dailyList" class="dailyGroup"></div>
+    </div>
+  </section>
+
+  <section id="pageHistory" class="page" hidden>
+    <div class="panel" style="margin-bottom:12px">
+      <div class="sectionTitle redText">Pay history</div>
+      <div id="historyList"></div>
+    </div>
+  </section>
+
+  <section id="pageEntries" class="page" hidden>
+  <div class="panel entryComposer">
+    <div class="statsPanelHead">
+      <div>
+        <div class="sectionTitle">Add entry</div>
+        <div class="statsCaption">Log Flight / Sim or Ground time</div>
+      </div>
+    </div>
+
+    <form id="addForm">
+      <div class="typeToggle">
+        <button id="typeFlight" class="typeChoice active flight" type="button">Flight / Sim</button>
+        <button id="typeGround" class="typeChoice" type="button">Ground</button>
+        <button id="typeMisc" class="typeChoice" type="button">Misc</button>
+      </div>
+      <input id="addType" type="hidden" value="flight">
+
+      <div class="entryFormGrid">
+        <div class="entryField">
+          <label for="addDate">Date</label>
+          <input id="addDate" type="date" required>
+        </div>
+        <div class="entryField">
+          <label for="addHours">Hours</label>
+          <input id="addHours" type="number" inputmode="decimal" min="0.01" max="24" step="0.01" placeholder="2.5" required>
+        </div>
+      </div>
+
+      <button class="primary entryAddButton" type="submit">Add entry</button>
+      <div id="addStatus" class="settingsNote entryStatus" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <div class="statsHero">
+    <div><div class="eyebrow">Logbook</div><div class="statsHeroValue">Entries</div><div class="statsHeroSub">All logged Flight / Sim and Ground time</div></div>
+    <div class="entriesCount" id="entriesCount">0</div>
+  </div>
+  <div class="statsGrid premium">
+    <div class="statCard accentBlue"><div class="statLabel">Flight / Sim</div><div class="statValue blueText" id="entriesFlight">0.0 hrs</div></div>
+    <div class="statCard accentRed"><div class="statLabel">Ground</div><div class="statValue redText" id="entriesGround">0.0 hrs</div></div>
+    <div class="statCard"><div class="statLabel">Miscellaneous</div><div class="statValue miscText" id="entriesMisc">0.0 hrs</div></div>
+  </div>
+  <div class="panel statsPanel">
+    <div class="entriesPanelHead">
+      <div>
+        <div class="sectionTitle">All entries</div>
+        <div class="statsCaption">Swipe an entry left to delete</div>
+      </div>
+      <button id="entriesToggle" class="entriesToggle" type="button">Show entries</button>
+    </div>
+    <div id="entriesCollapse" class="entriesCollapse" hidden>
+      <div class="entriesFilter">
+        <div class="filterField">
+          <label for="entriesStartDate">From</label>
+          <input id="entriesStartDate" type="date">
+        </div>
+        <div class="filterField">
+          <label for="entriesEndDate">To</label>
+          <input id="entriesEndDate" type="date">
+        </div>
+        <button id="entriesApplyFilter" class="filterApply" type="button">Apply</button>
+      </div>
+      <div id="entriesFilterStatus" class="entriesFilterStatus">Showing all dates</div>
+      <button id="entriesResetFilter" class="filterReset" type="button">Show all dates</button>
+      <div id="allEntriesList"></div>
+    </div>
+  </div>
+</section>
+
+<section id="pageStats" class="page" hidden>
+    <div class="statsHero">
+      <div>
+        <div class="eyebrow">Performance snapshot</div>
+        <div class="statsHeroValue" id="statsYearTotal">$0.00</div>
+        <div class="statsHeroSub">gross earnings this year</div>
+      </div>
+      <div class="statsPulse">
+        <div class="statsPulseInner">
+          <div class="statsPulseValue" id="statsAvgPay">$0</div>
+          <div class="statsPulseLabel">AVG PAY</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statsGrid premium">
+      <div class="statCard accentBlue">
+        <div class="statIcon">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20V9h3v11H5Zm5 0V4h3v16h-3Zm5 0v-7h3v7h-3Z"/></svg>
+        </div>
+        <div class="statLabel">Highest paycheck</div>
+        <div class="statValue blueText" id="highPay">$0.00</div>
+      </div>
+      <div class="statCard accentRed">
+        <div class="statIcon">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 3 6v6c0 5.2 3.8 9.8 9 10 5.2-.2 9-4.8 9-10V6l-9-4Zm1 6h3l-4 8v-5H9l4-8v5Z"/></svg>
+        </div>
+        <div class="statLabel">Highest earning day</div>
+        <div class="statValue redText" id="highDay">$0.00</div>
+      </div>
+      <div class="statCard">
+        <div class="statIcon">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 6a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm1 3h-2v4.4l3.7 2.2 1-1.7-2.7-1.6V9Z"/></svg>
+        </div>
+        <div class="statLabel">Average hours</div>
+        <div class="statValue" id="avgHours">0.00</div>
+      </div>
+      <div class="statCard">
+        <div class="statIcon">
+          <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 4h14v3H5V4Zm0 5h14v11H5V9Zm3 3v5h3v-5H8Z"/></svg>
+        </div>
+        <div class="statLabel">This month</div>
+        <div class="statValue" id="monthTotal">$0.00</div>
+      </div>
+    </div>
+
+    <div class="panel statsPanel">
+      <div class="statsPanelHead">
+        <div>
+          <div class="sectionTitle">Paycheck trend</div>
+          <div class="statsCaption">Last completed pay periods</div>
+        </div>
+        <div class="trendBadge" id="trendBadge">NO DATA</div>
+      </div>
+      <div class="trendChart" id="payChart"></div>
+    </div>
+
+    <div class="panel statsPanel">
+      <div class="statsPanelHead">
+        <div>
+          <div class="sectionTitle">Hours mix</div>
+          <div class="statsCaption">Where your paid time is going</div>
+        </div>
+      </div>
+      <div class="mixLayout">
+        <div class="mixGauge" id="mixGauge" style="--flight:0deg">
+          <div class="mixGaugeInner">
+            <div class="mixGaugeValue" id="flightPct">0%</div>
+            <div class="mixGaugeLabel">FLIGHT / SIM</div>
+          </div>
+        </div>
+        <div class="mixLegendPro">
+          <div class="mixLegendRow">
+            <span><i class="legendDot blueDot"></i>Flight / Sim</span>
+            <strong id="flightHoursStat">0.0 hrs</strong>
+          </div>
+          <div class="mixLegendRow">
+            <span><i class="legendDot redDot"></i>Ground</span>
+            <strong id="groundHoursStat">0.0 hrs</strong>
+          </div>
+          <div class="mixDivider"></div>
+          <div class="mixLegendRow total">
+            <span>Total logged</span>
+            <strong id="allHoursStat">0.0 hrs</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel statsPanel">
+      <div class="statsPanelHead">
+        <div>
+          <div class="sectionTitle">Best period</div>
+          <div class="statsCaption">Your strongest completed pay period</div>
+        </div>
+      </div>
+      <div class="bestPeriod">
+        <div>
+          <div class="bestPeriodAmount" id="bestPeriodNet">$0.00 net</div>
+          <div class="bestPeriodDates" id="bestPeriodDates">No completed periods yet</div>
+        </div>
+        <div class="bestPeriodBadge" id="bestPeriodHours">0.0 hrs</div>
+      </div>
+    </div>
+
+    <div class="panel statsPanel">
+      <div class="statsPanelHead">
+        <div>
+          <div class="sectionTitle">Earning efficiency</div>
+          <div class="statsCaption">Average gross earned per logged hour</div>
+        </div>
+      </div>
+      <div class="efficiencyRow">
+        <div>
+          <div class="efficiencyValue" id="efficiencyValue">$0.00/hr</div>
+          <div class="statsCaption">across all logged entries</div>
+        </div>
+        <div class="efficiencyMeter">
+          <span id="efficiencyBar" style="width:0%"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<nav class="nav">
+  <button id="navCurrent" class="active current" type="button">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v16H4V4Zm3 4v2h10V8H7Zm0 4v4h4v-4H7Z"/></svg>
+    Current
+  </button>
+  <button id="navHistory" type="button">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 1 1-6.3 4H3l3.5-3.5L10 9H7.7A5 5 0 1 0 12 7v3l4-4-4-4v3Z"/></svg>
+    History
+  </button>
+  <button id="navEntries" type="button">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 5h14v3H5V5Zm0 5h14v3H5v-3Zm0 5h14v3H5v-3Z"/></svg>
+    Entries
+  </button>
+  <button id="navStats" type="button">
+    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20V9h3v11H5Zm5 0V4h3v16h-3Zm5 0v-7h3v7h-3Z"/></svg>
+    Stats
+  </button>
+</nav>
+
+<div id="settingsOverlay" class="overlay" hidden>
+  <div class="sheet">
+    <div class="sheetHandle"></div>
+    <div class="sheetHeader">
+      <div class="sheetTitle">Settings</div>
+      <button id="closeSettings" class="closeBtn" type="button">X</button>
+    </div>
+    <div class="formGrid">
+      <div>
+        <label for="setFlightRate">Flight / Sim rate</label>
+        <input id="setFlightRate" type="number" min="0" step="0.01">
+      </div>
+      <div>
+        <label for="setGroundRate">Ground rate</label>
+        <input id="setGroundRate" type="number" min="0" step="0.01">
+      </div>
+      <div>
+        <label for="setMiscRate">Miscellaneous rate</label>
+        <input id="setMiscRate" type="number" min="0" step="0.01">
+      </div>
+      <div>
+        <label for="setFederal">Federal estimate (%)</label>
+        <input id="setFederal" type="number" min="0" max="100" step="0.1">
+      </div>
+      <div>
+        <label for="setState">State estimate (%)</label>
+        <input id="setState" type="number" min="0" max="100" step="0.1">
+      </div>
+      <div>
+        <label for="setGoal">Take-home goal</label>
+        <input id="setGoal" type="number" min="0" step="1">
+      </div>
+      <div>
+        <label for="setPeriodStart">Pay period start</label>
+        <input id="setPeriodStart" type="date">
+      </div>
+      <div>
+        <label for="setPayday">Next payday (optional)</label>
+        <input id="setPayday" type="date">
+      </div>
+    </div>
+    <button id="saveSettings" class="primary" type="button">Save settings</button>
+    <div class="settingsNote">Federal and state amounts are estimates. Social Security (6.2%) and Medicare (1.45%) are included automatically. Your data stays in this browser on this device.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "flightdeckPayData.v1";
+  const defaultAppState = {
+    entries: [],
+    settings: {
+      flightRate: 0,
+      groundRate: 0,
+      miscRate: 0,
+      federalRate: 0,
+      stateRate: 0,
+      paycheckGoal: 0,
+      nextPayday: "",
+      payPeriodStart: "",
+      setupComplete: false
+    }
+  };
+  let appState = defaultAppState;
+  try {
+    const savedState = localStorage.getItem(STORAGE_KEY);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      appState = {
+        entries: Array.isArray(parsed.entries) ? parsed.entries : [],
+        settings: { ...defaultAppState.settings, ...(parsed.settings || {}) }
+      };
+    }
+  } catch (e) {
+    console.warn("Could not read saved FlightDeck Pay data", e);
+  }
+  let entries = Array.isArray(appState.entries) ? appState.entries : [];
+  let settings = appState.settings || {};
+  let entriesDateStart="";
+  let entriesDateEnd="";
+
+  const el = id => document.getElementById(id);
+  const today = new Date();
+  let anchor;
+
+  function num(v,fallback=0){
+    const n = Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  }
+
+  settings.flightRate = num(settings.flightRate,0);
+  settings.groundRate = num(settings.groundRate,0);
+  settings.miscRate = num(settings.miscRate,0);
+  settings.federalRate = num(settings.federalRate,0);
+  settings.stateRate = num(settings.stateRate,0);
+  settings.paycheckGoal = num(settings.paycheckGoal,0);
+  settings.nextPayday = String(settings.nextPayday || "");
+  settings.payPeriodStart = String(settings.payPeriodStart || "");
+  settings.setupComplete = Boolean(settings.setupComplete);
+
+  function bridge(action,payload){
+    // PWA edition: entries/settings stay only in this browser on this device.
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({entries, settings}));
+    } catch (e) {
+      console.warn("Could not save FlightDeck Pay data", e);
+    }
+  }
+
+  function saveSettings(){
+    bridge("settings",settings);
+  }
+
+  function money(n){
+    return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number.isFinite(n)?n:0);
+  }
+
+  function parseDate(s){
+    const p = String(s).split("-").map(Number);
+    if(p.length!==3 || !p.every(Number.isFinite)) return null;
+    return new Date(p[0],p[1]-1,p[2]);
+  }
+
+  function isoDate(d){
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  }
+
+  if(!settings.payPeriodStart) settings.payPeriodStart = isoDate(today);
+  anchor = parseDate(settings.payPeriodStart) || new Date(today.getFullYear(),today.getMonth(),today.getDate());
+
+  function addDays(d,n){
+    const x = new Date(d);
+    x.setDate(x.getDate()+n);
+    return x;
+  }
+
+  function dayDiff(a,b){
+    return Math.floor((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/86400000);
+  }
+
+  function periodIndex(d){
+    return Math.floor(dayDiff(anchor,d)/14);
+  }
+
+  function periodBounds(i){
+    const s = addDays(anchor,i*14);
+    return [s,addDays(s,13)];
+  }
+
+  function fmtDate(d){
+    return new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
+  }
+
+  function fmtShort(d){
+    return new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric"}).format(d);
+  }
+
+  function taxFor(gross){
+    const federal = gross*(settings.federalRate/100);
+    const stateTax = gross*(settings.stateRate/100);
+    const ss = gross*0.062;
+    const med = gross*0.0145;
+    const total = federal+stateTax+ss+med;
+    return {federal,stateTax,ss,med,total,net:Math.max(0,gross-total)};
+  }
+
+  function rateFor(type){
+    if(type==="flight") return settings.flightRate;
+    if(type==="ground") return settings.groundRate;
+    return settings.miscRate;
+  }
+
+  function entryGross(e){
+    return num(e.hours)*num(e.rate,rateFor(e.type));
+  }
+
+  function pageEntries(index){
+    return entries.filter(e=>{
+      const d = parseDate(e.date);
+      return d && periodIndex(d)===index;
+    });
+  }
+
+  function dailyGroups(list){
+    const map = {};
+    list.forEach(e=>{
+      if(!map[e.date]) map[e.date] = [];
+      map[e.date].push(e);
+    });
+    return Object.keys(map).sort((a,b)=>b.localeCompare(a)).map(date=>({date,entries:map[date]}));
+  }
+
+  function showPage(which){
+    const current=which==="current",history=which==="history",entriesPage=which==="entries",stats=which==="stats";
+    el("pageCurrent").hidden=!current;
+    el("pageHistory").hidden=!history;
+    el("pageEntries").hidden=!entriesPage;
+    el("pageStats").hidden=!stats;
+    el("navCurrent").className=current?"active current":"";
+    el("navHistory").className=history?"active history":"";
+    el("navEntries").className=entriesPage?"active current":"";
+    el("navStats").className=stats?"active stats":"";
+if(entriesPage)renderEntriesPage();
+  }
+
+  el("navCurrent").addEventListener("click",()=>showPage("current"));
+  el("navHistory").addEventListener("click",()=>showPage("history"));
+  el("navEntries").addEventListener("click",()=>showPage("entries"));
+  el("navStats").addEventListener("click",()=>showPage("stats"));
+
+  const entriesToggle = el("entriesToggle");
+  const entriesCollapse = el("entriesCollapse");
+
+  entriesToggle.addEventListener("click",()=>{
+    const willOpen = entriesCollapse.hidden;
+    entriesCollapse.hidden = !willOpen;
+    entriesToggle.textContent = willOpen ? "Hide entries" : "Show entries";
+  });
+
+  el("entriesApplyFilter").addEventListener("click",()=>{
+    entriesDateStart=el("entriesStartDate").value || "";
+    entriesDateEnd=el("entriesEndDate").value || "";
+
+    if(entriesDateStart && entriesDateEnd && entriesDateStart>entriesDateEnd){
+      const tmp=entriesDateStart;
+      entriesDateStart=entriesDateEnd;
+      entriesDateEnd=tmp;
+      el("entriesStartDate").value=entriesDateStart;
+      el("entriesEndDate").value=entriesDateEnd;
+    }
+
+    renderEntriesPage();
+  });
+
+  el("entriesResetFilter").addEventListener("click",()=>{
+    entriesDateStart="";
+    entriesDateEnd="";
+    el("entriesStartDate").value="";
+    el("entriesEndDate").value="";
+    renderEntriesPage();
+  });
+
+
+
+  const entryComposer = document.querySelector(".entryComposer");
+
+  function setEntryTheme(type){
+    entryComposer.classList.remove("flightTheme","groundTheme","miscTheme");
+
+    el("typeFlight").className="typeChoice";
+    el("typeGround").className="typeChoice";
+    el("typeMisc").className="typeChoice";
+
+    if(type==="ground"){
+      entryComposer.classList.add("groundTheme");
+      el("addType").value="ground";
+      el("typeGround").className="typeChoice active ground";
+    }else if(type==="misc"){
+      entryComposer.classList.add("miscTheme");
+      el("addType").value="misc";
+      el("typeMisc").className="typeChoice active misc";
+    }else{
+      entryComposer.classList.add("flightTheme");
+      el("addType").value="flight";
+      el("typeFlight").className="typeChoice active flight";
+    }
+  }
+
+  el("typeFlight").addEventListener("click",()=>setEntryTheme("flight"));
+  el("typeGround").addEventListener("click",()=>setEntryTheme("ground"));
+  el("typeMisc").addEventListener("click",()=>setEntryTheme("misc"));
+
+  setEntryTheme("flight");
+
+  function openOverlay(id){ el(id).hidden=false; }
+  function closeOverlay(id){ el(id).hidden=true; }
+  function populateSettings(){
+    el("setFlightRate").value=settings.flightRate;
+    el("setGroundRate").value=settings.groundRate;
+    el("setMiscRate").value=settings.miscRate;
+    el("setFederal").value=settings.federalRate;
+    el("setState").value=settings.stateRate;
+    el("setGoal").value=settings.paycheckGoal;
+    el("setPeriodStart").value=settings.payPeriodStart || isoDate(today);
+    el("setPayday").value=settings.nextPayday;
+  }
+
+  el("settingsBtn").addEventListener("click",()=>{
+    el("settingsBtn").classList.remove("spin");
+    void el("settingsBtn").offsetWidth;
+    el("settingsBtn").classList.add("spin");
+    populateSettings();
+    openOverlay("settingsOverlay");
+  });
+  el("closeSettings").addEventListener("click",()=>closeOverlay("settingsOverlay"));
+el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOverlay")) closeOverlay("settingsOverlay"); });
+
+  el("addDate").value = isoDate(today);
+
+  el("addForm").addEventListener("submit",e=>{
+    e.preventDefault();
+    const hours = num(el("addHours").value,-1);
+    const date = el("addDate").value;
+    const selectedType = el("addType").value;
+    const type = selectedType==="ground" ? "ground" : selectedType==="misc" ? "misc" : "flight";
+
+    if(hours<=0 || hours>24 || !parseDate(date)){
+      el("addStatus").textContent="Enter a valid date and hours.";
+      return;
+    }
+
+    const entry = {
+      id:String(Date.now())+"-"+String(Math.random()),
+      type,
+      date,
+      hours,
+      rate:rateFor(type)
+    };
+
+    entries.push(entry);
+    bridge("add",entry);
+    el("addHours").value="";
+    el("addStatus").textContent="Entry added.";
+    const addBtn = el("addForm").querySelector(".primary");
+    addBtn.textContent="Added";
+    addBtn.classList.add("success");
+    render();
+    renderEntriesPage();
+
+    setTimeout(()=>{
+      addBtn.textContent="Add entry";
+      addBtn.classList.remove("success");
+      el("addStatus").textContent="";
+    },700);
+  });
+
+  el("saveSettings").addEventListener("click",()=>{
+    settings.flightRate=Math.max(0,num(el("setFlightRate").value,settings.flightRate));
+    settings.groundRate=Math.max(0,num(el("setGroundRate").value,settings.groundRate));
+    settings.miscRate=Math.max(0,num(el("setMiscRate").value,settings.miscRate));
+    settings.federalRate=Math.min(100,Math.max(0,num(el("setFederal").value,settings.federalRate)));
+    settings.stateRate=Math.min(100,Math.max(0,num(el("setState").value,settings.stateRate)));
+    settings.paycheckGoal=Math.max(0,num(el("setGoal").value,settings.paycheckGoal));
+    settings.payPeriodStart=el("setPeriodStart").value || isoDate(today);
+    settings.nextPayday=el("setPayday").value || "";
+    settings.setupComplete=true;
+    anchor=parseDate(settings.payPeriodStart) || new Date(today.getFullYear(),today.getMonth(),today.getDate());
+    saveSettings();
+    render();
+    closeOverlay("settingsOverlay");
+  });
+
+  function renderCurrent(){
+    const ci = periodIndex(today);
+    const bounds = periodBounds(ci);
+    const current = pageEntries(ci);
+    const elapsed = Math.min(14,Math.max(1,dayDiff(bounds[0],today)+1));
+    const periodPct = Math.min(100,Math.max(0,(elapsed/14)*100));
+
+    el("periodDates").textContent = fmtDate(bounds[0])+" - "+fmtDate(bounds[1]);
+    const left = Math.max(0,dayDiff(today,bounds[1]));
+    el("daysLeft").textContent = left===0 ? "Ends today" : left+" days left";
+    el("periodProgress").style.width = periodPct+"%";
+
+    const flight = current.filter(e=>e.type==="flight");
+    const ground = current.filter(e=>e.type==="ground");
+    const misc = current.filter(e=>e.type==="misc");
+    const fHours = flight.reduce((a,e)=>a+num(e.hours),0);
+    const gHours = ground.reduce((a,e)=>a+num(e.hours),0);
+    const mHours = misc.reduce((a,e)=>a+num(e.hours),0);
+    const fGross = flight.reduce((a,e)=>a+entryGross(e),0);
+    const gGross = ground.reduce((a,e)=>a+entryGross(e),0);
+    const mGross = misc.reduce((a,e)=>a+entryGross(e),0);
+    const gross = fGross+gGross+mGross;
+    const tax = taxFor(gross);
+
+    el("netPay").textContent = money(tax.net);
+    el("grossText").textContent = money(gross)+" gross";
+    el("flightHours").textContent = fHours.toFixed(2);
+    el("groundHours").textContent = gHours.toFixed(2);
+    el("miscHours").textContent = mHours.toFixed(2);
+    el("flightGross").textContent = money(fGross);
+    el("groundGross").textContent = money(gGross);
+    el("miscGross").textContent = money(mGross);
+
+    const goal = Math.max(0,settings.paycheckGoal);
+    const goalPct = goal>0 ? Math.min(100,(tax.net/goal)*100) : 100;
+    el("goalBar").style.width = goalPct+"%";
+    el("goalLabel").textContent = money(tax.net)+" / "+money(goal);
+    const gaugeEl = document.querySelector(".gauge");
+    if(gaugeEl){
+      gaugeEl.classList.remove("bump");
+      void gaugeEl.offsetWidth;
+      gaugeEl.classList.add("bump");
+    }
+
+    if(goal<=0){
+      el("goalHint").textContent = "No paycheck goal set.";
+    }else if(tax.net>=goal){
+      el("goalHint").textContent = "Goal reached.";
+    }else if(settings.flightRate<=0){
+      el("goalHint").textContent = "Set a Flight / Sim rate to calculate hours remaining.";
+    }else{
+      const remainingNet = goal-tax.net;
+      const effectiveKeep = gross>0 ? tax.net/gross : Math.max(.1,1-(settings.federalRate+settings.stateRate+7.65)/100);
+      const neededGross = remainingNet/Math.max(.1,effectiveKeep);
+      const neededFlightHours = neededGross/settings.flightRate;
+      el("goalHint").textContent = "About "+neededFlightHours.toFixed(1)+" more Flight / Sim hours to reach goal.";
+    }
+
+    const projectedGross = gross>0 ? gross/elapsed*14 : 0;
+    const projectedTax = taxFor(projectedGross);
+    el("projectedGross").textContent = money(projectedGross);
+    el("projectedNet").textContent = money(projectedTax.net);
+
+    const payday = parseDate(settings.nextPayday);
+    if(payday){
+      el("paydayDate").textContent = fmtDate(payday);
+      const pdays = dayDiff(today,payday);
+      el("paydayCount").textContent = pdays<0 ? "Past date" : pdays===0 ? "Today" : pdays+" days";
+    }else{
+      el("paydayDate").textContent = "Not set";
+      el("paydayCount").textContent = "";
+    }
+
+    const daily = dailyGroups(current);
+    const dailyList = el("dailyList");
+    dailyList.innerHTML="";
+    if(!daily.length){
+      dailyList.innerHTML='<div class="empty">No hours logged in this pay period yet.</div>';
+    }else{
+      daily.forEach(group=>{
+        let f=0,g=0,m=0,total=0;
+        group.entries.forEach(e=>{
+          const amount=entryGross(e);
+          total+=amount;
+          if(e.type==="flight")f+=num(e.hours);
+          else if(e.type==="ground")g+=num(e.hours);
+          else if(e.type==="misc")m+=num(e.hours);
+        });
+
+        const div=document.createElement("div");
+        div.className="dayCard";
+
+        const top=document.createElement("div");
+        top.className="dayTop";
+        const date=document.createElement("div");
+        date.className="dayDate";
+        date.textContent=fmtDate(parseDate(group.date));
+        const totalEl=document.createElement("div");
+        totalEl.className="dayTotal";
+        totalEl.textContent=money(total);
+        top.append(date,totalEl);
+
+        const detail=document.createElement("div");
+        detail.className="dayBreak";
+        const parts=[];
+        if(f>0)parts.push("Flight/Sim "+f.toFixed(2)+" hrs");
+        if(g>0)parts.push("Ground "+g.toFixed(2)+" hrs");
+        if(m>0)parts.push("Misc "+m.toFixed(2)+" hrs");
+        detail.textContent=parts.join(" | ");
+
+        div.append(top,detail);
+
+        dailyList.appendChild(div);
+      });
+    }
+  }
+
+  function renderHistory(){
+    const ci=periodIndex(today);
+    const indexes=[...new Set(entries.map(e=>{
+      const d=parseDate(e.date);
+      return d?periodIndex(d):null;
+    }).filter(i=>Number.isFinite(i)&&i<ci))].sort((a,b)=>b-a);
+
+    const box=el("historyList");
+    box.innerHTML="";
+
+    if(!indexes.length){
+      box.innerHTML='<div class="empty">No completed pay periods yet. Your current period will move here automatically after it ends.</div>';
+      return;
+    }
+
+    indexes.forEach(i=>{
+      const per=pageEntries(i);
+      const bounds=periodBounds(i);
+      const gross=per.reduce((a,e)=>a+entryGross(e),0);
+      const hours=per.reduce((a,e)=>a+num(e.hours),0);
+      const tax=taxFor(gross);
+      const daily=dailyGroups(per);
+
+      const card=document.createElement("div");
+      card.className="historyCard";
+
+      const head=document.createElement("div");
+      head.className="historyHead";
+
+      const left=document.createElement("div");
+      const net=document.createElement("div");
+      net.className="historyNet";
+      net.textContent=money(tax.net)+" net";
+      const dates=document.createElement("div");
+      dates.className="historyDates";
+      dates.textContent=fmtDate(bounds[0])+" - "+fmtDate(bounds[1])+" | "+money(gross)+" gross";
+      left.append(net,dates);
+
+      const hrs=document.createElement("div");
+      hrs.className="historyHours";
+      hrs.textContent=hours.toFixed(2)+" hrs";
+      head.append(left,hrs);
+
+      const details=document.createElement("div");
+      details.className="historyDetails";
+
+      daily.forEach(group=>{
+        const amount=group.entries.reduce((a,e)=>a+entryGross(e),0);
+        const line=document.createElement("div");
+        line.className="statLine";
+        const date=document.createElement("span");
+        date.textContent=fmtShort(parseDate(group.date));
+        const val=document.createElement("strong");
+        val.textContent=money(amount);
+        line.append(date,val);
+        details.appendChild(line);
+
+        group.entries.slice().reverse().forEach(entry=>{
+          const row=document.createElement("div");
+          row.className="swipeRow";
+
+          const action=document.createElement("button");
+          action.type="button";
+          action.className="swipeAction";
+          action.textContent="Delete";
+
+          const content=document.createElement("div");
+          content.className="swipeContent";
+
+          const badge=document.createElement("div");
+          badge.className="entryBadge "+(entry.type==="flight"?"flight":"ground");
+          badge.textContent="";
+
+          const info=document.createElement("div");
+          info.className="entryText";
+
+          const title=document.createElement("div");
+          title.className="entryTitle";
+          title.textContent=entry.type==="flight"?"Flight / Sim":"Ground";
+
+          const sub=document.createElement("div");
+          sub.className="entrySub";
+          sub.textContent=fmtShort(parseDate(entry.date))+" | Swipe left";
+
+          info.append(title,sub);
+
+          const right=document.createElement("div");
+          right.className="entryRight";
+
+          const hrs=document.createElement("div");
+          hrs.className="entryHours";
+          hrs.textContent=num(entry.hours).toFixed(2)+" hrs";
+
+          const amount=document.createElement("div");
+          amount.className="entryPay "+(entry.type==="flight"?"blueText":"redText");
+          amount.textContent=money(entryGross(entry));
+
+          right.append(hrs,amount);
+          content.append(badge,info,right);
+          row.append(action,content);
+
+          let startX=0;
+          let startY=0;
+          let currentX=0;
+          let dragging=false;
+          let swiping=false;
+
+          content.addEventListener("touchstart",e=>{
+            if(!e.touches || !e.touches.length)return;
+            startX=e.touches[0].clientX;
+            startY=e.touches[0].clientY;
+            currentX=startX;
+            dragging=true;
+            swiping=false;
+          },{passive:true});
+
+          content.addEventListener("touchmove",e=>{
+            if(!dragging || !e.touches || !e.touches.length)return;
+            const x=e.touches[0].clientX;
+            const y=e.touches[0].clientY;
+            const dx=x-startX;
+            const dy=y-startY;
+
+            if(!swiping){
+              if(Math.abs(dx)>8 && Math.abs(dx)>Math.abs(dy)){
+                swiping=true;
+              }else{
+                return;
+              }
+            }
+
+            if(swiping){
+              e.preventDefault();
+              currentX=x;
+              const base=row.classList.contains("open")?-96:0;
+              const move=Math.max(-96,Math.min(0,base+dx));
+              content.style.transition="none";
+              content.style.transform="translateX("+move+"px)";
+            }
+          },{passive:false});
+
+          content.addEventListener("touchend",()=>{
+            if(!dragging)return;
+            dragging=false;
+            content.style.transition="";
+            content.style.transform="";
+
+            if(swiping){
+              const dx=currentX-startX;
+              if(row.classList.contains("open")){
+                if(dx>30)row.classList.remove("open");
+              }else{
+                if(dx<-30){
+                  document.querySelectorAll(".swipeRow.open").forEach(x=>{
+                    if(x!==row)x.classList.remove("open");
+                  });
+                  row.classList.add("open");
+                }
+              }
+            }
+            swiping=false;
+          },{passive:true});
+
+          content.addEventListener("click",()=>{
+            if(row.classList.contains("open") && !swiping){
+              row.classList.remove("open");
+            }
+          });
+
+          action.addEventListener("click",()=>{
+            entries=entries.filter(x=>String(x.id)!==String(entry.id));
+            bridge("remove",{id:entry.id});
+            render();
+          });
+
+          details.appendChild(row);
+        });
+      });
+
+      const expand=document.createElement("button");
+      expand.type="button";
+      expand.className="expand";
+      expand.textContent="Show details";
+      expand.addEventListener("click",()=>{
+        card.classList.toggle("open");
+        expand.textContent=card.classList.contains("open")?"Hide details":"Show details";
+      });
+
+      card.append(head,details,expand);
+      box.appendChild(card);
+    });
+  }
+
+  function renderEntriesPage(){
+    const box=el("allEntriesList");
+    box.innerHTML="";
+
+    const fh=entries.filter(e=>e.type==="flight").reduce((a,e)=>a+num(e.hours),0);
+    const gh=entries.filter(e=>e.type==="ground").reduce((a,e)=>a+num(e.hours),0);
+    const mh=entries.filter(e=>e.type==="misc").reduce((a,e)=>a+num(e.hours),0);
+
+    el("entriesCount").textContent=entries.length;
+    el("entriesFlight").textContent=fh.toFixed(1)+" hrs";
+    el("entriesGround").textContent=gh.toFixed(1)+" hrs";
+    el("entriesMisc").textContent=mh.toFixed(1)+" hrs";
+
+    if(!entries.length){
+      el("entriesFilterStatus").textContent="No entries yet";
+      box.innerHTML='<div class="empty">No entries yet.</div>';
+      return;
+    }
+
+    const filteredEntries=entries.filter(entry=>{
+      const d=String(entry.date||"");
+      if(entriesDateStart && d<entriesDateStart) return false;
+      if(entriesDateEnd && d>entriesDateEnd) return false;
+      return true;
+    });
+
+    let status="Showing all dates";
+    if(entriesDateStart && entriesDateEnd){
+      status="Showing "+fmtDate(parseDate(entriesDateStart))+" - "+fmtDate(parseDate(entriesDateEnd));
+    }else if(entriesDateStart){
+      status="Showing from "+fmtDate(parseDate(entriesDateStart));
+    }else if(entriesDateEnd){
+      status="Showing through "+fmtDate(parseDate(entriesDateEnd));
+    }
+    status+=" | "+filteredEntries.length+" entries";
+    el("entriesFilterStatus").textContent=status;
+
+    if(!filteredEntries.length){
+      box.innerHTML='<div class="empty">No entries in this date range.</div>';
+      return;
+    }
+
+    const months={};
+
+    filteredEntries.forEach(entry=>{
+      const d=parseDate(entry.date);
+      if(!d)return;
+
+      const key=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+
+      if(!months[key]){
+        months[key]=[];
+      }
+
+      months[key].push(entry);
+    });
+
+    Object.keys(months).sort((a,b)=>b.localeCompare(a)).forEach(monthKey=>{
+      const monthEntries=months[monthKey].slice().sort((a,b)=>{
+        if(a.date===b.date) return String(b.id).localeCompare(String(a.id));
+        return b.date.localeCompare(a.date);
+      });
+
+      const firstDate=parseDate(monthEntries[0].date);
+      const monthLabel=new Intl.DateTimeFormat("en-US",{
+        month:"long",
+        year:"numeric"
+      }).format(firstDate);
+
+      const monthHours=monthEntries.reduce((a,e)=>a+num(e.hours),0);
+
+      const group=document.createElement("div");
+      group.className="monthGroup";
+
+      const header=document.createElement("button");
+      header.type="button";
+      header.className="monthHeader";
+
+      const title=document.createElement("span");
+      title.textContent=monthLabel;
+
+      const meta=document.createElement("span");
+      meta.className="monthHeaderMeta";
+      meta.textContent=monthEntries.length+" entries | "+monthHours.toFixed(1)+" hrs | Show";
+
+      header.append(title,meta);
+
+      const body=document.createElement("div");
+      body.className="monthBody";
+      body.hidden=true;
+
+      header.addEventListener("click",()=>{
+        const willOpen=body.hidden;
+        body.hidden=!willOpen;
+        meta.textContent=
+          monthEntries.length+" entries | "+
+          monthHours.toFixed(1)+" hrs | "+
+          (willOpen?"Hide":"Show");
+      });
+
+      const grouped=dailyGroups(monthEntries);
+
+      grouped.forEach(dayGroup=>{
+        const dayWrap=document.createElement("div");
+        dayWrap.className="entryDateGroup";
+
+        const dayHeading=document.createElement("div");
+        dayHeading.className="entryDateHeading";
+        dayHeading.textContent=fmtDate(parseDate(dayGroup.date));
+        dayWrap.appendChild(dayHeading);
+
+        dayGroup.entries.slice().reverse().forEach(entry=>{
+          const row=document.createElement("div");
+          row.className="swipeRow";
+
+          const action=document.createElement("button");
+          action.type="button";
+          action.className="swipeAction";
+          action.textContent="Delete";
+
+          const content=document.createElement("div");
+          content.className="swipeContent";
+
+          const badge=document.createElement("div");
+          badge.className=
+            "entryBadge "+
+            (entry.type==="flight"?"flight":entry.type==="ground"?"ground":"misc");
+          badge.textContent=entry.type==="misc"?"$":"";
+
+          const info=document.createElement("div");
+          info.className="entryText";
+
+          const title=document.createElement("div");
+          title.className="entryTitle";
+          title.textContent=
+            entry.type==="flight"
+              ?"Flight / Sim"
+              :entry.type==="ground"
+                ?"Ground"
+                :"Miscellaneous";
+
+          const sub=document.createElement("div");
+          sub.className="entrySub";
+          sub.textContent="Swipe left to delete";
+
+          info.append(title,sub);
+
+          const right=document.createElement("div");
+          right.className="entryRight";
+
+          const hrs=document.createElement("div");
+          hrs.className="entryHours";
+          hrs.textContent=num(entry.hours).toFixed(2)+" hrs";
+
+          const amount=document.createElement("div");
+          amount.className=
+            "entryPay "+
+            (entry.type==="flight"
+              ?"blueText"
+              :entry.type==="ground"
+                ?"redText"
+                :"miscText");
+          amount.textContent=money(entryGross(entry));
+
+          right.append(hrs,amount);
+          content.append(badge,info,right);
+          row.append(action,content);
+
+          let sx=0,sy=0,cx=0,drag=false,swipe=false;
+
+          content.addEventListener("touchstart",e=>{
+            if(!e.touches.length)return;
+            sx=e.touches[0].clientX;
+            sy=e.touches[0].clientY;
+            cx=sx;
+            drag=true;
+            swipe=false;
+          },{passive:true});
+
+          content.addEventListener("touchmove",e=>{
+            if(!drag||!e.touches.length)return;
+
+            const x=e.touches[0].clientX;
+            const y=e.touches[0].clientY;
+            const dx=x-sx;
+            const dy=y-sy;
+
+            if(!swipe){
+              if(Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){
+                swipe=true;
+              }else{
+                return;
+              }
+            }
+
+            e.preventDefault();
+            cx=x;
+
+            const base=row.classList.contains("open")?-96:0;
+
+            content.style.transition="none";
+            content.style.transform=
+              "translateX("+
+              Math.max(-96,Math.min(0,base+dx))+
+              "px)";
+          },{passive:false});
+
+          content.addEventListener("touchend",()=>{
+            if(!drag)return;
+
+            drag=false;
+            content.style.transition="";
+            content.style.transform="";
+
+            if(swipe){
+              const dx=cx-sx;
+
+              if(row.classList.contains("open")){
+                if(dx>30)row.classList.remove("open");
+              }else if(dx<-30){
+                document.querySelectorAll(".swipeRow.open").forEach(x=>{
+                  if(x!==row)x.classList.remove("open");
+                });
+                row.classList.add("open");
+              }
+            }
+
+            swipe=false;
+          },{passive:true});
+
+          action.addEventListener("click",()=>{
+            entries=entries.filter(x=>String(x.id)!==String(entry.id));
+            bridge("remove",{id:entry.id});
+            render();
+          });
+
+          dayWrap.appendChild(row);
+        });
+
+        body.appendChild(dayWrap);
+      });
+
+      group.append(header,body);
+      box.appendChild(group);
+    });
+  }
+
+  function renderStats(){
+    const ci=periodIndex(today);
+    const completed=[...new Set(entries.map(e=>{
+      const d=parseDate(e.date);
+      return d?periodIndex(d):null;
+    }).filter(i=>Number.isFinite(i)&&i<ci))].sort((a,b)=>a-b);
+
+    const payPeriods=completed.map(i=>{
+      const per=pageEntries(i);
+      const gross=per.reduce((a,e)=>a+entryGross(e),0);
+      const hours=per.reduce((a,e)=>a+num(e.hours),0);
+      return {i,gross,hours,net:taxFor(gross).net};
+    });
+
+    const avgPay=payPeriods.length?payPeriods.reduce((a,p)=>a+p.net,0)/payPeriods.length:0;
+    const avgHours=payPeriods.length?payPeriods.reduce((a,p)=>a+p.hours,0)/payPeriods.length:0;
+    const highPay=payPeriods.length?Math.max(...payPeriods.map(p=>p.net)):0;
+
+    const allDaily=dailyGroups(entries);
+    let highDay=0;
+    allDaily.forEach(group=>{
+      const amount=group.entries.reduce((a,e)=>a+entryGross(e),0);
+      highDay=Math.max(highDay,amount);
+    });
+
+    const thisMonth=entries.filter(e=>{
+      const d=parseDate(e.date);
+      return d && d.getFullYear()===today.getFullYear() && d.getMonth()===today.getMonth();
+    }).reduce((a,e)=>a+entryGross(e),0);
+
+    const thisYear=entries.filter(e=>{
+      const d=parseDate(e.date);
+      return d && d.getFullYear()===today.getFullYear();
+    }).reduce((a,e)=>a+entryGross(e),0);
+
+    el("statsYearTotal").textContent=money(thisYear);
+    el("statsAvgPay").textContent=money(avgPay).replace(".00","");
+    el("avgHours").textContent=avgHours.toFixed(2);
+    el("highPay").textContent=money(highPay);
+    el("highDay").textContent=money(highDay);
+    el("monthTotal").textContent=money(thisMonth);
+
+    const totalFlight=entries.filter(e=>e.type==="flight").reduce((a,e)=>a+num(e.hours),0);
+    const totalGround=entries.filter(e=>e.type==="ground").reduce((a,e)=>a+num(e.hours),0);
+    const totalMisc=entries.filter(e=>e.type==="misc").reduce((a,e)=>a+num(e.hours),0);
+    const allHours=totalFlight+totalGround+totalMisc;
+    const flightPct=allHours?totalFlight/allHours*100:0;
+    const groundPct=allHours?100-flightPct:0;
+
+    el("flightPct").textContent=Math.round(flightPct)+"%";
+    el("flightHoursStat").textContent=totalFlight.toFixed(1)+" hrs";
+    el("groundHoursStat").textContent=totalGround.toFixed(1)+" hrs";
+    el("allHoursStat").textContent=allHours.toFixed(1)+" hrs";
+    el("mixGauge").style.setProperty("--flight",(flightPct*3.6)+"deg");
+
+    const chart=el("payChart");
+    chart.innerHTML="";
+    const recent=payPeriods.slice(-6);
+    const max=Math.max(1,...recent.map(p=>p.net));
+
+    if(!recent.length){
+      chart.innerHTML='<div class="empty" style="width:100%">Complete a pay period to unlock your paycheck trend.</div>';
+      el("trendBadge").textContent="NO DATA";
+      el("trendBadge").className="trendBadge";
+    }else{
+      recent.forEach((p,index)=>{
+        const wrap=document.createElement("div");
+        wrap.className="trendCol";
+
+        const value=document.createElement("div");
+        value.className="trendValue";
+        value.textContent=money(p.net).replace(".00","");
+
+        const bar=document.createElement("div");
+        bar.className="trendBar"+(index===recent.length-1?" last":"");
+        bar.style.height=Math.max(4,(p.net/max)*135)+"px";
+
+        const label=document.createElement("div");
+        label.className="trendLabel";
+        const b=periodBounds(p.i);
+        label.textContent=fmtShort(b[0]);
+
+        wrap.append(value,bar,label);
+        chart.appendChild(wrap);
+      });
+
+      if(recent.length>=2){
+        const prev=recent[recent.length-2].net;
+        const last=recent[recent.length-1].net;
+        const delta=prev?((last-prev)/prev)*100:0;
+        if(delta>=0){
+          el("trendBadge").textContent="UP "+Math.abs(delta).toFixed(0)+"%";
+          el("trendBadge").className="trendBadge up";
+        }else{
+          el("trendBadge").textContent="DOWN "+Math.abs(delta).toFixed(0)+"%";
+          el("trendBadge").className="trendBadge down";
+        }
+      }else{
+        el("trendBadge").textContent="1 PERIOD";
+        el("trendBadge").className="trendBadge";
+      }
+    }
+
+    if(payPeriods.length){
+      const best=payPeriods.reduce((best,p)=>p.net>best.net?p:best,payPeriods[0]);
+      const b=periodBounds(best.i);
+      el("bestPeriodNet").textContent=money(best.net)+" net";
+      el("bestPeriodDates").textContent=fmtDate(b[0])+" - "+fmtDate(b[1]);
+      el("bestPeriodHours").textContent=best.hours.toFixed(1)+" hrs";
+    }else{
+      el("bestPeriodNet").textContent="$0.00 net";
+      el("bestPeriodDates").textContent="No completed periods yet";
+      el("bestPeriodHours").textContent="0.0 hrs";
+    }
+
+    const allGross=entries.reduce((a,e)=>a+entryGross(e),0);
+    const efficiency=allHours?allGross/allHours:0;
+    el("efficiencyValue").textContent=money(efficiency)+"/hr";
+    const efficiencyPct=Math.min(100,(efficiency/Math.max(1,settings.flightRate))*100);
+    el("efficiencyBar").style.width=efficiencyPct+"%";
+  }
+
+  function render(){
+    try{renderCurrent();}catch(e){console.log("Current render: "+e);}
+    try{renderHistory();}catch(e){console.log("History render: "+e);}
+    try{renderEntriesPage();}catch(e){console.log("Entries render: "+e);}
+    try{renderStats();}catch(e){console.log("Stats render: "+e);}
+  }
+
+  if(!settings.setupComplete){
+    populateSettings();
+    openOverlay("settingsOverlay");
+  }
+
+  render();
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js").catch(err =>
+        console.warn("Offline support could not be enabled", err)
+      );
+    });
+  }
+})();
+</script>
+</body>
+</html>
