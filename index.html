@@ -1213,6 +1213,94 @@ input:focus,select:focus{
   }
 }
 
+
+/* ===== Full Settings: Data & Backups ===== */
+#singleSettingsDataTransfer{
+  border-color:#3d5360!important;
+}
+
+#singleSettingsDataTransfer #importDataBtn,
+#singleSettingsDataTransfer #exportDataBtn{
+  width:100%!important;
+}
+
+#singleSettingsDataTransfer #importDataBtn{
+  background:linear-gradient(180deg,#e1b45c,#c9963c)!important;
+  color:#1a1710!important;
+}
+
+#singleSettingsDataTransfer #exportDataBtn{
+  background:linear-gradient(180deg,#17323c,#10252d)!important;
+  color:#efe6d5!important;
+  border:1px solid #405d67!important;
+}
+
+#singleSettingsDataTransfer #dataTransferStatus{
+  min-height:18px;
+}
+
+
+/* ===== Real Account / Pro UI inside the single Settings page ===== */
+#singleSettingsAccountSection{
+  border-color:#5a4c2c!important;
+  background:
+    radial-gradient(circle at 92% 0%,rgba(216,168,77,.08),transparent 30%),
+    linear-gradient(180deg,#102129,#0d1c23)!important;
+}
+
+#singleSettingsAccountSection .accountBox{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+}
+
+#singleSettingsAccountSection .accountTitle{
+  color:#f2ead9!important;
+  font-size:15px!important;
+}
+
+#singleSettingsAccountSection .accountEmail{
+  color:#9cafb1!important;
+}
+
+#singleSettingsAccountSection .accountBadge{
+  border-color:#445b61!important;
+  background:#15262c!important;
+  color:#aebfc0!important;
+}
+
+#singleSettingsAccountSection .accountBadge.pro{
+  border-color:#a77c31!important;
+  background:#332a19!important;
+  color:#f0c264!important;
+}
+
+#singleSettingsAccountSection .secondaryBtn{
+  background:#13262e!important;
+  color:#e9e1d1!important;
+  border-color:#3b555e!important;
+}
+
+#singleSettingsAccountSection .proBuyBtn{
+  background:linear-gradient(180deg,#e1b45c,#c9963c)!important;
+  color:#1b1710!important;
+  border:1px solid #d8a84d!important;
+}
+
+#singleSettingsAccountSection .accountStatus{
+  color:#9eb0b2!important;
+}
+
+#singleSettingsAccountSection .accountStatus.error{
+  color:#ef8585!important;
+}
+
+/* Keep the old overlay purely as invisible compatibility DOM. */
+#settingsOverlay{
+  display:none!important;
+}
+
 </style>
 </head>
 <body>
@@ -1849,32 +1937,52 @@ input:focus,select:focus{
       <button id="saveFullSettings" class="primary" type="button">Save Settings</button>
     </div>
   
-    <div id="singleSettingsAccount" class="panel" style="margin-top:12px">
-      <div class="sectionTitle">App & Account</div>
-
-      <div class="statLine">
-        <span>Storage</span>
-        <strong>Local + account sync where enabled</strong>
+    
+    
+    <div id="singleSettingsAccountSection" class="panel" style="margin-top:12px">
+      <div class="sectionTitle">Account & Pro</div>
+      <div class="settingsNote" style="margin-bottom:12px">
+        Sign in to your FlightDeck Pay account, create an account, manage Pro access, or sign out.
       </div>
-
-      <div class="statLine">
-        <span>Plan</span>
-        <strong id="singleSettingsPlan">Free</strong>
+      <div id="accountBox" class="accountBox">
+      <div class="accountTop">
+        <div>
+          <div class="accountTitle">FlightDeck Pay account</div>
+          <div id="accountEmail" class="accountEmail">Not signed in</div>
+        </div>
+        <div id="accountBadge" class="accountBadge">FREE</div>
       </div>
-
-      <div class="statLine">
-        <span>Pro access</span>
-        <strong id="singleSettingsProState">Locked</strong>
+      <div id="authSignedOut">
+        <div class="formGrid" style="margin-top:12px">
+          <div><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
+          <div><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Password"></div>
+        </div>
+        <div class="accountActions">
+          <button id="signInBtn" class="primary" type="button">Sign in</button>
+          <button id="createAccountBtn" class="secondaryBtn" type="button">Create account</button>
+        </div>
       </div>
-
-      <button id="singleSettingsUpgradeBtn" class="fdAccentBtn" type="button" style="width:100%;margin-top:10px">
-        Unlock Pro — $9.99 lifetime
-      </button>
-
-      <div class="settingsNote" style="margin-top:12px">
-        Pay rates, tax estimates, paycheck goal, payday, account status, and Pro access are managed from this page.
+      <div id="authSignedIn" hidden>
+        <button id="buyProBtn" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
+        <button id="refreshProBtn" class="secondaryBtn" type="button" style="margin-top:8px">Refresh Pro access</button>
+        <button id="signOutBtn" class="secondaryBtn" type="button" style="margin-top:8px">Sign out</button>
       </div>
+      <div id="accountStatus" class="accountStatus">Your pay entries stay on this device. Your account stores only login and Pro-access status.</div>
     </div>
+    </div>
+
+    <div id="singleSettingsDataTransfer" class="panel" style="margin-top:12px">
+      <div class="sectionTitle">Data & Backups</div>
+      <div class="settingsNote" style="margin-bottom:12px">
+        Export a complete FlightDeck Pay JSON backup or import a backup from another device/browser.
+      </div>
+      <button id="importDataBtn" class="primary" type="button">Import existing FlightDeck Pay data</button>
+    <input id="importDataFile" type="file" accept="application/json,.json" hidden>
+    <button id="exportDataBtn" class="primary" type="button" style="margin-top:8px">Export backup</button>
+    <div id="dataTransferStatus" class="settingsNote" style="margin-top:10px"></div>
+    </div>
+
+    
 </section>
 
 </div>
@@ -1927,31 +2035,7 @@ input:focus,select:focus{
       <div class="sheetTitle">Settings</div>
       <button id="closeSettings" class="closeBtn" type="button">X</button>
     </div>
-    <div id="accountBox" class="accountBox">
-      <div class="accountTop">
-        <div>
-          <div class="accountTitle">FlightDeck Pay account</div>
-          <div id="accountEmail" class="accountEmail">Not signed in</div>
-        </div>
-        <div id="accountBadge" class="accountBadge">FREE</div>
-      </div>
-      <div id="authSignedOut">
-        <div class="formGrid" style="margin-top:12px">
-          <div><label for="authEmail">Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com"></div>
-          <div><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Password"></div>
-        </div>
-        <div class="accountActions">
-          <button id="signInBtn" class="primary" type="button">Sign in</button>
-          <button id="createAccountBtn" class="secondaryBtn" type="button">Create account</button>
-        </div>
-      </div>
-      <div id="authSignedIn" hidden>
-        <button id="buyProBtn" class="primary proBuyBtn" type="button">Unlock Pro — $9.99 lifetime</button>
-        <button id="refreshProBtn" class="secondaryBtn" type="button" style="margin-top:8px">Refresh Pro access</button>
-        <button id="signOutBtn" class="secondaryBtn" type="button" style="margin-top:8px">Sign out</button>
-      </div>
-      <div id="accountStatus" class="accountStatus">Your pay entries stay on this device. Your account stores only login and Pro-access status.</div>
-    </div>
+    
     <button id="installSettingsBtn" class="primary installSettingsBtn" type="button">Install FlightDeck Pay</button>
     <div class="formGrid">
       <div>
@@ -1989,10 +2073,7 @@ input:focus,select:focus{
     </div>
     <button id="saveSettings" class="primary" type="button">Save settings</button>
     <div style="height:10px"></div>
-    <button id="importDataBtn" class="primary" type="button">Import existing FlightDeck Pay data</button>
-    <input id="importDataFile" type="file" accept="application/json,.json" hidden>
-    <button id="exportDataBtn" class="primary" type="button" style="margin-top:8px">Export backup</button>
-    <div id="dataTransferStatus" class="settingsNote" style="margin-top:10px"></div>
+    
     <div class="settingsNote">Federal and state amounts are estimates. Social Security (6.2%) and Medicare (1.45%) are included automatically. Your data stays in this browser on this device.</div>
   </div>
 </div>
@@ -2372,7 +2453,12 @@ input:focus,select:focus{
     currentUser=await getCurrentUser();
     if(!currentUser){
       setAccountStatus("Create an account or sign in first, then tap Unlock Pro again.",true);
-      openOverlay("settingsOverlay");
+      if(el("navSettingsFull")) el("navSettingsFull").click();
+      setTimeout(()=>{
+        const accountSection=el("singleSettingsAccountSection");
+        if(accountSection) accountSection.scrollIntoView({behavior:"smooth",block:"start"});
+        if(el("authEmail")) el("authEmail").focus();
+      },120);
       syncProUI();
       return;
     }
@@ -4090,6 +4176,64 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
     syncSingleSettings();
     setInterval(syncSingleSettings,800);
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+  function realBuyButton(){
+    return document.getElementById("buyProBtn");
+  }
+
+  function triggerRealProFlow(){
+    const real=realBuyButton();
+    if(real){
+      real.click();
+      return;
+    }
+    const settings=document.getElementById("navSettingsFull");
+    if(settings) settings.click();
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    const selectors=[
+      ".fdExtraProBuy",
+      ".proInlineBuy",
+      "#proGateBuy",
+      "#historyGateBuy"
+    ];
+
+    document.querySelectorAll(selectors.join(",")).forEach(function(btn){
+      if(btn.id==="buyProBtn") return;
+
+      /* Capture phase ensures our routing wins even if a decorative gate
+         had an older/non-functional click handler attached. */
+      btn.addEventListener("click",function(e){
+        if(btn.id==="proGateBuy" || btn.id==="historyGateBuy"){
+          /* These already have the original real listener. Don't double-fire. */
+          return;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        triggerRealProFlow();
+      },true);
+    });
+
+    /* Clicking a locked dashboard Pro preview uses the same real flow. */
+    ["tgPointsCard","tgEventsModule","tgRecentModule","tgGoalModule"].forEach(function(id){
+      const card=document.getElementById(id);
+      if(card){
+        card.addEventListener("click",function(e){
+          if(card.classList.contains("tgLocked")){
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            triggerRealProFlow();
+          }
+        },true);
+      }
+    });
   });
 })();
 </script>
