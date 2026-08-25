@@ -912,16 +912,134 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.0/dist/umd/supabase.min.js" crossorigin="anonymous"></script>
 <script>
 (async function(){
   const SUPABASE_URL = "https://wyxhzjgkdiesmnpiojko.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_sdamSNDpYin3g-F_i0lkYA_iZn9MviG";
-  const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
-    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-  }) : null;
+  const AUTH_SESSION_KEY = "flightdeckPayAuth.v2";
+  let authSession = null;
   let currentUser = null;
   let isPro = false;
+
+  function readStoredSession(){
+    try{
+      const raw=localStorage.getItem(AUTH_SESSION_KEY);
+      return raw?JSON.parse(raw):null;
+    }catch(_){ return null; }
+  }
+
+  function saveStoredSession(session){
+    authSession=session||null;
+    try{
+      if(authSession) localStorage.setItem(AUTH_SESSION_KEY,JSON.stringify(authSession));
+      else localStorage.removeItem(AUTH_SESSION_KEY);
+    }catch(_){}
+  }
+
+  async function parseResponse(response){
+    const text=await response.text();
+    let data={};
+    try{ data=text?JSON.parse(text):{}; }catch(_){ data={message:text||`Request failed (${response.status})`}; }
+    if(!response.ok){
+      const message=data?.msg||data?.message||data?.error_description||data?.error||`Request failed (${response.status})`;
+      const error=new Error(String(message));
+      error.status=response.status;
+      error.data=data;
+      throw error;
+    }
+    return data;
+  }
+
+  async function supabaseFetch(path,{method="GET",body=null,accessToken=null,headers={}}={}){
+    const requestHeaders={apikey:SUPABASE_PUBLISHABLE_KEY,...headers};
+    if(body!==null && !(body instanceof FormData)) requestHeaders["Content-Type"]="application/json";
+    if(accessToken) requestHeaders.Authorization=`Bearer ${accessToken}`;
+    const response=await fetch(`${SUPABASE_URL}${path}`,{
+      method,
+      headers:requestHeaders,
+      body:body===null?undefined:(body instanceof FormData?body:JSON.stringify(body))
+    });
+    return parseResponse(response);
+  }
+
+  function sessionFromAuthPayload(data){
+    if(!data?.access_token) return null;
+    const expiresIn=Number(data.expires_in||3600);
+    return {
+      access_token:data.access_token,
+      refresh_token:data.refresh_token||authSession?.refresh_token||"",
+      token_type:data.token_type||"bearer",
+      expires_at:Math.floor(Date.now()/1000)+expiresIn,
+      user:data.user||null
+    };
+  }
+
+  async function refreshAuthToken(){
+    if(!authSession?.refresh_token) return null;
+    try{
+      const data=await supabaseFetch("/auth/v1/token?grant_type=refresh_token",{
+        method:"POST",
+        body:{refresh_token:authSession.refresh_token}
+      });
+      const next=sessionFromAuthPayload(data);
+      if(!next) throw new Error("Could not refresh login");
+      saveStoredSession(next);
+      return next;
+    }catch(e){
+      console.warn("Session refresh failed",e);
+      saveStoredSession(null);
+      currentUser=null;
+      return null;
+    }
+  }
+
+  async function ensureSession(){
+    if(!authSession) authSession=readStoredSession();
+    if(!authSession?.access_token) return null;
+    const now=Math.floor(Date.now()/1000);
+    if(Number(authSession.expires_at||0) < now+60){
+      return refreshAuthToken();
+    }
+    return authSession;
+  }
+
+  async function getCurrentUser(){
+    const session=await ensureSession();
+    if(!session?.access_token) return null;
+    try{
+      const user=await supabaseFetch("/auth/v1/user",{accessToken:session.access_token});
+      currentUser=user||null;
+      if(currentUser && authSession){
+        authSession.user=currentUser;
+        saveStoredSession(authSession);
+      }
+      return currentUser;
+    }catch(e){
+      if(e?.status===401){
+        const refreshed=await refreshAuthToken();
+        if(refreshed?.access_token){
+          try{
+            const user=await supabaseFetch("/auth/v1/user",{accessToken:refreshed.access_token});
+            currentUser=user||null;
+            return currentUser;
+          }catch(_){}
+        }
+      }
+      saveStoredSession(null);
+      currentUser=null;
+      return null;
+    }
+  }
+
+  async function invokeFunction(name,body){
+    const session=await ensureSession();
+    if(!session?.access_token) throw new Error("Sign in first.");
+    return supabaseFetch(`/functions/v1/${name}`,{
+      method:"POST",
+      body,
+      accessToken:session.access_token
+    });
+  }
 
   const STORAGE_KEY = "flightdeckPayData.v1";
   const DB_NAME = "FlightDeckPayDB";
@@ -964,7 +1082,6 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   const today = new Date();
   let anchor;
 
-
   function setAccountStatus(message,isError=false){
     ["accountStatus","proGateStatus"].forEach(id=>{
       const node=el(id); if(!node) return;
@@ -989,44 +1106,56 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   }
 
   async function refreshEntitlement(showMessage=false){
-    if(!supabaseClient || !currentUser){
+    if(!currentUser){
       isPro=false; syncProUI(); return false;
     }
     try{
-      const {data,error}=await supabaseClient.from("entitlements").select("is_pro,purchased_at").eq("user_id",currentUser.id).maybeSingle();
-      if(error) throw error;
-      isPro=Boolean(data && data.is_pro);
+      const session=await ensureSession();
+      if(!session?.access_token) throw new Error("Sign in again.");
+      const rows=await supabaseFetch(`/rest/v1/entitlements?select=is_pro,purchased_at&user_id=eq.${encodeURIComponent(currentUser.id)}&limit=1`,{
+        accessToken:session.access_token,
+        headers:{Accept:"application/json"}
+      });
+      const data=Array.isArray(rows)?rows[0]:null;
+      isPro=Boolean(data?.is_pro);
       syncProUI();
       if(showMessage) setAccountStatus(isPro?"Pro is active on this account.":"This account is currently on Free.",false);
       return isPro;
     }catch(e){
       console.warn("Could not refresh Pro access",e);
       isPro=false; syncProUI();
-      if(showMessage) setAccountStatus("Could not refresh Pro access. Try again when online.",true);
+      if(showMessage) setAccountStatus(e?.message||"Could not refresh Pro access. Try again when online.",true);
       return false;
     }
   }
 
-  async function initializeAccount(){
-    if(!supabaseClient){
-      setAccountStatus("Account features could not load. Your local pay tracker still works.",true);
-      syncProUI(); return;
-    }
+  function captureImplicitAuthFromUrl(){
     try{
-      const {data}=await supabaseClient.auth.getSession();
-      currentUser=data?.session?.user||null;
+      const hash=new URLSearchParams(location.hash.replace(/^#/,""));
+      const access=hash.get("access_token");
+      if(!access) return false;
+      const data={
+        access_token:access,
+        refresh_token:hash.get("refresh_token")||"",
+        token_type:hash.get("token_type")||"bearer",
+        expires_in:Number(hash.get("expires_in")||3600)
+      };
+      saveStoredSession(sessionFromAuthPayload(data));
+      history.replaceState({},"",location.pathname+location.search);
+      return true;
+    }catch(_){ return false; }
+  }
+
+  async function initializeAccount(){
+    captureImplicitAuthFromUrl();
+    authSession=readStoredSession();
+    try{
+      currentUser=await getCurrentUser();
       await refreshEntitlement(false);
     }catch(e){
       console.warn("Account initialization failed",e);
       currentUser=null; isPro=false; syncProUI();
     }
-
-    supabaseClient.auth.onAuthStateChange((_event,session)=>{
-      setTimeout(async()=>{
-        currentUser=session?.user||null;
-        await refreshEntitlement(false);
-      },0);
-    });
 
     const params=new URLSearchParams(location.search);
     if(params.get("checkout")==="success" && params.get("session_id")){
@@ -1035,8 +1164,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       }else{
         setAccountStatus("Payment received. Activating Pro…",false);
         try{
-          const {data,error}=await supabaseClient.functions.invoke("verify-purchase",{body:{session_id:params.get("session_id")}});
-          if(error) throw error;
+          const data=await invokeFunction("verify-purchase",{session_id:params.get("session_id")});
           if(!data?.pro) throw new Error("Purchase was not marked paid yet");
           await refreshEntitlement(false);
           setAccountStatus("Pro activated. Thank you!",false);
@@ -1050,64 +1178,83 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       setAccountStatus("Checkout cancelled. You were not charged by this checkout.",false);
       history.replaceState({},"",location.pathname+location.hash);
     }
+    syncProUI();
   }
 
   async function startProCheckout(){
-    if(!supabaseClient){ setAccountStatus("Checkout could not load. Try again when online.",true); return; }
-    const {data:sessionData}=await supabaseClient.auth.getSession();
-    currentUser=sessionData?.session?.user||null;
+    currentUser=await getCurrentUser();
     if(!currentUser){
       setAccountStatus("Create an account or sign in first, then tap Unlock Pro again.",true);
       openOverlay("settingsOverlay");
+      syncProUI();
       return;
     }
     if(isPro){ setAccountStatus("Pro is already active on this account.",false); return; }
     setAccountStatus("Opening secure Stripe checkout…",false);
     try{
-      const {data,error}=await supabaseClient.functions.invoke("create-checkout",{body:{return_url:location.href}});
-      if(error) throw error;
+      const data=await invokeFunction("create-checkout",{body_unused:false,return_url:location.href});
       if(!data?.url) throw new Error(data?.error||"No checkout URL returned");
       location.assign(data.url);
     }catch(e){
       console.warn("Checkout failed",e);
-      setAccountStatus("Checkout is not ready yet. Finish the one Stripe secret step in the setup guide, then try again.",true);
+      setAccountStatus(e?.message||"Checkout could not start. Please try again.",true);
     }
   }
 
   async function signInAccount(){
-    if(!supabaseClient) return;
     const email=String(el("authEmail")?.value||"").trim();
     const password=String(el("authPassword")?.value||"");
     if(!email||!password){setAccountStatus("Enter your email and password.",true);return;}
     setAccountStatus("Signing in…",false);
-    const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-    if(error){setAccountStatus(error.message,true);return;}
-    currentUser=data.user||data.session?.user||null;
-    await refreshEntitlement(false);
-    setAccountStatus(isPro?"Signed in — Pro active.":"Signed in — Free account.",false);
+    try{
+      const data=await supabaseFetch("/auth/v1/token?grant_type=password",{method:"POST",body:{email,password}});
+      const session=sessionFromAuthPayload(data);
+      if(!session) throw new Error("Supabase did not return a login session.");
+      saveStoredSession(session);
+      currentUser=data.user||await getCurrentUser();
+      await refreshEntitlement(false);
+      setAccountStatus(isPro?"Signed in — Pro active.":"Signed in — Free account.",false);
+      syncProUI();
+    }catch(e){
+      setAccountStatus(e?.message||"Could not sign in.",true);
+    }
   }
 
   async function createAccount(){
-    if(!supabaseClient) return;
     const email=String(el("authEmail")?.value||"").trim();
     const password=String(el("authPassword")?.value||"");
     if(!email||password.length<6){setAccountStatus("Enter a valid email and a password of at least 6 characters.",true);return;}
     setAccountStatus("Creating account…",false);
-    const {data,error}=await supabaseClient.auth.signUp({email,password,options:{emailRedirectTo:location.href.split("?")[0]}});
-    if(error){setAccountStatus(error.message,true);return;}
-    currentUser=data.session?.user||null;
-    if(data.session){
-      await refreshEntitlement(false);
-      setAccountStatus("Account created and signed in.",false);
-    }else{
-      setAccountStatus("Account created. Check your email to confirm it, then sign in.",false);
+    try{
+      const redirectBase=location.href.split("?")[0].split("#")[0];
+      const data=await supabaseFetch(`/auth/v1/signup?redirect_to=${encodeURIComponent(redirectBase)}`,{
+        method:"POST",
+        body:{email,password}
+      });
+      const session=sessionFromAuthPayload(data);
+      if(session){
+        saveStoredSession(session);
+        currentUser=data.user||await getCurrentUser();
+        await refreshEntitlement(false);
+        setAccountStatus("Account created and signed in.",false);
+      }else{
+        currentUser=null;
+        setAccountStatus("Account created. Check your email to confirm it, then return here and sign in.",false);
+      }
+      syncProUI();
+    }catch(e){
+      setAccountStatus(e?.message||"Could not create account.",true);
     }
-    syncProUI();
   }
 
   async function signOutAccount(){
-    if(!supabaseClient) return;
-    await supabaseClient.auth.signOut();
+    try{
+      const session=await ensureSession();
+      if(session?.access_token){
+        await supabaseFetch("/auth/v1/logout",{method:"POST",accessToken:session.access_token}).catch(()=>null);
+      }
+    }catch(_){}
+    saveStoredSession(null);
     currentUser=null; isPro=false; syncProUI();
     setAccountStatus("Signed out. Your pay entries remain on this device.",false);
   }
