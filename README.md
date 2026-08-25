@@ -20,22 +20,3 @@ Pro unlocks the advanced Stats dashboard, including paycheck trends, highest pay
 ## Privacy
 
 Pay entries are stored locally in the browser/PWA using IndexedDB with a localStorage fallback. They are not uploaded to Supabase or Stripe.
-
-Supabase is used for user authentication and Pro entitlement status. Stripe is used for payment checkout and purchase verification.
-
-## Deployment
-
-See `PAID-SETUP.md` before enabling paid checkout publicly.
-
-
-## Search / SEO files
-
-This build includes:
-- robots.txt
-- sitemap.xml
-- search-friendly metadata and structured data on the app homepage
-- /flight-instructor-pay-calculator.html
-- /cfi-pay-calculator.html
-- /pilot-pay-tracker.html
-
-Canonical URLs currently use the live workers.dev address. If you later connect a custom domain, update those URLs and sitemap entries.
