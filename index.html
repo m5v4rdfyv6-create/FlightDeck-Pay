@@ -565,396 +565,48 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .seoAboutLinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .seoAboutLinks a{display:inline-flex;align-items:center;min-height:38px;padding:8px 11px;border-radius:11px;border:1px solid #284c87;background:#091932;color:#9fc0ff;text-decoration:none;font-size:12px;font-weight:850}
 
-/* ==========================================================
-   FLIGHTDECK PAY — TEAL / GOLD FULL REBUILD
-   ========================================================== */
-:root{
-  --tg-bg:#0a161c;
-  --tg-bg2:#0d1d24;
-  --tg-panel:#10242c;
-  --tg-panel2:#132a33;
-  --tg-line:#29414a;
-  --tg-cream:#f5efe2;
-  --tg-text:#f5f3ee;
-  --tg-muted:#9ab0b7;
-  --tg-teal:#4bd2c8;
-  --tg-aqua:#6de0dc;
-  --tg-gold:#efb34c;
-  --tg-green:#44da72;
-  --tg-violet:#9c68ff;
+/* ===== Functional pages ===== */
+.fdNavGlyph{font-size:18px;line-height:1}
+.fdPageHeader{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+  padding:18px 20px;margin-bottom:12px;border:1px solid #263744;border-radius:18px;
+  background:linear-gradient(180deg,#0f2028,#0b171e);
 }
-
-html,body{
-  background:
-    radial-gradient(circle at 62% -12%,rgba(59,127,151,.17),transparent 32%),
-    linear-gradient(180deg,#081318 0%,#0a171d 52%,#09141a 100%)!important;
-  color:var(--tg-text)!important;
+.fdPageHeader h2{margin:5px 0 0;font-size:28px;letter-spacing:-.04em}
+.fdPageHeader p{margin:7px 0 0;color:#8ca0aa;font-size:12px;line-height:1.45}
+.fdAccentBtn{
+  min-height:40px;padding:8px 12px;border-radius:10px;border:1px solid #b7832c;
+  background:#2c2213;color:#f3bd58;font-weight:900;
 }
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.13;
-  background:
-    radial-gradient(circle at 15% 20%,transparent 0 28px,rgba(255,255,255,.12) 29px 30px,transparent 31px 60px),
-    radial-gradient(circle at 82% 40%,transparent 0 36px,rgba(255,255,255,.1) 37px 38px,transparent 39px 74px);
-  background-size:190px 190px,240px 240px;
+.fdReportGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.fdKpiCard{padding:16px;border:1px solid #263744;border-radius:16px;background:#0b171e}
+.fdKpiCard span{display:block;color:#81949f;font-size:10px;text-transform:uppercase;letter-spacing:.07em}
+.fdKpiCard strong{display:block;margin-top:8px;font-size:24px}
+.fdGoalLayout{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fdGoalCard{display:flex;align-items:center;gap:18px;padding:18px;border:1px solid #263744;border-radius:18px;background:#0b171e}
+.fdGoalRing{width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#48c8c5 0deg,#23323a 0deg)}
+.fdGoalRing:before{content:"";position:absolute}
+.fdGoalRing span{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;background:#0b171e;font-size:24px;font-weight:950}
+.fdGoalCopy span{color:#81949f;font-size:11px;text-transform:uppercase}
+.fdGoalCopy strong{display:block;margin-top:6px;font-size:24px}
+.fdGoalCopy small{display:block;margin-top:5px;color:#8ca0aa}
+.fdPointsBadge{width:88px;height:88px;border-radius:24px;display:grid;place-items:center;background:#2f2616;border:1px solid #c28a2d;color:#f4b84d;font-size:38px}
+.fdEventList,.fdRecentList{display:grid;gap:10px}
+.fdEventCard,.fdRecentCard{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:14px 16px;border:1px solid #263744;border-radius:15px;background:#0b171e}
+.fdEventCard strong,.fdRecentCard strong{display:block}
+.fdEventCard small,.fdRecentCard small{color:#8ca0aa}
+.fdEventActions{display:flex;gap:8px}
+.fdMiniBtn{min-height:34px;padding:6px 9px;border-radius:8px;border:1px solid #354a57;background:#10212a;color:#c5d5dd}
+.fdMiniBtn.danger{border-color:#69333a;color:#ff838d;background:#2f171a}
+.fdComposer{margin-bottom:12px}
+.fdReportPanel{margin-top:0}
+@media(max-width:800px){
+  .fdReportGrid{grid-template-columns:1fr 1fr}
+  .fdGoalLayout{grid-template-columns:1fr}
 }
-.app{max-width:1260px!important}
-
-.header{
-  display:none!important;
-}
-
-/* hero */
-.tgHero{
-  min-height:300px;
-  position:relative;
-  display:flex;
-  justify-content:space-between;
-  gap:24px;
-  padding:34px 38px;
-  overflow:hidden;
-  margin-bottom:18px;
-  border:1px solid #27414c;
-  border-radius:22px;
-  background:
-    linear-gradient(90deg,rgba(8,21,27,.96) 0%,rgba(8,21,27,.88) 46%,rgba(8,21,27,.38) 100%),
-    radial-gradient(circle at 80% 45%,rgba(239,179,76,.16),transparent 20%),
-    linear-gradient(180deg,#314857 0%,#1d3039 45%,#0f1e24 100%);
-  box-shadow:0 24px 50px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.035);
-}
-.tgHero:after{
-  content:"✈";
-  position:absolute;
-  right:17%;
-  bottom:9%;
-  font-size:154px;
-  color:#d8dbd4;
-  transform:rotate(-7deg);
-  text-shadow:0 3px 0 #69777a,0 18px 28px rgba(0,0,0,.32);
-  opacity:.95;
-}
-.tgKicker{
-  color:#e7e2d6;
-  font-size:14px;
-  letter-spacing:.05em;
-}
-.tgHeroCopy h2{
-  margin:3px 0 0;
-  font-size:58px;
-  line-height:.96;
-  letter-spacing:-.06em;
-  color:#fff;
-}
-.tgAccentLine{
-  width:48px;
-  height:4px;
-  margin-top:18px;
-  border-radius:999px;
-  background:var(--tg-gold);
-}
-.tgHeroCopy p{
-  margin:18px 0 0;
-  color:#d6d8d0;
-  font-size:18px;
-}
-.tgHeroMeta{
-  position:relative;
-  z-index:2;
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-}
-.tgMetaCard{
-  min-width:158px;
-  min-height:66px;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  padding:10px 13px;
-  border:1px solid #39545e;
-  border-radius:14px;
-  background:rgba(14,32,39,.82);
-  color:#fff;
-  text-align:left;
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-}
-button.tgMetaCard:active{transform:scale(.97)}
-.tgMetaIcon{
-  width:36px;height:36px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  background:#173943;
-  color:#65ddd6;
-  font-size:18px;
-}
-.tgMetaCard strong{display:block;font-size:12px}
-.tgMetaCard small{display:block;margin-top:3px;color:#9cb0b8;font-size:10px}
-
-/* layout */
-.tgDashboardGrid{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 310px;
-  gap:16px;
-}
-.tgMainCol{min-width:0}
-.tgSideCol{display:grid;gap:14px;align-content:start}
-
-.tgMetricRow{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;
-  margin-bottom:14px;
-}
-.tgMetric{
-  min-height:135px;
-  display:flex;
-  gap:12px;
-  align-items:flex-start;
-  padding:17px;
-  border:1px solid #29414a;
-  border-radius:16px;
-  background:linear-gradient(180deg,#11252d,#0e2027);
-  box-shadow:0 12px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);
-}
-.tgMetricIcon{
-  width:42px;height:42px;border-radius:50%;
-  flex:0 0 auto;
-  display:flex;align-items:center;justify-content:center;
-  font-size:19px;
-  font-weight:900;
-}
-.tgMetricIcon.teal{background:#1b4950;color:#e9ffff}
-.tgMetricIcon.aqua{background:#16474b;color:#6de0dc}
-.tgMetricIcon.violet{background:#3a2665;color:#c5a9ff}
-.tgMetricIcon.gold{background:#5a3a05;color:#ffc965}
-.tgMetricCopy small{
-  color:#b5c3c7;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:.04em;
-}
-.tgMetricCopy strong{
-  display:block;
-  margin-top:8px;
-  font-size:24px;
-  letter-spacing:-.04em;
-}
-.tgTrend{
-  display:block;
-  margin-top:8px;
-  color:#48dd73;
-  font-size:9px;
-}
-
-.tgSplitRow{
-  display:grid;
-  grid-template-columns:1fr 1.2fr;
-  gap:12px;
-}
-.tgPanel,.tgSummaryCard,.tgSidePanel,.tgGoalPanel,.tgPaydayCard{
-  border:1px solid #29414a;
-  border-radius:16px;
-  background:linear-gradient(180deg,#11252d,#0e2027);
-  box-shadow:0 12px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025);
-}
-.tgPanel{padding:17px}
-.tgPanelHead{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:12px;
-}
-.tgPanelHead small{color:#8fa5ad;font-size:9px;letter-spacing:.08em}
-.tgPanelHead h3{margin:3px 0 0;font-size:14px}
-.tgPanelHead>span,.tgPanelHead>button{
-  border:0;background:none;color:#69d8d0;font-size:10px;
-}
-.tgEventList,.tgRecentEntries{margin-top:10px}
-.tgEventList>div,.tgRecentEntries>div{
-  display:grid;
-  grid-template-columns:auto 1fr auto;
-  align-items:center;
-  gap:10px;
-  padding:11px 0;
-  border-top:1px solid #223943;
-}
-.tgEventList>div:first-child,.tgRecentEntries>div:first-child{border-top:0}
-.tgEventList b,.tgRecentEntries b{
-  width:34px;height:34px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:#173d45;color:#61d9d1;
-}
-.tgEventList span strong,.tgRecentEntries span strong{display:block;font-size:11px}
-.tgEventList span small,.tgRecentEntries span small{display:block;color:#8fa4ac;font-size:9px;margin-top:2px}
-.tgEventList em,.tgRecentEntries em{font-style:normal;color:#c8d2d5;font-size:10px}
-
-.tgGoalPanel{
-  margin-top:12px;
-  min-height:150px;
-  display:grid;
-  grid-template-columns:150px 1fr 1fr;
-  align-items:center;
-  gap:18px;
-  padding:18px;
-}
-.tgGoalRing{
-  width:100px;height:100px;border-radius:50%;
-  margin-top:8px;
-  display:flex;align-items:center;justify-content:center;
-  background:conic-gradient(var(--tg-teal) 0 270deg,#2d4148 270deg);
-}
-.tgGoalRing:before{
-  content:"";
-  position:absolute;
-}
-.tgGoalRing span{
-  width:75px;height:75px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:#11252d;
-  font-size:24px;font-weight:900;
-}
-.tgGoalCopy strong,.tgMilestone strong{display:block;font-size:16px}
-.tgGoalCopy span,.tgMilestone span{display:block;margin-top:5px;color:#99adb4;font-size:11px}
-.tgMilestone small{color:#9aabb2;font-size:9px;letter-spacing:.07em}
-.tgMilestone strong{margin-top:6px;color:#f5f2e9}
-
-/* side */
-.tgSummaryCard{padding:17px}
-.tgSummaryLine{
-  display:flex;justify-content:space-between;gap:12px;
-  padding:11px 0;
-  color:#d9e1e3;font-size:11px;
-}
-.tgSummaryLine strong{font-size:12px}
-.tgSummaryLine:nth-of-type(2) strong{color:#4adf72}
-.tgSummaryLine:nth-of-type(3) strong{color:#6bded8}
-.tgSummaryLine:nth-of-type(4) strong{color:#c16cff}
-.tgSummaryDivider{height:1px;background:#314850;margin:3px 0}
-.tgSummaryLine.total strong{color:var(--tg-gold);font-size:22px}
-.tgPaydayCard{
-  padding:16px;
-  background:linear-gradient(135deg,#0f4650,#0d3038);
-}
-.tgPaydayCard small{color:#9bc8cb;font-size:9px}
-.tgPaydayCard strong{display:block;margin-top:7px;font-size:22px}
-.tgPaydayCard span{display:block;margin-top:5px;color:#a8c9ca;font-size:10px}
-.tgSidePanel{padding:17px}
-.tgProgress{
-  height:10px;border-radius:999px;background:#30464d;overflow:hidden;margin-top:12px;
-}
-.tgProgress span{display:block;height:100%;background:linear-gradient(90deg,#e7a934,#f0bc57);border-radius:999px}
-.tgProgressText{margin-top:10px;color:#cfd8da;font-size:11px}
-
-/* existing pages */
-.tgPageIntro{
-  padding:20px 22px;
-  margin-bottom:12px;
-  border:1px solid #29414a;
-  border-radius:16px;
-  background:linear-gradient(180deg,#11252d,#0e2027);
-}
-.tgPageIntro small{color:#84a1aa;font-size:9px;letter-spacing:.08em}
-.tgPageIntro h2{margin:4px 0 0;font-size:28px}
-.tgPageIntro p{margin:6px 0 0;color:#98aeb5;font-size:11px}
-
-.period,.hero,.card,.panel,.statsHero,.statCard,.historyCard{
-  background:linear-gradient(180deg,#11252d,#0e2027)!important;
-  color:#f5f3ee!important;
-  border-color:#29414a!important;
-  box-shadow:0 12px 26px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.025)!important;
-}
-.meta,.statsCaption,.entrySub,.dayBreak,.historyDates{color:#90a6ae!important}
-.heroNet,.statValue,.statsHeroValue,.efficiencyValue{color:#fff!important}
-.eyebrow{color:#67d9d2!important}
-.progress,.goalBar,.efficiencyMeter{background:#2d4148!important}
-.progress span,.goalBar span,.efficiencyMeter span{background:linear-gradient(90deg,#52d4ca,#74e0d8)!important}
-.card.blue{background:linear-gradient(145deg,#113139,#11252d)!important;border-color:#2e5159!important}
-.card.red{background:linear-gradient(145deg,#3a2025,#11252d)!important;border-color:#654047!important}
-.card.misc{background:linear-gradient(145deg,#2b2240,#11252d)!important;border-color:#4d4264!important}
-.blueText{color:#6ce0db!important}
-.redText{color:#ff7b82!important}
-.miscText{color:#b98dff!important}
-
-input,select{
-  background:#0c1c22!important;
-  color:#f7f3eb!important;
-  border-color:#35505a!important;
-}
-.typeChoice{background:#0f2229!important;color:#9fb3ba!important;border-color:#35505a!important}
-.typeChoice.active.flight{background:#17454c!important;color:#7ee1db!important;border-color:#51bdb5!important}
-.typeChoice.active.ground{background:#4a252b!important;color:#ff9197!important;border-color:#a95a62!important}
-.typeChoice.active.misc{background:#3a2c50!important;color:#c39aff!important;border-color:#705893!important}
-.primary{background:linear-gradient(180deg,#51d1c8,#2fa9a2)!important;color:#081417!important}
-.monthGroup{background:#102229!important;border-color:#2d4650!important}
-.monthHeader{background:#13272f!important;color:#f5f3ee!important}
-.swipeContent{background:#0f2027!important}
-.entryTitle{color:#f4f3ee!important}
-
-/* nav */
-.nav{
-  background:#07151b!important;
-  border-color:#1f343d!important;
-  box-shadow:0 16px 42px rgba(0,0,0,.40)!important;
-}
-.nav button{color:#a9babf!important}
-.nav button.active{color:#0b171a!important}
-.nav button.active.current{background:linear-gradient(180deg,#e9bc64,#dca747)!important}
-.nav button.active.history{background:linear-gradient(180deg,#60d6cd,#39aea7)!important}
-.nav button.active.stats{background:linear-gradient(180deg,#9a72e7,#7653c7)!important}
-
-/* desktop side rail */
-@media(min-width:900px){
-  body{padding-left:226px}
-  .app{max-width:1300px!important;margin:0 auto!important;padding:18px 22px 42px!important}
-  .nav{
-    left:0!important;right:auto!important;top:0!important;bottom:0!important;
-    width:210px!important;
-    display:flex!important;flex-direction:column!important;gap:8px!important;
-    padding:24px 14px!important;border-radius:0!important;
-  }
-  .nav:before{
-    content:"FLIGHTDECK\A PAY";
-    white-space:pre;
-    min-height:118px;
-    display:flex;align-items:center;
-    padding-left:58px;
-    margin-bottom:8px;
-    color:#f7f2e7;
-    font-size:18px;line-height:1.05;font-weight:950;
-    background:url("icon-192.png") left 5px center/44px 44px no-repeat;
-    border-bottom:1px solid #1d3139;
-  }
-  .nav button{
-    min-height:48px!important;
-    flex-direction:row!important;justify-content:flex-start!important;
-    gap:11px!important;padding:0 12px!important;
-    border-radius:12px!important;font-size:11px!important;
-  }
-  .nav button svg{width:18px!important;height:18px!important}
-  #pageCurrent[hidden]{display:none!important}
-}
-
-@media(max-width:1050px){
-  .tgDashboardGrid{grid-template-columns:1fr}
-  .tgSideCol{grid-template-columns:repeat(3,1fr)}
-}
-@media(max-width:760px){
-  .tgHero{min-height:220px;padding:24px;flex-direction:column}
-  .tgHeroCopy h2{font-size:44px}
-  .tgHero:after{font-size:110px;right:8%;bottom:10%}
-  .tgHeroMeta{width:100%;display:grid;grid-template-columns:1fr 1fr}
-  .tgMetaCard{min-width:0}
-  .tgMetricRow{grid-template-columns:1fr 1fr}
-  .tgSplitRow{grid-template-columns:1fr}
-  .tgGoalPanel{grid-template-columns:1fr}
-  .tgSideCol{grid-template-columns:1fr}
-}
-@media(max-width:430px){
-  .tgMetricRow{grid-template-columns:1fr}
-  .tgHeroMeta{grid-template-columns:1fr}
+@media(max-width:500px){
+  .fdReportGrid{grid-template-columns:1fr}
+  .fdPageHeader{flex-direction:column}
 }
 
 </style>
@@ -990,149 +642,6 @@ input,select{
   </div>
 
   <section id="pageCurrent" class="page">
-  <div class="tgHero">
-    <div class="tgHeroCopy">
-      <div class="tgKicker">WELCOME BACK,</div>
-      <h2>Pilot.</h2>
-      <div class="tgAccentLine"></div>
-      <p>Focus. Fly. Get paid.</p>
-    </div>
-
-    <div class="tgHeroMeta">
-      <button id="tgWeather" class="tgMetaCard" type="button">
-        <div class="tgMetaIcon" id="tgWeatherIcon">☀</div>
-        <div>
-          <strong id="tgWeatherTemp">Weather</strong>
-          <small id="tgWeatherText">Tap to load</small>
-        </div>
-      </button>
-      <div class="tgMetaCard">
-        <div class="tgMetaIcon">▣</div>
-        <div>
-          <strong id="tgDate">Today</strong>
-          <small id="tgDay"></small>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tgDashboardGrid">
-    <div class="tgMainCol">
-      <div class="tgMetricRow">
-        <div class="tgMetric">
-          <div class="tgMetricIcon teal">$</div>
-          <div class="tgMetricCopy">
-            <small>TOTAL PAY (YTD)</small>
-            <strong id="tgTotalPay">$0.00</strong>
-            <span class="tgTrend">↗ this year</span>
-          </div>
-        </div>
-        <div class="tgMetric">
-          <div class="tgMetricIcon aqua">◷</div>
-          <div class="tgMetricCopy">
-            <small>TOTAL FLIGHT TIME</small>
-            <strong id="tgFlightTime">0.0 hrs</strong>
-            <span class="tgTrend">↗ logged</span>
-          </div>
-        </div>
-        <div class="tgMetric">
-          <div class="tgMetricIcon violet">⌁</div>
-          <div class="tgMetricCopy">
-            <small>HOURLY RATE (AVG)</small>
-            <strong id="tgAvgRate">$0.00</strong>
-            <span class="tgTrend">↗ average</span>
-          </div>
-        </div>
-        <div class="tgMetric">
-          <div class="tgMetricIcon gold">✈</div>
-          <div class="tgMetricCopy">
-            <small>ENTRIES (YTD)</small>
-            <strong id="tgEntriesCount">0</strong>
-            <span class="tgTrend">↗ logged</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="tgSplitRow">
-        <div class="tgPanel">
-          <div class="tgPanelHead">
-            <div>
-              <small>UPCOMING</small>
-              <h3>Upcoming Events</h3>
-            </div>
-            <span>View All</span>
-          </div>
-          <div class="tgEventList">
-            <div><b>▣</b><span><strong>CFI Renewal</strong><small>Due in 45 days</small></span><em>Jul 2, 2025</em></div>
-            <div><b>◈</b><span><strong>Flight Review</strong><small>Due in 89 days</small></span><em>Aug 15, 2025</em></div>
-            <div><b>♡</b><span><strong>Medical Exam</strong><small>Due in 134 days</small></span><em>Sep 29, 2025</em></div>
-            <div><b>✈</b><span><strong>BFR Due</strong><small>Due in 256 days</small></span><em>Feb 28, 2026</em></div>
-          </div>
-        </div>
-
-        <div class="tgPanel">
-          <div class="tgPanelHead">
-            <div>
-              <small>LATEST</small>
-              <h3>Recent Entries</h3>
-            </div>
-            <button id="tgGoEntries" type="button">View All</button>
-          </div>
-          <div id="tgRecentEntries" class="tgRecentEntries"></div>
-        </div>
-      </div>
-
-      <div class="tgGoalPanel">
-        <div>
-          <small>MONTHLY GOAL</small>
-          <div class="tgGoalRing"><span id="tgGoalPct">0%</span></div>
-        </div>
-        <div class="tgGoalCopy">
-          <strong>You’re on track. 🚀</strong>
-          <span id="tgGoalSummary">Keep logging hours to reach your goal.</span>
-        </div>
-        <div class="tgMilestone">
-          <small>NEXT MILESTONE</small>
-          <strong>25,000 Points</strong>
-          <span>Professional Pilot</span>
-        </div>
-      </div>
-    </div>
-
-    <aside class="tgSideCol">
-      <div class="tgSummaryCard">
-        <div class="tgPanelHead">
-          <div>
-            <small>TODAY'S SUMMARY</small>
-            <h3>Pay Snapshot</h3>
-          </div>
-        </div>
-        <div class="tgSummaryLine"><span>Flight Pay</span><strong id="tgFlightPay">$0.00</strong></div>
-        <div class="tgSummaryLine"><span>Ground Pay</span><strong id="tgGroundPay">$0.00</strong></div>
-        <div class="tgSummaryLine"><span>Miscellaneous</span><strong id="tgMiscPay">$0.00</strong></div>
-        <div class="tgSummaryDivider"></div>
-        <div class="tgSummaryLine total"><span>Take Home</span><strong id="tgTakeHome">$0.00</strong></div>
-      </div>
-
-      <div class="tgPaydayCard">
-        <small>NEXT PAYDAY</small>
-        <strong id="tgPaydayDate">Not set</strong>
-        <span id="tgPaydayCount"></span>
-      </div>
-
-      <div class="tgSidePanel">
-        <div class="tgPanelHead">
-          <div>
-            <small>PAY PROGRESS</small>
-            <h3 id="tgGoalPctText">0%</h3>
-          </div>
-        </div>
-        <div class="tgProgress"><span id="tgProgressBar" style="width:0%"></span></div>
-        <div class="tgProgressText" id="tgProgressText">$0 / $0 goal</div>
-      </div>
-    </aside>
-  </div>
-
     <div class="period">
       <div style="min-width:0;flex:1">
         <div class="periodTitle">Current pay period</div>
@@ -1223,7 +732,7 @@ input,select{
     </div>
   </section>
 
-  <section id="pageHistory" class="page" hidden><div class="tgPageIntro"><small>PAY TRACKER</small><h2>Pay History</h2><p>Review completed pay periods and past earnings.</p></div>
+  <section id="pageHistory" class="page" hidden>
     <div id="historyGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock pay history</h2>
@@ -1245,7 +754,7 @@ input,select{
     </div>
   </section>
 
-  <section id="pageEntries" class="page" hidden><div class="tgPageIntro"><small>LOGBOOK</small><h2>Entries</h2><p>Log, filter, and manage your time.</p></div>
+  <section id="pageEntries" class="page" hidden>
   <div class="panel entryComposer">
     <div class="statsPanelHead">
       <div>
@@ -1314,7 +823,7 @@ input,select{
   </div>
 </section>
 
-<section id="pageStats" class="page" hidden><div class="tgPageIntro"><small>ANALYTICS</small><h2>Performance & Earnings</h2><p>Detailed trends, averages, efficiency, and hours mix.</p></div>
+<section id="pageStats" class="page" hidden>
     <div id="proGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock FlightDeck Pay Pro</h2>
@@ -1464,18 +973,173 @@ input,select{
       <a href="/pilot-pay-tracker.html">Pilot Pay Tracker</a>
     </div>
   </section>
+
+  <section id="pageReports" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">REPORTS</div>
+        <h2>Pay & Activity Reports</h2>
+        <p>Generate a clean summary from your logged Flight / Sim, Ground, and Miscellaneous entries.</p>
+      </div>
+      <button id="exportReportBtn" class="fdAccentBtn" type="button">Export CSV</button>
+    </div>
+
+    <div class="fdReportGrid">
+      <div class="fdKpiCard">
+        <span>Total Gross</span>
+        <strong id="reportGross">$0.00</strong>
+      </div>
+      <div class="fdKpiCard">
+        <span>Total Hours</span>
+        <strong id="reportHours">0.0 hrs</strong>
+      </div>
+      <div class="fdKpiCard">
+        <span>Entries</span>
+        <strong id="reportEntries">0</strong>
+      </div>
+      <div class="fdKpiCard">
+        <span>Avg Gross / Hour</span>
+        <strong id="reportEfficiency">$0.00</strong>
+      </div>
+    </div>
+
+    <div class="panel fdReportPanel">
+      <div class="sectionTitle">Breakdown</div>
+      <div class="statLine"><span>Flight / Sim</span><strong id="reportFlight">$0.00</strong></div>
+      <div class="statLine"><span>Ground</span><strong id="reportGround">$0.00</strong></div>
+      <div class="statLine"><span>Miscellaneous</span><strong id="reportMisc">$0.00</strong></div>
+      <div class="statLine"><span>Estimated Take-Home</span><strong id="reportNet">$0.00</strong></div>
+    </div>
+  </section>
+
+  <section id="pageGoals" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">GOALS</div>
+        <h2>Goals & Milestones</h2>
+        <p>Track your monthly pay goal and pilot-point milestone progress.</p>
+      </div>
+    </div>
+
+    <div class="fdGoalLayout">
+      <div class="fdGoalCard">
+        <div class="fdGoalRing" id="goalRing"><span id="goalPercent">0%</span></div>
+        <div class="fdGoalCopy">
+          <span>Monthly Pay Goal</span>
+          <strong id="goalCurrent">$0 / $0</strong>
+          <small id="goalStatus">Start logging entries to build progress.</small>
+        </div>
+      </div>
+
+      <div class="fdGoalCard">
+        <div class="fdPointsBadge">★</div>
+        <div class="fdGoalCopy">
+          <span>Pilot Points</span>
+          <strong id="pointsValue">0 pts</strong>
+          <small id="pointsLevel">Student Pilot</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="sectionTitle">Milestones</div>
+      <div id="milestoneList"></div>
+    </div>
+  </section>
+
+  <section id="pageEvents" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">UPCOMING EVENTS</div>
+        <h2>Flight Calendar</h2>
+        <p>Keep renewals, reviews, exams, and aviation deadlines in one place.</p>
+      </div>
+      <button id="newEventBtn" class="fdAccentBtn" type="button">Add Event</button>
+    </div>
+
+    <div id="eventComposer" class="panel fdComposer" hidden>
+      <div class="formGrid">
+        <div>
+          <label for="eventTitle">Event</label>
+          <input id="eventTitle" type="text" placeholder="CFI Renewal">
+        </div>
+        <div>
+          <label for="eventDate">Date</label>
+          <input id="eventDate" type="date">
+        </div>
+      </div>
+      <button id="saveEventBtn" class="primary" type="button">Save Event</button>
+    </div>
+
+    <div id="eventsList" class="fdEventList"></div>
+  </section>
+
+  <section id="pageRecent" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">RECENT ACTIVITY</div>
+        <h2>Recent Entries</h2>
+        <p>Your latest logged activity, newest first.</p>
+      </div>
+      <button id="openEntriesBtn" class="fdAccentBtn" type="button">Open Logbook</button>
+    </div>
+    <div id="recentEntriesList" class="fdRecentList"></div>
+  </section>
+
+  <section id="pageSettingsFull" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">SETTINGS</div>
+        <h2>FlightDeck Settings</h2>
+        <p>Manage pay rates, tax estimates, goal, payday, and app preferences.</p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="formGrid">
+        <div>
+          <label for="fullFlightRate">Flight / Sim rate</label>
+          <input id="fullFlightRate" type="number" min="0" step="0.01">
+        </div>
+        <div>
+          <label for="fullGroundRate">Ground rate</label>
+          <input id="fullGroundRate" type="number" min="0" step="0.01">
+        </div>
+        <div>
+          <label for="fullMiscRate">Miscellaneous rate</label>
+          <input id="fullMiscRate" type="number" min="0" step="0.01">
+        </div>
+        <div>
+          <label for="fullFederal">Federal estimate (%)</label>
+          <input id="fullFederal" type="number" min="0" max="100" step="0.1">
+        </div>
+        <div>
+          <label for="fullState">State estimate (%)</label>
+          <input id="fullState" type="number" min="0" max="100" step="0.1">
+        </div>
+        <div>
+          <label for="fullGoal">Take-home goal</label>
+          <input id="fullGoal" type="number" min="0" step="1">
+        </div>
+        <div>
+          <label for="fullPayday">Next payday</label>
+          <input id="fullPayday" type="date">
+        </div>
+      </div>
+      <button id="saveFullSettings" class="primary" type="button">Save Settings</button>
+    </div>
+  </section>
+
 </div>
-
-
 
 <nav class="nav">
   <button id="navCurrent" class="active current" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v16H4V4Zm3 4v2h10V8H7Zm0 4v4h4v-4H7Z"/></svg>
-    Dashboard
+    Current
   </button>
   <button id="navHistory" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 1 1-6.3 4H3l3.5-3.5L10 9H7.7A5 5 0 1 0 12 7v3l4-4-4-4v3Z"/></svg>
-    Pay Tracker <span class="proMini">PRO</span>
+    History <span class="proMini">PRO</span>
   </button>
   <button id="navEntries" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 5h14v3H5V5Zm0 5h14v3H5v-3Zm0 5h14v3H5v-3Z"/></svg>
@@ -1483,8 +1147,30 @@ input,select{
   </button>
   <button id="navStats" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20V9h3v11H5Zm5 0V4h3v16h-3Zm5 0v-7h3v7h-3Z"/></svg>
-    Analytics <span class="proMini">PRO</span>
+    Stats <span class="proMini">PRO</span>
   </button>
+
+  <button id="navReports" type="button">
+    <span class="fdNavGlyph">◔</span>
+    Reports
+  </button>
+  <button id="navGoals" type="button">
+    <span class="fdNavGlyph">◎</span>
+    Goals
+  </button>
+  <button id="navEvents" type="button">
+    <span class="fdNavGlyph">▣</span>
+    Events
+  </button>
+  <button id="navRecent" type="button">
+    <span class="fdNavGlyph">↺</span>
+    Recent
+  </button>
+  <button id="navSettingsFull" type="button">
+    <span class="fdNavGlyph">⚙</span>
+    Settings
+  </button>
+
 </nav>
 
 <div id="settingsOverlay" class="overlay" hidden>
@@ -3180,137 +2866,208 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
 <script>
 (function(){
-  function byId(id){return document.getElementById(id)}
+  function el(id){ return document.getElementById(id); }
+  function num(v,f=0){ const n=Number(v); return Number.isFinite(n)?n:f; }
+  function money(n){ return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number.isFinite(n)?n:0); }
+  function safeDate(s){ const p=String(s||"").split("-").map(Number); if(p.length!==3) return null; return new Date(p[0],p[1]-1,p[2]); }
+  function fmtDate(d){ return d ? new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d) : ""; }
 
-  function weatherText(code){
-    code=Number(code);
-    if(code===0)return["Sunny","☀"];
-    if(code===1)return["Mostly Clear","◐"];
-    if(code===2)return["Partly Cloudy","⛅"];
-    if(code===3)return["Cloudy","☁"];
-    if(code===45||code===48)return["Fog","≋"];
-    if([51,53,55,56,57].includes(code))return["Drizzle","☂"];
-    if([61,63,65,66,67,80,81,82].includes(code))return["Rain","☂"];
-    if([71,73,75,77,85,86].includes(code))return["Snow","❄"];
-    if([95,96,99].includes(code))return["Thunderstorms","ϟ"];
-    return["Current Weather","◐"];
+  const fdExtraKey="flightdeckExtraFeatures";
+  let fdExtra={events:[]};
+  try{ fdExtra=Object.assign({events:[]},JSON.parse(localStorage.getItem(fdExtraKey)||"{}")); }catch(e){}
+  function saveExtra(){ localStorage.setItem(fdExtraKey,JSON.stringify(fdExtra)); }
+
+  function showExtraPage(name){
+    ["pageReports","pageGoals","pageEvents","pageRecent","pageSettingsFull"].forEach(function(id){
+      const n=el(id); if(n)n.hidden=true;
+    });
+    ["pageCurrent","pageHistory","pageEntries","pageStats"].forEach(function(id){
+      const n=el(id); if(n)n.hidden=true;
+    });
+    document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active","current","history","stats"));
+    const map={reports:"pageReports",goals:"pageGoals",events:"pageEvents",recent:"pageRecent",settings:"pageSettingsFull"};
+    const target=el(map[name]);
+    if(target) target.hidden=false;
+    const btn=el("nav"+name.charAt(0).toUpperCase()+name.slice(1)+(name==="settings"?"Full":""));
+    if(btn)btn.classList.add("active","stats");
+    window.scrollTo({top:0,behavior:"smooth"});
+    renderExtra();
   }
 
-  function setWeather(temp,label,icon){
-    if(byId("tgWeatherTemp"))byId("tgWeatherTemp").textContent=temp;
-    if(byId("tgWeatherText"))byId("tgWeatherText").textContent=label;
-    if(byId("tgWeatherIcon"))byId("tgWeatherIcon").textContent=icon;
+  function getAppEntries(){
+    try{
+      if(typeof entries!=="undefined" && Array.isArray(entries)) return entries;
+    }catch(e){}
+    return [];
+  }
+  function getSettings(){
+    try{
+      if(typeof settings!=="undefined") return settings;
+    }catch(e){}
+    return {flightRate:30,groundRate:20,miscRate:20,federalRate:12,stateRate:5,paycheckGoal:1500,nextPayday:""};
+  }
+  function rateForType(t,s){
+    if(t==="flight")return num(s.flightRate,30);
+    if(t==="ground")return num(s.groundRate,20);
+    return num(s.miscRate,20);
+  }
+  function grossOf(e,s){ return num(e.hours)*num(e.rate,rateForType(e.type,s)); }
+  function netOf(g,s){ return Math.max(0,g-g*(num(s.federalRate)/100)-g*(num(s.stateRate)/100)-g*.062-g*.0145); }
+
+  function calc(){
+    const list=getAppEntries(), s=getSettings();
+    const gross=list.reduce((a,e)=>a+grossOf(e,s),0);
+    const hours=list.reduce((a,e)=>a+num(e.hours),0);
+    const flightGross=list.filter(e=>e.type==="flight").reduce((a,e)=>a+grossOf(e,s),0);
+    const groundGross=list.filter(e=>e.type==="ground").reduce((a,e)=>a+grossOf(e,s),0);
+    const miscGross=list.filter(e=>e.type==="misc").reduce((a,e)=>a+grossOf(e,s),0);
+    return {list,s,gross,hours,flightGross,groundGross,miscGross,net:netOf(gross,s),eff:hours?gross/hours:0};
   }
 
-  async function refreshWeather(){
-    if(!navigator.geolocation){
-      setWeather("Weather","Location unavailable","◐");
-      return;
-    }
-    setWeather("Loading…","Getting location","◐");
-    navigator.geolocation.getCurrentPosition(async function(pos){
-      try{
-        const lat=pos.coords.latitude,lon=pos.coords.longitude;
-        const url="https://api.open-meteo.com/v1/forecast?latitude="+encodeURIComponent(lat)+
-          "&longitude="+encodeURIComponent(lon)+
-          "&current=temperature_2m,weather_code"+
-          "&temperature_unit=fahrenheit&timezone=auto";
-        const r=await fetch(url,{cache:"no-store"});
-        if(!r.ok)throw new Error("weather");
-        const data=await r.json();
-        const cur=data&&data.current?data.current:null;
-        if(!cur)throw new Error("weather");
-        const pair=weatherText(cur.weather_code);
-        setWeather(Math.round(Number(cur.temperature_2m))+"°F",pair[0],pair[1]);
-      }catch(e){
-        setWeather("Weather","Tap to retry","◐");
-      }
-    },function(){
-      setWeather("Weather","Location permission needed","◐");
-    },{timeout:10000,maximumAge:600000});
+  function renderReports(c){
+    if(!el("reportGross"))return;
+    el("reportGross").textContent=money(c.gross);
+    el("reportHours").textContent=c.hours.toFixed(1)+" hrs";
+    el("reportEntries").textContent=c.list.length;
+    el("reportEfficiency").textContent=money(c.eff)+"/hr";
+    el("reportFlight").textContent=money(c.flightGross);
+    el("reportGround").textContent=money(c.groundGross);
+    el("reportMisc").textContent=money(c.miscGross);
+    el("reportNet").textContent=money(c.net);
   }
 
-  function updateDate(){
-    const d=new Date();
-    if(byId("tgDate"))byId("tgDate").textContent=
-      new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
-    if(byId("tgDay"))byId("tgDay").textContent=
-      new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
+  function pointsFrom(c){
+    return Math.round(c.hours*100 + c.list.length*25 + c.gross/10);
+  }
+  function pointLevel(p){
+    if(p>=25000)return "Professional Pilot";
+    if(p>=15000)return "Commercial Pilot";
+    if(p>=7500)return "Instrument Pilot";
+    if(p>=2500)return "Private Pilot";
+    return "Student Pilot";
+  }
+  function renderGoals(c){
+    if(!el("goalRing"))return;
+    const goal=Math.max(0,num(c.s.paycheckGoal,1500));
+    const pct=goal?Math.min(100,c.net/goal*100):100;
+    el("goalRing").style.background="conic-gradient(#49c7c5 0 "+(pct*3.6)+"deg,#23323a "+(pct*3.6)+"deg 360deg)";
+    el("goalPercent").textContent=Math.round(pct)+"%";
+    el("goalCurrent").textContent=money(c.net)+" / "+money(goal);
+    el("goalStatus").textContent=pct>=100?"Goal reached.":"You're "+Math.round(pct)+"% of the way to your goal.";
+    const pts=pointsFrom(c);
+    el("pointsValue").textContent=pts.toLocaleString()+" pts";
+    el("pointsLevel").textContent=pointLevel(pts);
+    const milestones=[2500,7500,15000,25000,50000];
+    const box=el("milestoneList"); box.innerHTML="";
+    milestones.forEach(function(m){
+      const row=document.createElement("div"); row.className="statLine";
+      const left=document.createElement("span"); left.textContent=m.toLocaleString()+" points";
+      const right=document.createElement("strong"); right.textContent=pts>=m?"Reached":"Locked";
+      row.append(left,right); box.appendChild(row);
+    });
   }
 
-  function sync(){
-    if(byId("tgTotalPay")&&byId("statsYearTotal"))
-      byId("tgTotalPay").textContent=byId("statsYearTotal").textContent;
-    if(byId("tgFlightTime")&&byId("entriesFlight"))
-      byId("tgFlightTime").textContent=byId("entriesFlight").textContent;
-    if(byId("tgAvgRate")&&byId("efficiencyValue"))
-      byId("tgAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
-    if(byId("tgEntriesCount")&&byId("entriesCount"))
-      byId("tgEntriesCount").textContent=byId("entriesCount").textContent;
+  function renderEvents(){
+    const box=el("eventsList"); if(!box)return; box.innerHTML="";
+    const items=(fdExtra.events||[]).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+    if(!items.length){ box.innerHTML='<div class="empty">No upcoming events yet.</div>'; return; }
+    items.forEach(function(ev){
+      const card=document.createElement("div"); card.className="fdEventCard";
+      const left=document.createElement("div");
+      const title=document.createElement("strong"); title.textContent=ev.title;
+      const date=document.createElement("small"); date.textContent=fmtDate(safeDate(ev.date));
+      left.append(title,date);
+      const actions=document.createElement("div"); actions.className="fdEventActions";
+      const del=document.createElement("button"); del.type="button"; del.className="fdMiniBtn danger"; del.textContent="Delete";
+      del.addEventListener("click",function(){
+        fdExtra.events=fdExtra.events.filter(x=>x.id!==ev.id); saveExtra(); renderEvents();
+      });
+      actions.append(del); card.append(left,actions); box.appendChild(card);
+    });
+  }
 
-    if(byId("tgFlightPay")&&byId("flightGross"))
-      byId("tgFlightPay").textContent=byId("flightGross").textContent;
-    if(byId("tgGroundPay")&&byId("groundGross"))
-      byId("tgGroundPay").textContent=byId("groundGross").textContent;
-    if(byId("tgMiscPay")&&byId("miscGross"))
-      byId("tgMiscPay").textContent=byId("miscGross").textContent;
-    if(byId("tgTakeHome")&&byId("netPay"))
-      byId("tgTakeHome").textContent=byId("netPay").textContent;
-    if(byId("tgPaydayDate")&&byId("paydayDate"))
-      byId("tgPaydayDate").textContent=byId("paydayDate").textContent;
-    if(byId("tgPaydayCount")&&byId("paydayCount"))
-      byId("tgPaydayCount").textContent=byId("paydayCount").textContent;
+  function renderRecent(c){
+    const box=el("recentEntriesList"); if(!box)return; box.innerHTML="";
+    const items=c.list.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,20);
+    if(!items.length){ box.innerHTML='<div class="empty">No entries yet.</div>'; return; }
+    items.forEach(function(e){
+      const card=document.createElement("div"); card.className="fdRecentCard";
+      const left=document.createElement("div");
+      const title=document.createElement("strong"); title.textContent=e.type==="flight"?"Flight / Sim":e.type==="ground"?"Ground":"Miscellaneous";
+      const sub=document.createElement("small"); sub.textContent=fmtDate(safeDate(e.date))+" • "+num(e.hours).toFixed(2)+" hrs";
+      left.append(title,sub);
+      const amt=document.createElement("strong"); amt.textContent=money(grossOf(e,c.s));
+      card.append(left,amt); box.appendChild(card);
+    });
+  }
 
-    if(byId("tgGoalPct")&&byId("goalBar")){
-      const pct=Math.max(0,Math.min(100,parseFloat(byId("goalBar").style.width)||0));
-      byId("tgGoalPct").textContent=Math.round(pct)+"%";
-      if(byId("tgGoalPctText"))byId("tgGoalPctText").textContent=Math.round(pct)+"%";
-      if(byId("tgProgressBar"))byId("tgProgressBar").style.width=pct+"%";
-    }
-    if(byId("tgProgressText")&&byId("goalLabel"))
-      byId("tgProgressText").textContent=byId("goalLabel").textContent.replace(" / "," of ")+" goal";
-    if(byId("tgGoalSummary")&&byId("goalHint"))
-      byId("tgGoalSummary").textContent=byId("goalHint").textContent;
+  function loadFullSettings(){
+    const s=getSettings();
+    [["fullFlightRate","flightRate"],["fullGroundRate","groundRate"],["fullMiscRate","miscRate"],["fullFederal","federalRate"],["fullState","stateRate"],["fullGoal","paycheckGoal"],["fullPayday","nextPayday"]].forEach(function(pair){
+      if(el(pair[0]))el(pair[0]).value=s[pair[1]]??"";
+    });
+  }
 
-    const recent=byId("tgRecentEntries");
-    if(recent && typeof entries!=="undefined"){
-      const list=[...entries].sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,4);
-      recent.innerHTML="";
-      if(!list.length){
-        recent.innerHTML='<div style="color:#8fa4ac;font-size:11px;padding:12px 0">No recent entries.</div>';
-      }else{
-        list.forEach(function(e){
-          const row=document.createElement("div");
-          const icon=document.createElement("b");
-          icon.textContent=e.type==="flight"?"✈":e.type==="ground"?"▣":"$";
-          const mid=document.createElement("span");
-          const title=document.createElement("strong");
-          title.textContent=e.type==="flight"?"Flight / Sim":e.type==="ground"?"Ground":"Miscellaneous";
-          const sub=document.createElement("small");
-          sub.textContent=e.date;
-          mid.append(title,sub);
-          const val=document.createElement("em");
-          val.textContent=(Number(e.hours)||0).toFixed(1)+" hrs";
-          row.append(icon,mid,val);
-          recent.appendChild(row);
-        });
-      }
-    }
+  function renderExtra(){
+    const c=calc();
+    renderReports(c); renderGoals(c); renderEvents(); renderRecent(c); loadFullSettings();
   }
 
   document.addEventListener("DOMContentLoaded",function(){
-    updateDate();
-    setWeather("Weather","Tap to load","☀");
-    if(byId("tgWeather"))byId("tgWeather").addEventListener("click",refreshWeather);
-    if(byId("tgGoEntries")&&byId("navEntries"))byId("tgGoEntries").addEventListener("click",function(){byId("navEntries").click()});
-    sync();
-    ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount","flightGross","groundGross","miscGross","netPay","paydayDate","paydayCount","goalLabel","goalHint"].forEach(function(id){
-      const n=byId(id);
-      if(n)new MutationObserver(sync).observe(n,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:["style"]});
+    ["Reports","Goals","Events","Recent","SettingsFull"].forEach(function(k){
+      const b=el("nav"+k);
+      if(b)b.addEventListener("click",function(){
+        const name=k==="SettingsFull"?"settings":k.toLowerCase();
+        showExtraPage(name);
+      });
     });
-    setInterval(updateDate,60000);
-    setTimeout(sync,400);
-    setTimeout(sync,1200);
+
+    if(el("openEntriesBtn") && el("navEntries")) el("openEntriesBtn").addEventListener("click",()=>el("navEntries").click());
+
+    if(el("newEventBtn"))el("newEventBtn").addEventListener("click",function(){
+      el("eventComposer").hidden=!el("eventComposer").hidden;
+      if(!el("eventDate").value) el("eventDate").value=new Date().toISOString().slice(0,10);
+    });
+
+    if(el("saveEventBtn"))el("saveEventBtn").addEventListener("click",function(){
+      const title=String(el("eventTitle").value||"").trim();
+      const date=el("eventDate").value;
+      if(!title||!date)return;
+      fdExtra.events.push({id:String(Date.now())+"-"+Math.random(),title,date});
+      saveExtra(); el("eventTitle").value=""; el("eventComposer").hidden=true; renderEvents();
+    });
+
+    if(el("saveFullSettings"))el("saveFullSettings").addEventListener("click",function(){
+      try{
+        settings.flightRate=Math.max(0,num(el("fullFlightRate").value,settings.flightRate));
+        settings.groundRate=Math.max(0,num(el("fullGroundRate").value,settings.groundRate));
+        settings.miscRate=Math.max(0,num(el("fullMiscRate").value,settings.miscRate));
+        settings.federalRate=Math.max(0,num(el("fullFederal").value,settings.federalRate));
+        settings.stateRate=Math.max(0,num(el("fullState").value,settings.stateRate));
+        settings.paycheckGoal=Math.max(0,num(el("fullGoal").value,settings.paycheckGoal));
+        settings.nextPayday=el("fullPayday").value||settings.nextPayday;
+        if(typeof saveSettings==="function")saveSettings();
+        if(typeof render==="function")render();
+        renderExtra();
+      }catch(e){}
+    });
+
+    if(el("exportReportBtn"))el("exportReportBtn").addEventListener("click",function(){
+      const c=calc();
+      const rows=[["date","type","hours","gross"]].concat(c.list.map(function(e){
+        return [e.date,e.type,num(e.hours),grossOf(e,c.s).toFixed(2)];
+      }));
+      const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(",")).join("\n");
+      const blob=new Blob([csv],{type:"text/csv"});
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(blob); a.download="flightdeck-report.csv"; a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    });
+
+    renderExtra();
+
+    // Keep extra pages in sync with app changes.
+    setInterval(renderExtra,1500);
   });
 })();
 </script>
