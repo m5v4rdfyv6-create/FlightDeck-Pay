@@ -1,7 +1,7 @@
 {
   "name": "FlightDeck Pay",
   "short_name": "FlightDeck Pay",
-  "description": "A local-first aviation earnings tracker with optional FlightDeck Pay Pro.",
+  "description": "A flight instructor pay calculator and pilot pay tracker for CFIs, with optional FlightDeck Pay Pro.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

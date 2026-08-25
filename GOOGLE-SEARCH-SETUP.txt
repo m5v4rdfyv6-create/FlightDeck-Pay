@@ -1,0 +1,16 @@
+FLIGHTDECK PAY — GOOGLE SEARCH SETUP
+
+1. Deploy every file/folder in this package to the root of the existing GitHub site.
+2. Confirm these pages open:
+   /flight-instructor-pay-calculator/
+   /cfi-pay-calculator/
+   /pilot-pay-tracker/
+   /sitemap.xml
+   /robots.txt
+3. In Google Search Console, add a URL-prefix property for:
+   https://flightdeck-pay.comansnoah.workers.dev/
+4. Choose HTML file verification. Upload the Google verification file to the GitHub repo root, redeploy, then click Verify.
+5. In Search Console > Sitemaps, submit: sitemap.xml
+6. In URL Inspection, request indexing for the homepage and the three landing pages above.
+
+If FlightDeck Pay later gets a custom domain, update canonical URLs, sitemap URLs, robots.txt, and Search Console to the custom domain.

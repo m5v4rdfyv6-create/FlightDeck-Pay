@@ -3,14 +3,56 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>FlightDeck Pay</title>
+<title>Flight Instructor Pay Calculator &amp; Pilot Pay Tracker | FlightDeck Pay</title>
+<meta name="description" content="Track CFI and flight instructor pay, flight/sim hours, ground time, pay periods, projected paychecks, and earnings with FlightDeck Pay.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://flightdeck-pay.comansnoah.workers.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FlightDeck Pay">
+<meta property="og:title" content="Flight Instructor Pay Calculator &amp; Pilot Pay Tracker | FlightDeck Pay">
+<meta property="og:description" content="Track CFI flight, simulator, ground, and miscellaneous pay. Estimate paychecks and monitor flight instructor earnings by pay period.">
+<meta property="og:url" content="https://flightdeck-pay.comansnoah.workers.dev/">
+<meta property="og:image" content="https://flightdeck-pay.comansnoah.workers.dev/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flight Instructor Pay Calculator &amp; Pilot Pay Tracker">
+<meta name="twitter:description" content="Track CFI hours, rates, pay periods, estimated take-home pay, and flight instructor earnings with FlightDeck Pay.">
+<meta name="twitter:image" content="https://flightdeck-pay.comansnoah.workers.dev/icon-512.png">
 <meta name="theme-color" content="#020306">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FlightDeck Pay">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://flightdeck-pay.comansnoah.workers.dev/#website",
+      "url": "https://flightdeck-pay.comansnoah.workers.dev/",
+      "name": "FlightDeck Pay",
+      "description": "Flight instructor pay calculator and pilot pay tracker for CFIs."
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://flightdeck-pay.comansnoah.workers.dev/#app",
+      "name": "FlightDeck Pay",
+      "url": "https://flightdeck-pay.comansnoah.workers.dev/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "description": "A pay tracker for flight instructors and CFIs that tracks flight, simulator, ground, and miscellaneous paid hours by pay period.",
+      "image": "https://flightdeck-pay.comansnoah.workers.dev/icon-512.png",
+      "offers": [
+        {"@type": "Offer", "price": "0", "priceCurrency": "USD", "name": "FlightDeck Pay Free"},
+        {"@type": "Offer", "price": "9.99", "priceCurrency": "USD", "name": "FlightDeck Pay Pro Lifetime"}
+      ]
+    }
+  ]
+}
+</script>
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;background:#020306;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
@@ -516,6 +558,12 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .installGuide{display:grid;gap:10px}.installHero{padding:16px;border-radius:18px;border:1px solid #244f98;background:radial-gradient(circle at 90% 0%,rgba(52,124,255,.22),transparent 38%),linear-gradient(180deg,#0b1730,#080a0f)}.installHeroTitle{font-size:20px;font-weight:950;letter-spacing:-.03em}.installHeroCopy{font-size:12px;line-height:1.5;color:#8f9bad;margin-top:5px}.installStep{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start;padding:12px;border-radius:15px;border:1px solid #252c36;background:#090c11}.installStepNum{width:30px;height:30px;border-radius:10px;background:#0b2a66;border:1px solid #2d67c7;color:#a9c7ff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:950}.installStepTitle{font-size:13px;font-weight:900}.installStepCopy{font-size:11px;line-height:1.45;color:#858f9f;margin-top:3px}.installSettingsBtn{margin-top:12px;background:linear-gradient(180deg,#14213a,#0b1019);border:1px solid #315fae;color:#cfe0ff}.installSettingsBtn[hidden]{display:none!important}
 @media(max-width:430px){.installBannerCopy{max-width:165px}.installBtn{padding:0 12px}.installBanner{gap:8px}}
 
+
+.seoAbout{margin:18px 0 8px;padding:18px;border:1px solid #242a33;border-radius:19px;background:linear-gradient(180deg,rgba(12,16,24,.96),rgba(7,9,13,.96));color:#c6cede;line-height:1.55}
+.seoAbout h2{margin:0 0 8px;color:#fff;font-size:19px;letter-spacing:-.02em}
+.seoAbout p{margin:0 0 10px;font-size:13px;color:#aeb8ca}
+.seoAboutLinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.seoAboutLinks a{display:inline-flex;align-items:center;min-height:38px;padding:8px 11px;border-radius:11px;border:1px solid #284c87;background:#091932;color:#9fc0ff;text-decoration:none;font-size:12px;font-weight:850}
 </style>
 </head>
 <body>
@@ -527,7 +575,7 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       </div>
       <div class="brandCopy">
         <h1>FlightDeck Pay</h1>
-        <p>Aviation Earnings Tracker</p>
+        <p>Pilot Pay Tracker for CFIs</p>
       </div>
     </div>
     <button id="settingsBtn" class="iconBtn" type="button" aria-label="Settings">
@@ -867,6 +915,17 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
         </div>
       </div>
     </div>
+    </div>
+  </section>
+
+  <section class="seoAbout" aria-labelledby="seoAboutTitle">
+    <h2 id="seoAboutTitle">Flight Instructor Pay Calculator &amp; Pilot Pay Tracker</h2>
+    <p>FlightDeck Pay helps CFIs and flight instructors track paid flight, simulator, ground, and miscellaneous hours in one place. Set your own hourly rates, organize entries by pay period, estimate gross and take-home pay, and see how your instructor earnings are building over time.</p>
+    <p>Use it as a CFI pay calculator for your current paycheck or as an ongoing pilot pay tracker. Your detailed pay entries stay on your device, while an optional account keeps your Pro access available across sessions.</p>
+    <div class="seoAboutLinks">
+      <a href="/flight-instructor-pay-calculator/">Flight Instructor Pay Calculator</a>
+      <a href="/cfi-pay-calculator/">CFI Pay Calculator</a>
+      <a href="/pilot-pay-tracker/">Pilot Pay Tracker</a>
     </div>
   </section>
 </div>

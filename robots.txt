@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://flightdeck-pay.comansnoah.workers.dev/sitemap.xml

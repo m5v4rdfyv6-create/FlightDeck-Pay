@@ -26,3 +26,16 @@ Supabase is used for user authentication and Pro entitlement status. Stripe is u
 ## Deployment
 
 See `PAID-SETUP.md` before enabling paid checkout publicly.
+
+
+## Search / SEO files
+
+This build includes:
+- robots.txt
+- sitemap.xml
+- search-friendly metadata and structured data on the app homepage
+- /flight-instructor-pay-calculator/
+- /cfi-pay-calculator/
+- /pilot-pay-tracker/
+
+Canonical URLs currently use the live workers.dev address. If you later connect a custom domain, update those URLs and sitemap entries.

@@ -1,4 +1,4 @@
-const CACHE_NAME = "flightdeck-pay-v9-install-button";
+const CACHE_NAME = "flightdeck-pay-v10-seo";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -32,14 +32,16 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Navigations are network-first so users get the newest deployed app.
+  // Navigations are network-first so users and search crawlers get the newest page.
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request, { cache: "no-store" }).then(response => {
         const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy));
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         return response;
-      }).catch(() => caches.match("./index.html"))
+      }).catch(async () => {
+        return (await caches.match(event.request)) || (await caches.match("./index.html"));
+      })
     );
     return;
   }
