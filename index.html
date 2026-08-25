@@ -2564,9 +2564,18 @@ window.flightDeckSignedInState=false;
   settings.setupComplete = Boolean(settings.setupComplete);
 
   function snapshot(){
+    let extraFeatures={events:[]};
+    try{
+      extraFeatures=Object.assign(
+        {events:[]},
+        JSON.parse(localStorage.getItem("flightdeckExtraFeatures")||"{}")
+      );
+    }catch(_){}
+
     return {
       entries: Array.isArray(entries) ? entries : [],
       settings: settings || {},
+      extraFeatures,
       savedAt: new Date().toISOString()
     };
   }
@@ -2730,15 +2739,27 @@ window.flightDeckSignedInState=false;
   function showPage(which){
     const current=which==="current",history=which==="history",entriesPage=which==="entries",stats=which==="stats";
     if(stats) syncProUI();
+
+    ["pageReports","pageGoals","pageEvents","pageRecent","pageSettingsFull"].forEach(id=>{
+      const node=el(id);
+      if(node) node.hidden=true;
+    });
+
     el("pageCurrent").hidden=!current;
     el("pageHistory").hidden=!history;
     el("pageEntries").hidden=!entriesPage;
     el("pageStats").hidden=!stats;
-    el("navCurrent").className=current?"active current":"";
-    el("navHistory").className=history?"active history":"";
-    el("navEntries").className=entriesPage?"active current":"";
-    el("navStats").className=stats?"active stats":"";
-if(entriesPage)renderEntriesPage();
+
+    document.querySelectorAll(".nav button").forEach(btn=>{
+      btn.classList.remove("active","current","history","stats");
+    });
+
+    if(current) el("navCurrent").className="active current";
+    if(history) el("navHistory").className="active history";
+    if(entriesPage) el("navEntries").className="active current";
+    if(stats) el("navStats").className="active stats";
+
+    if(entriesPage) renderEntriesPage();
   }
 
   el("navCurrent").addEventListener("click",()=>showPage("current"));
@@ -2926,6 +2947,16 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
       settings=importedSettings;
       anchor=parseDate(settings.payPeriodStart) || new Date(today.getFullYear(),today.getMonth(),today.getDate());
+
+      if(parsed.extraFeatures && typeof parsed.extraFeatures==="object"){
+        try{
+          localStorage.setItem(
+            "flightdeckExtraFeatures",
+            JSON.stringify(Object.assign({events:[]},parsed.extraFeatures))
+          );
+        }catch(_){}
+      }
+
       const data=snapshot();
       saveLocalSnapshot(data);
       await saveIndexedSnapshot(data);
@@ -3655,7 +3686,43 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     try{renderHistory();}catch(e){console.log("History render: "+e);}
     try{renderEntriesPage();}catch(e){console.log("Entries render: "+e);}
     try{renderStats();}catch(e){console.log("Stats render: "+e);}
+    window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
   }
+
+
+  /* Controlled bridge for newer FlightDeck pages.
+     Keeps the original tracker as the single source of truth. */
+  window.flightDeckCore = {
+    getEntries: () => entries,
+    getSettings: () => settings,
+    entryGross: (entry) => entryGross(entry),
+    taxFor: (gross) => taxFor(gross),
+    money: (value) => money(value),
+    render: () => render(),
+    persist: () => persistData(),
+    saveSettings: (next) => {
+      if(next && typeof next === "object"){
+        if("flightRate" in next) settings.flightRate=Math.max(0,num(next.flightRate,settings.flightRate));
+        if("groundRate" in next) settings.groundRate=Math.max(0,num(next.groundRate,settings.groundRate));
+        if("miscRate" in next) settings.miscRate=Math.max(0,num(next.miscRate,settings.miscRate));
+        if("federalRate" in next) settings.federalRate=Math.min(100,Math.max(0,num(next.federalRate,settings.federalRate)));
+        if("stateRate" in next) settings.stateRate=Math.min(100,Math.max(0,num(next.stateRate,settings.stateRate)));
+        if("paycheckGoal" in next) settings.paycheckGoal=Math.max(0,num(next.paycheckGoal,settings.paycheckGoal));
+        if("nextPayday" in next) settings.nextPayday=String(next.nextPayday||settings.nextPayday||"");
+      }
+      saveSettings();
+      render();
+      persistData();
+      window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
+      return {...settings};
+    }
+  };
+
+  window.addEventListener("flightdeck:requestdatachange",()=>{
+    render();
+    persistData();
+    window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
+  });
 
   // Recover from IndexedDB if localStorage was unavailable or cleared while the installed PWA survived.
   try {
@@ -3744,16 +3811,14 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   function getAppEntries(){
-    try{
-      if(typeof entries!=="undefined" && Array.isArray(entries)) return entries;
-    }catch(e){}
-    return [];
+    const core=window.flightDeckCore;
+    return core && typeof core.getEntries==="function" ? core.getEntries() : [];
   }
   function getSettings(){
-    try{
-      if(typeof settings!=="undefined") return settings;
-    }catch(e){}
-    return {flightRate:30,groundRate:20,miscRate:20,federalRate:12,stateRate:5,paycheckGoal:1500,nextPayday:""};
+    const core=window.flightDeckCore;
+    return core && typeof core.getSettings==="function"
+      ? core.getSettings()
+      : {flightRate:30,groundRate:20,miscRate:20,federalRate:12,stateRate:5,paycheckGoal:1500,nextPayday:""};
   }
   function rateForType(t,s){
     if(t==="flight")return num(s.flightRate,30);
@@ -3829,7 +3894,10 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       const actions=document.createElement("div"); actions.className="fdEventActions";
       const del=document.createElement("button"); del.type="button"; del.className="fdMiniBtn danger"; del.textContent="Delete";
       del.addEventListener("click",function(){
-        fdExtra.events=fdExtra.events.filter(x=>x.id!==ev.id); saveExtra(); renderEvents();
+        fdExtra.events=fdExtra.events.filter(x=>x.id!==ev.id);
+        saveExtra();
+        renderEvents();
+        window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
       });
       actions.append(del); card.append(left,actions); box.appendChild(card);
     });
@@ -3883,22 +3951,26 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       const date=el("eventDate").value;
       if(!title||!date)return;
       fdExtra.events.push({id:String(Date.now())+"-"+Math.random(),title,date});
-      saveExtra(); el("eventTitle").value=""; el("eventComposer").hidden=true; renderEvents();
+      saveExtra();
+      el("eventTitle").value="";
+      el("eventComposer").hidden=true;
+      renderEvents();
+      window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
     });
 
     if(el("saveFullSettings"))el("saveFullSettings").addEventListener("click",function(){
-      try{
-        settings.flightRate=Math.max(0,num(el("fullFlightRate").value,settings.flightRate));
-        settings.groundRate=Math.max(0,num(el("fullGroundRate").value,settings.groundRate));
-        settings.miscRate=Math.max(0,num(el("fullMiscRate").value,settings.miscRate));
-        settings.federalRate=Math.max(0,num(el("fullFederal").value,settings.federalRate));
-        settings.stateRate=Math.max(0,num(el("fullState").value,settings.stateRate));
-        settings.paycheckGoal=Math.max(0,num(el("fullGoal").value,settings.paycheckGoal));
-        settings.nextPayday=el("fullPayday").value||settings.nextPayday;
-        if(typeof saveSettings==="function")saveSettings();
-        if(typeof render==="function")render();
-        renderExtra();
-      }catch(e){}
+      const core=window.flightDeckCore;
+      if(!core || typeof core.saveSettings!=="function") return;
+      core.saveSettings({
+        flightRate:el("fullFlightRate").value,
+        groundRate:el("fullGroundRate").value,
+        miscRate:el("fullMiscRate").value,
+        federalRate:el("fullFederal").value,
+        stateRate:el("fullState").value,
+        paycheckGoal:el("fullGoal").value,
+        nextPayday:el("fullPayday").value
+      });
+      renderExtra();
     });
 
     if(el("exportReportBtn"))el("exportReportBtn").addEventListener("click",function(){
@@ -3915,8 +3987,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
     renderExtra();
 
-    // Keep extra pages in sync with app changes.
-    setInterval(renderExtra,1500);
+    window.addEventListener("flightdeck:datachange",renderExtra);
+    // Slow fallback in case browser lifecycle events interrupt an update.
+    setInterval(renderExtra,5000);
   });
 })();
 </script>
@@ -3927,8 +4000,14 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   function byId(id){return document.getElementById(id)}
   function num(v,f=0){const n=Number(v);return Number.isFinite(n)?n:f}
   function money(n){return new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(Number.isFinite(n)?n:0)}
-  function safeSettings(){try{return settings||{}}catch(e){return {}}}
-  function safeEntries(){try{return Array.isArray(entries)?entries:[]}catch(e){return []}}
+  function safeSettings(){
+    const core=window.flightDeckCore;
+    return core && typeof core.getSettings==="function" ? core.getSettings() : {};
+  }
+  function safeEntries(){
+    const core=window.flightDeckCore;
+    return core && typeof core.getEntries==="function" ? core.getEntries() : [];
+  }
   function entryGross(e,s){
     const rate=num(e.rate,e.type==="flight"?num(s.flightRate,30):e.type==="ground"?num(s.groundRate,20):num(s.miscRate,20));
     return num(e.hours)*rate;
@@ -4048,7 +4127,8 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     if(byId("tgEventsLink")&&byId("navEvents"))byId("tgEventsLink").addEventListener("click",()=>byId("navEvents").click());
     if(byId("tgRecentLink")&&byId("navRecent"))byId("tgRecentLink").addEventListener("click",()=>byId("navRecent").click());
     if(byId("tgGoalsLink")&&byId("navGoals"))byId("tgGoalsLink").addEventListener("click",()=>byId("navGoals").click());
-    setInterval(render,1500);
+    window.addEventListener("flightdeck:datachange",render);
+    setInterval(render,5000);
     setInterval(updateDate,60000);
   });
 })();
