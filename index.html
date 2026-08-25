@@ -565,579 +565,343 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .seoAboutLinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .seoAboutLinks a{display:inline-flex;align-items:center;min-height:38px;padding:8px 11px;border-radius:11px;border:1px solid #284c87;background:#091932;color:#9fc0ff;text-decoration:none;font-size:12px;font-weight:850}
 
-/* ============================================================
-   FLIGHTDECK PAY — REFERENCE DASHBOARD VISUAL SYSTEM
-   Visual-only redesign. Functional/payment scripts unchanged.
-   ============================================================ */
-
+/* =========================================================
+   FLIGHTDECK PAY — APPROVED MOCKUP BUILD
+   ========================================================= */
 :root{
-  --fd-bg:#02060d;
-  --fd-bg2:#06101b;
-  --fd-panel:#08111c;
-  --fd-panel2:#0b1624;
-  --fd-border:#17283a;
-  --fd-border-hi:#22476d;
-  --fd-blue:#1784ff;
-  --fd-blue2:#54a4ff;
-  --fd-cyan:#66d7ff;
-  --fd-green:#24dd93;
-  --fd-purple:#9c5cff;
-  --fd-orange:#ff7b2e;
-  --fd-red:#ff5964;
-  --fd-muted:#8090a7;
-  --fd-text:#f4f7fb;
+  --mk-bg:#020811;
+  --mk-panel:#07111d;
+  --mk-panel2:#0a1624;
+  --mk-border:#16283a;
+  --mk-blue:#1383ff;
+  --mk-green:#16df91;
+  --mk-purple:#a557ff;
+  --mk-orange:#ff7d22;
+  --mk-muted:#8b99ad;
 }
 
 html,body{
   background:
-    radial-gradient(circle at 72% -10%,rgba(21,107,255,.20),transparent 32%),
-    radial-gradient(circle at 100% 45%,rgba(0,166,255,.08),transparent 24%),
-    linear-gradient(180deg,#02060d 0%,#030913 52%,#02060d 100%) !important;
-  color:var(--fd-text)!important;
+    radial-gradient(circle at 58% -8%,rgba(19,131,255,.17),transparent 29%),
+    linear-gradient(180deg,#020811 0%,#030913 55%,#02070e 100%)!important;
+  color:#f5f8fc!important;
 }
-
 body:before{
   content:"";
+  pointer-events:none;
   position:fixed;
   inset:0;
-  pointer-events:none;
-  opacity:.24;
   background:
-    linear-gradient(rgba(80,140,200,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(80,140,200,.04) 1px,transparent 1px);
-  background-size:42px 42px;
-  mask-image:linear-gradient(to bottom,black,transparent 85%);
+    linear-gradient(rgba(73,137,196,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(73,137,196,.025) 1px,transparent 1px);
+  background-size:38px 38px;
+  opacity:.7;
 }
-
-/* Global shell */
-.app{
-  max-width:1180px!important;
-  padding-top:max(22px,env(safe-area-inset-top))!important;
-}
+.app{max-width:1200px!important}
 
 .header{
-  padding:8px 4px 18px!important;
-  margin-bottom:18px!important;
-  border-bottom:1px solid rgba(65,114,166,.14);
+  padding:8px 2px 14px!important;
+  margin-bottom:10px!important;
 }
-
 .brandLogo{
-  width:58px!important;
-  height:58px!important;
-  border-radius:18px!important;
-  border:1px solid #1c5792!important;
-  background:#06101a!important;
-  box-shadow:
-    0 0 0 1px rgba(67,157,255,.08),
-    0 0 32px rgba(23,132,255,.20),
-    inset 0 1px 0 rgba(255,255,255,.06)!important;
+  width:54px!important;height:54px!important;border-radius:17px!important;
+  border:1px solid #14518d!important;
+  background:#05101a!important;
+  box-shadow:0 0 28px rgba(18,131,255,.15),inset 0 1px 0 rgba(255,255,255,.04)!important;
 }
-.brandLogo img{border-radius:17px!important}
-.brand h1{
-  font-size:34px!important;
-  letter-spacing:-.055em!important;
-  text-shadow:0 0 26px rgba(55,142,255,.10);
-}
-.brand p{
-  color:#8190a6!important;
-  font-size:13px!important;
-  letter-spacing:.02em;
-}
-
+.brand h1{font-size:31px!important}
+.brand p{color:#7d8ca2!important}
 .iconBtn{
-  width:52px!important;
-  height:52px!important;
-  border-radius:16px!important;
-  border:1px solid #1d3147!important;
-  background:linear-gradient(180deg,#0d1724,#07101a)!important;
-  color:#a9b8ca!important;
-  box-shadow:0 12px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04)!important;
+  background:#07101a!important;border-color:#1b3045!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.25)!important;
 }
 
-/* Dashboard hero like the supplied visual reference */
-.fdDashboardIntro{
-  min-height:245px;
+/* approved hero */
+.mockDashboardHero{
   position:relative;
+  min-height:278px;
   overflow:hidden;
-  display:grid;
-  grid-template-columns:minmax(0,1.12fr) minmax(280px,.88fr);
-  align-items:center;
-  gap:24px;
-  padding:28px 30px;
-  margin-bottom:18px;
-  border:1px solid #17324d;
-  border-radius:24px;
+  border:1px solid #17324a;
+  border-radius:22px;
+  margin-bottom:16px;
   background:
-    linear-gradient(90deg,rgba(4,12,22,.97) 0%,rgba(4,13,24,.91) 48%,rgba(5,19,34,.67) 100%),
-    radial-gradient(circle at 82% 55%,rgba(28,121,255,.25),transparent 32%);
-  box-shadow:
-    0 24px 60px rgba(0,0,0,.28),
-    inset 0 1px 0 rgba(255,255,255,.035);
+    url("dashboard-hero-plane.png") right center/57% 100% no-repeat,
+    linear-gradient(90deg,#030b15 0%,#04101d 52%,#081726 100%);
+  box-shadow:0 22px 52px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.025);
 }
-.fdDashboardIntro:before{
-  content:"";
-  position:absolute;
-  left:49%;
-  right:-10%;
-  bottom:-40px;
-  height:220px;
+.mockHeroShade{
+  position:absolute;inset:0;
   background:
-    linear-gradient(165deg,transparent 44%,rgba(21,132,255,.14) 45%,transparent 46%),
-    linear-gradient(195deg,transparent 44%,rgba(21,132,255,.12) 45%,transparent 46%);
-  opacity:.9;
+    linear-gradient(90deg,rgba(2,8,17,.98) 0%,rgba(2,8,17,.94) 40%,rgba(2,8,17,.45) 67%,rgba(2,8,17,.08) 100%),
+    linear-gradient(0deg,rgba(2,8,17,.18),transparent 60%);
 }
-.fdWelcome{
-  color:#91a0b5;
-  font-size:11px;
-  font-weight:850;
-  letter-spacing:.12em;
-  margin-bottom:12px;
+.mockHeroCopy{
+  position:relative;z-index:2;
+  width:57%;
+  padding:34px 34px 30px;
 }
-.fdIntroCopy h2{
+.mockGreeting{
+  color:#9ba8b9;
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+.mockHeroCopy h2{
   margin:0;
-  font-size:42px;
-  line-height:1.03;
+  font-size:43px;
+  line-height:1.04;
   letter-spacing:-.055em;
-  max-width:620px;
 }
-.fdIntroCopy h2 span{
-  background:linear-gradient(90deg,#2f8cff,#7777ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+.mockHeroCopy h2 span{
+  background:linear-gradient(90deg,#2189ff,#7377ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-.fdIntroCopy p{
-  margin:14px 0 0;
-  max-width:560px;
-  color:#9aa8ba;
-  font-size:15px;
-  line-height:1.6;
+.mockHeroCopy p{
+  max-width:430px;
+  margin:16px 0 0;
+  color:#9aa8bb;
+  line-height:1.55;
+  font-size:14px;
 }
-.fdIntroPills{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:20px;
-}
-.fdIntroPills span{
-  border:1px solid #173453;
-  background:#091522;
-  color:#aebbd0;
-  border-radius:999px;
-  padding:8px 11px;
-  font-size:10px;
+.mockLogEntryBtn{
+  margin-top:22px;
+  min-height:48px;
+  padding:0 18px;
+  border:0;border-radius:13px;
+  color:#fff;
+  background:linear-gradient(180deg,#1989ff,#0768e7);
   font-weight:850;
-  letter-spacing:.035em;
+  box-shadow:0 10px 28px rgba(11,109,232,.28),inset 0 1px 0 rgba(255,255,255,.15);
 }
-.fdRunwayVisual{
-  min-height:190px;
-  position:relative;
-  align-self:stretch;
-  border-left:1px solid rgba(65,114,166,.13);
+.mockLogEntryBtn span{font-size:21px;vertical-align:-2px;margin-right:4px}
+.mockHeroDate{
+  position:absolute;z-index:3;
+  right:18px;top:17px;
+  min-width:150px;
+  display:flex;align-items:center;gap:10px;
+  padding:10px 13px;
+  border:1px solid #1c3045;
+  border-radius:13px;
+  background:rgba(4,15,27,.82);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
 }
-.fdGlowOrb{
-  position:absolute;
-  width:230px;
-  height:230px;
-  border-radius:50%;
-  right:2%;
-  top:50%;
-  transform:translateY(-50%);
-  background:radial-gradient(circle,rgba(41,134,255,.30),rgba(13,82,166,.08) 43%,transparent 68%);
-  filter:blur(2px);
+.mockHeroDate .mockDateIcon{
+  width:32px;height:32px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  background:#0b2b55;color:#5aa7ff;
 }
-.fdRunway{
-  position:absolute;
-  width:65%;
-  height:115%;
-  right:8%;
-  top:35%;
-  transform:perspective(320px) rotateX(64deg);
-  border-left:2px solid rgba(64,160,255,.45);
-  border-right:2px solid rgba(64,160,255,.45);
-  background:linear-gradient(90deg,transparent 49%,rgba(130,195,255,.46) 49.5%,rgba(130,195,255,.46) 50.5%,transparent 51%);
-  clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);
-}
-.fdRunway i{
-  position:absolute;
-  left:50%;
-  width:6px;
-  height:18px;
-  background:#d8edff;
-  box-shadow:0 0 12px rgba(119,194,255,.8);
-  transform:translateX(-50%);
-}
-.fdRunway i:nth-child(1){top:11%}
-.fdRunway i:nth-child(2){top:29%}
-.fdRunway i:nth-child(3){top:49%}
-.fdRunway i:nth-child(4){top:69%}
-.fdRunway i:nth-child(5){top:90%}
-.fdPlaneMark{
-  position:absolute;
-  right:31%;
-  top:42%;
-  transform:translate(50%,-50%) rotate(90deg);
-  font-size:58px;
-  color:#72b8ff;
-  text-shadow:0 0 28px rgba(50,145,255,.80);
-}
+.mockHeroDate strong{display:block;font-size:11px}
+.mockHeroDate small{display:block;color:#8c9aab;font-size:9px;margin-top:2px}
 
-/* Cards */
-.card,.panel,.historyCard,.statsHero,.period,.hero,.statCard{
-  border-color:var(--fd-border)!important;
-  background:
-    linear-gradient(180deg,rgba(11,22,35,.98),rgba(6,13,22,.98))!important;
-  box-shadow:
-    0 14px 34px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.028)!important;
+/* metric cards */
+.mockMetricGrid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:16px;
 }
+.mockMetric{
+  position:relative;overflow:hidden;
+  min-height:145px;
+  padding:16px;
+  border-radius:17px;
+  border:1px solid #172a3c;
+  background:linear-gradient(180deg,#081522,#050d16);
+  box-shadow:0 14px 34px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.mockMetricTop{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+}
+.mockMetricTop span{
+  color:#8290a3;font-size:9px;font-weight:850;letter-spacing:.06em;
+}
+.mockMetricTop b{
+  width:31px;height:31px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+.mockMetric>strong{
+  display:block;
+  margin-top:9px;
+  font-size:25px;
+  letter-spacing:-.045em;
+}
+.mockMetric>small{
+  color:#738195;font-size:9px;
+}
+.metricGreen>strong{color:var(--mk-green)}
+.metricGreen .mockMetricTop b{background:#063c2e;color:#47efac}
+.metricBlue>strong{color:#3897ff}
+.metricBlue .mockMetricTop b{background:#0b2c55;color:#69adff}
+.metricPurple>strong{color:#aa62ff}
+.metricPurple .mockMetricTop b{background:#2a194d;color:#bc82ff}
+.metricOrange>strong{color:#ff8127}
+.metricOrange .mockMetricTop b{background:#482811;color:#ff9c53}
+.mockSpark{
+  position:absolute;left:14px;right:14px;bottom:12px;height:25px;
+  display:flex;align-items:flex-end;gap:3px;
+}
+.mockSpark i{flex:1;border-radius:2px 2px 0 0;opacity:.85}
+.metricGreen .mockSpark i{background:#0ad88a}
+.metricBlue .mockSpark i{background:#1984ff}
+.metricPurple .mockSpark i{background:#9851ef}
+.metricOrange .mockSpark i{background:#ff7417}
+.mockSpark i:nth-child(1){height:22%}.mockSpark i:nth-child(2){height:46%}
+.mockSpark i:nth-child(3){height:30%}.mockSpark i:nth-child(4){height:58%}
+.mockSpark i:nth-child(5){height:39%}.mockSpark i:nth-child(6){height:68%}
+.mockSpark i:nth-child(7){height:88%}
 
+/* existing modules made to match concept */
+.period,.hero,.card,.panel,.statsHero,.statCard,.historyCard{
+  background:linear-gradient(180deg,#081521,#050d16)!important;
+  border-color:#172b3d!important;
+  box-shadow:0 14px 32px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025)!important;
+}
 .period{
-  border-color:#1b4167!important;
-  background:
-    linear-gradient(135deg,rgba(11,37,72,.96),rgba(6,20,39,.98))!important;
+  background:linear-gradient(135deg,#0a2444,#071422)!important;
+  border-color:#1d4774!important;
 }
-.periodTitle{
-  color:#dceaff!important;
-  letter-spacing:.07em!important;
-}
-.progress{background:#0a1b30!important}
-.progress span{
-  background:linear-gradient(90deg,#147cff,#4da4ff)!important;
-  box-shadow:0 0 16px rgba(23,132,255,.35);
-}
-.days{color:#edf5ff!important}
-
 .hero{
-  border-color:#1d5592!important;
-  padding:24px!important;
   background:
-    radial-gradient(circle at 82% 18%,rgba(34,120,255,.24),transparent 25%),
-    linear-gradient(145deg,#0b203f,#06101d 68%)!important;
+    radial-gradient(circle at 85% 22%,rgba(26,128,255,.22),transparent 26%),
+    linear-gradient(145deg,#0a2341,#07111d)!important;
+  border-color:#205792!important;
 }
-.eyebrow{
-  color:#78aef9!important;
-  letter-spacing:.14em!important;
-}
-.heroNet{
-  font-size:46px!important;
-  text-shadow:0 0 30px rgba(66,145,255,.12);
-}
-.goalBar{background:#0a1a2d!important}
-.goalBar span{
-  background:linear-gradient(90deg,#1684ff,#5e7dff)!important;
-  box-shadow:0 0 18px rgba(34,132,255,.32);
-}
-
-/* Three earnings cards become true dashboard metric tiles */
-.grid2{
-  gap:12px!important;
-}
-.grid2 .card{
-  min-height:154px;
-  padding:18px!important;
-  position:relative;
-  overflow:hidden;
-}
-.grid2 .card:after{
-  content:"";
-  position:absolute;
-  width:110px;
-  height:110px;
-  border-radius:50%;
-  right:-42px;
-  bottom:-45px;
-  background:radial-gradient(circle,rgba(255,255,255,.035),transparent 67%);
+.heroNet{font-size:43px!important}
+.eyebrow{color:#76aef9!important}
+.progress span,.goalBar span{
+  background:linear-gradient(90deg,#1383ff,#4a8cff)!important;
+  box-shadow:0 0 16px rgba(19,131,255,.23);
 }
 .card.blue{
-  border-color:#1c4f88!important;
-  background:linear-gradient(145deg,#0b2342,#07111e)!important;
+  border-color:#1c4e83!important;
+  background:linear-gradient(145deg,#0a2340,#07111d)!important;
 }
 .card.red{
-  border-color:#65313a!important;
-  background:linear-gradient(145deg,#2b1218,#0a0e14)!important;
+  border-color:#65303a!important;
+  background:linear-gradient(145deg,#2d1218,#080e15)!important;
 }
 .card.misc{
-  border-color:#3c334f!important;
-  background:linear-gradient(145deg,#1c1630,#0a0e14)!important;
+  border-color:#443361!important;
+  background:linear-gradient(145deg,#1f1732,#080e15)!important;
 }
-.cardTitle{
-  font-size:12px!important;
-  letter-spacing:.095em!important;
-}
-.statLine{
-  padding:8px 0!important;
-}
-.statLine span:first-child{
-  color:#8492a6!important;
-}
-.grid2 .statLine strong{
-  font-size:18px;
-}
-.blueText{color:#55a1ff!important}
-.redText{color:#ff6571!important}
-.miscText{color:#aa79ff!important}
+.blueText{color:#4c9dff!important}
+.redText{color:#ff6570!important}
+.miscText{color:#ab6eff!important}
+.sectionTitle{font-size:16px!important}
+.meta,.statsCaption,.entrySub{color:#7f8da0!important}
 
-/* Panels look like dashboard modules */
-.panel{
-  padding:20px!important;
-}
-.sectionTitle{
-  font-size:17px!important;
-  letter-spacing:-.02em!important;
-}
-.statsCaption,.meta,.entrySub{
-  color:#7f8da0!important;
-}
-.paydayDate,.historyNet,.bestPeriodAmount{
-  color:#eaf2fc!important;
-}
-
-/* Entries & filters */
-.entryComposer{
-  border-color:#203d5a!important;
-}
-.typeChoice{
-  background:#07101a!important;
-  border-color:#243448!important;
-}
-.typeChoice.active.flight{
-  background:linear-gradient(180deg,#1357a5,#0c3974)!important;
-  box-shadow:0 0 22px rgba(21,132,255,.15)!important;
-}
-.typeChoice.active.ground{
-  background:linear-gradient(180deg,#6a2630,#3f171d)!important;
-}
-.typeChoice.active.misc{
-  background:linear-gradient(180deg,#483268,#2a203d)!important;
-  border-color:#7650a8!important;
-}
+/* filters / entries */
+.entryComposer{border-color:#1c3958!important}
 input,select{
-  background:#040a11!important;
-  border-color:#26384c!important;
+  background:#030a11!important;border-color:#26384b!important;color:#fff!important;
 }
-input:focus,select:focus{
-  border-color:#2e88ed!important;
-  box-shadow:0 0 0 3px rgba(34,132,255,.10)!important;
-}
-.primary{
-  background:linear-gradient(180deg,#278cff,#0d6de1)!important;
-  box-shadow:0 10px 24px rgba(18,111,225,.25)!important;
-}
-.entriesFilter{
-  background:#06101a!important;
-  border-color:#203247!important;
-}
-.monthGroup{
-  background:#07101a!important;
-  border-color:#1c2d40!important;
-}
-.monthHeader{
-  background:linear-gradient(180deg,#0e1a28,#09131e)!important;
-  color:#dfe9f7!important;
-}
-.swipeContent{
-  background:linear-gradient(180deg,#0b1622,#070e16)!important;
-  border-left:2px solid rgba(57,128,202,.12);
-}
+.typeChoice{background:#06101a!important;border-color:#243448!important}
+.typeChoice.active.flight{background:linear-gradient(180deg,#135bb4,#0b3c7c)!important}
+.typeChoice.active.ground{background:linear-gradient(180deg,#6b2630,#43161d)!important}
+.typeChoice.active.misc{background:linear-gradient(180deg,#4f326f,#2d1d42)!important;border-color:#7951aa!important}
+.primary{background:linear-gradient(180deg,#1989ff,#0869e5)!important}
+.monthGroup{background:#06101a!important;border-color:#1a2d40!important}
+.monthHeader{background:linear-gradient(180deg,#0d1926,#08121d)!important}
+.swipeContent{background:linear-gradient(180deg,#0a1521,#060e16)!important}
 
-/* Stats closer to reference dashboard */
-.statsHero{
-  border-color:#1d3e5f!important;
-  background:
-    radial-gradient(circle at 84% 14%,rgba(77,92,255,.20),transparent 28%),
-    linear-gradient(145deg,#0b1726,#07101a)!important;
-}
-.statsHeroValue{
-  font-size:42px!important;
-}
-.statCard{
-  border:1px solid #1a2b3e!important;
-  border-radius:18px!important;
-  padding:17px!important;
-}
-.statIcon{
-  background:#0a1b30!important;
-  border:1px solid #183b61;
-}
-.trendBar{
-  background:linear-gradient(180deg,#55a6ff,#147cff)!important;
-}
-.mixGauge{
-  box-shadow:0 0 34px rgba(38,128,255,.10)!important;
-}
-
-/* Pro visual language */
-.proMini,.proLockPill{
-  background:#281b4a!important;
-  border-color:#6d4cff!important;
-  color:#c1a7ff!important;
-}
-.proInlineGate{
-  border-color:#45316e!important;
-  background:
-    radial-gradient(circle at 90% 0%,rgba(117,74,255,.13),transparent 38%),
-    linear-gradient(180deg,#161028,#0a0d14)!important;
-}
-
-/* Bottom navigation — mobile cockpit dock */
+/* nav */
 .nav{
-  background:rgba(5,12,21,.97)!important;
-  border-color:#1d3146!important;
-  box-shadow:
-    0 16px 40px rgba(0,0,0,.50),
-    inset 0 1px 0 rgba(255,255,255,.03)!important;
+  background:rgba(4,12,21,.98)!important;
+  border-color:#1b3044!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.025)!important;
 }
-.nav button{
-  color:#718096!important;
-}
-.nav button.active{
-  color:#eaf4ff!important;
-}
-.nav button.active.current{
-  background:linear-gradient(180deg,#165cb6,#0c3d80)!important;
-}
-.nav button.active.history{
-  background:linear-gradient(180deg,#56304d,#311b31)!important;
-}
-.nav button.active.stats{
-  background:linear-gradient(180deg,#173e69,#102a48)!important;
-}
+.nav button{color:#79889d!important}
+.nav button.active{color:#eaf3ff!important}
+.nav button.active.current{background:linear-gradient(180deg,#145bb2,#0b3e82)!important}
+.nav button.active.history{background:linear-gradient(180deg,#532d49,#311b30)!important}
+.nav button.active.stats{background:linear-gradient(180deg,#173e68,#102b49)!important}
 
-/* DESKTOP: transform bottom nav into true left-side cockpit rail */
+/* desktop left rail exactly like concept */
 @media(min-width:900px){
-  body{
-    padding-left:236px;
-  }
+  body{padding-left:214px}
   .app{
-    max-width:1280px!important;
+    max-width:1220px!important;
     margin:0 auto!important;
-    padding:28px 30px 52px!important;
-  }
-  .nav{
-    left:18px!important;
-    right:auto!important;
-    top:18px!important;
-    bottom:18px!important;
-    width:198px!important;
-    height:auto!important;
-    display:flex!important;
-    flex-direction:column!important;
-    justify-content:flex-start!important;
-    gap:8px!important;
-    padding:18px 12px!important;
-    border-radius:24px!important;
-  }
-  .nav:before{
-    content:"FLIGHTDECK\\A PAY";
-    white-space:pre;
-    display:flex;
-    align-items:center;
-    min-height:86px;
-    margin-bottom:10px;
-    padding:14px 16px;
-    border-bottom:1px solid #17283a;
-    color:#eaf5ff;
-    font-size:18px;
-    line-height:1.1;
-    font-weight:950;
-    letter-spacing:.04em;
-    background:
-      radial-gradient(circle at 20% 35%,rgba(32,132,255,.23),transparent 28%);
-  }
-  .nav button{
-    min-height:58px!important;
-    flex-direction:row!important;
-    justify-content:flex-start!important;
-    gap:12px!important;
-    padding:0 14px!important;
-    border-radius:14px!important;
-    font-size:12px!important;
-  }
-  .nav button svg{
-    width:20px!important;
-    height:20px!important;
-  }
-  .nav button.active:after{
-    content:"";
-    position:absolute;
-    left:0;
-    top:14px;
-    bottom:14px;
-    width:3px;
-    border-radius:999px;
-    background:#4ca2ff;
-    box-shadow:0 0 14px rgba(49,147,255,.8);
+    padding:20px 24px 44px!important;
   }
   .header{
-    margin-bottom:22px!important;
+    padding-left:0!important;
+    border-bottom:1px solid #102235;
   }
-  .grid2{
-    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  .nav{
+    left:14px!important;right:auto!important;top:14px!important;bottom:14px!important;
+    width:184px!important;
+    display:flex!important;flex-direction:column!important;gap:7px!important;
+    padding:13px!important;border-radius:20px!important;
   }
+  .nav:before{
+    content:"FLIGHTDECK\A PAY";
+    white-space:pre;
+    display:flex;align-items:center;
+    min-height:88px;
+    padding:15px 12px 15px 48px;
+    margin-bottom:8px;
+    color:#f3f7fb;
+    font-size:16px;line-height:1.05;font-weight:950;
+    background:
+      url("icon-192.png") left 4px center/38px 38px no-repeat;
+    border-bottom:1px solid #15283b;
+  }
+  .nav button{
+    min-height:50px!important;
+    flex-direction:row!important;justify-content:flex-start!important;
+    gap:11px!important;padding:0 12px!important;
+    border-radius:12px!important;font-size:11px!important;
+  }
+  .nav button svg{width:18px!important;height:18px!important}
   #pageCurrent{
     display:grid;
     grid-template-columns:repeat(12,minmax(0,1fr));
-    gap:14px;
+    gap:12px;
   }
   #pageCurrent[hidden]{display:none!important}
-  #pageCurrent .fdDashboardIntro{grid-column:1/-1}
-  #pageCurrent .period{grid-column:1/-1;margin-bottom:0!important}
-  #pageCurrent .hero{grid-column:1/8;margin-bottom:0!important}
-  #pageCurrent .grid2{grid-column:8/-1;margin-bottom:0!important;align-self:stretch}
-  #pageCurrent .grid2 .card{min-height:0}
-  #pageCurrent > .panel,
-  #pageCurrent > .proInlineGate{
-    grid-column:span 6;
-    margin-bottom:0!important;
-  }
-  #pageCurrent > .panel:last-child,
-  #pageCurrent > .proInlineGate:last-child{
-    grid-column:1/-1;
-  }
-  .statsGrid.premium{
-    grid-template-columns:repeat(4,minmax(0,1fr))!important;
-  }
+  .mockDashboardHero,.mockMetricGrid,.period{grid-column:1/-1}
+  #pageCurrent>.hero{grid-column:1/8;margin-bottom:0!important}
+  #pageCurrent>.grid2{grid-column:8/-1;margin-bottom:0!important;display:grid!important;grid-template-columns:1fr!important}
+  #pageCurrent>.grid2>.card{min-height:0}
+  #pageCurrent>.panel,#pageCurrent>.proInlineGate{grid-column:span 6;margin-bottom:0!important}
+  #pageCurrent>.panel:last-child,#pageCurrent>.proInlineGate:last-child{grid-column:1/-1}
+  .statsGrid.premium{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 }
 
-/* TABLET */
-@media(min-width:650px) and (max-width:899px){
-  .app{max-width:840px!important}
-  .fdDashboardIntro{grid-template-columns:1fr .7fr}
-  .grid2{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+/* tablet */
+@media(min-width:620px) and (max-width:899px){
+  .mockMetricGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
-/* MOBILE */
-@media(max-width:649px){
-  .fdDashboardIntro{
-    min-height:0;
-    grid-template-columns:1fr;
-    padding:22px 20px;
+/* mobile like the concept phone */
+@media(max-width:619px){
+  .app{padding-top:max(14px,env(safe-area-inset-top))!important}
+  .header{margin-bottom:10px!important}
+  .brand h1{font-size:27px!important}
+  .brand p{font-size:11px!important}
+  .mockDashboardHero{
+    min-height:330px;
+    background:
+      linear-gradient(180deg,rgba(2,8,17,.28),rgba(2,8,17,.94) 58%,#020811 100%),
+      url("dashboard-hero-plane.png") top center/cover no-repeat;
   }
-  .fdIntroCopy h2{
-    font-size:34px;
+  .mockHeroShade{
+    background:linear-gradient(180deg,rgba(2,8,17,.15),rgba(2,8,17,.55) 36%,rgba(2,8,17,.96) 64%,rgba(2,8,17,1));
   }
-  .fdRunwayVisual{
-    min-height:120px;
-    border-left:0;
-    border-top:1px solid rgba(65,114,166,.13);
+  .mockHeroCopy{
+    position:absolute;left:0;right:0;bottom:0;
+    width:auto;padding:20px 18px 22px;
   }
-  .fdPlaneMark{
-    font-size:44px;
-  }
-  .grid2{
-    grid-template-columns:1fr!important;
-  }
-  .heroNet{
-    font-size:39px!important;
-  }
-}
-
-/* very small iPhones */
-@media(max-width:380px){
-  .fdIntroCopy h2{font-size:30px}
-  .fdDashboardIntro{padding:18px 16px}
-  .brand h1{font-size:28px!important}
+  .mockGreeting{font-size:10px;margin-bottom:8px}
+  .mockHeroCopy h2{font-size:32px}
+  .mockHeroCopy p{display:none}
+  .mockLogEntryBtn{margin-top:14px;width:100%}
+  .mockHeroDate{display:none}
+  .mockMetricGrid{grid-template-columns:1fr;gap:9px}
+  .mockMetric{min-height:122px}
+  .grid2{grid-template-columns:1fr!important}
 }
 
 </style>
@@ -1172,27 +936,50 @@ input:focus,select:focus{
     <button id="installAppBtn" class="installBtn" type="button">Install</button>
   </div>
 
-  
-<section id="pageCurrent" class="page">
-  <div class="fdDashboardIntro">
-    <div class="fdIntroCopy">
-      <div class="fdWelcome">FLIGHTDECK PAY · PILOT EARNINGS DASHBOARD</div>
-      <h2>Track Your Flights.<br><span>Maximize Your Pay.</span></h2>
-      <p>Your hours, earnings, and pay periods — organized like a modern flight deck.</p>
-      <div class="fdIntroPills">
-        <span>✈ Flight / Sim</span>
-        <span>▣ Ground</span>
-        <span>$ Misc</span>
+  <section id="pageCurrent" class="page">
+    <div class="mockDashboardHero">
+      <div class="mockHeroShade"></div>
+      <div class="mockHeroCopy">
+        <div class="mockGreeting" id="mockGreeting">Good evening, Pilot 👋</div>
+        <h2>Track Your Flights.<br><span>Maximize Your Pay.</span></h2>
+        <p>Your hours. Your earnings. Your future. Let every flight count.</p>
+        <button id="mockLogEntryBtn" class="mockLogEntryBtn" type="button">
+          <span>＋</span> Log New Entry
+        </button>
+      </div>
+      <div class="mockHeroDate">
+        <div class="mockDateIcon">▣</div>
+        <div><strong id="mockDateMain">Today</strong><small id="mockDateSub"></small></div>
       </div>
     </div>
-    <div class="fdRunwayVisual" aria-hidden="true">
-      <div class="fdGlowOrb"></div>
-      <div class="fdRunway">
-        <i></i><i></i><i></i><i></i><i></i>
+
+    <div class="mockMetricGrid">
+      <div class="mockMetric metricGreen">
+        <div class="mockMetricTop"><span>TOTAL PAY (YTD)</span><b>$</b></div>
+        <strong id="mockTotalPay">$0.00</strong>
+        <small>Gross earnings logged this year</small>
+        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
       </div>
-      <div class="fdPlaneMark">✈</div>
+      <div class="mockMetric metricBlue">
+        <div class="mockMetricTop"><span>TOTAL FLIGHT TIME</span><b>◷</b></div>
+        <strong id="mockFlightTime">0.0</strong>
+        <small>Flight / Sim hours logged</small>
+        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="mockMetric metricPurple">
+        <div class="mockMetricTop"><span>HOURLY RATE (AVG)</span><b>⌁</b></div>
+        <strong id="mockAvgRate">$0.00</strong>
+        <small>Average gross per logged hour</small>
+        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="mockMetric metricOrange">
+        <div class="mockMetricTop"><span>ENTRIES (YTD)</span><b>✈</b></div>
+        <strong id="mockEntriesCount">0</strong>
+        <small>Total entries this year</small>
+        <div class="mockSpark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
     </div>
-  </div>
+
     <div class="period">
       <div style="min-width:0;flex:1">
         <div class="periodTitle">Current pay period</div>
@@ -1531,11 +1318,11 @@ input:focus,select:focus{
 <nav class="nav">
   <button id="navCurrent" class="active current" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16v16H4V4Zm3 4v2h10V8H7Zm0 4v4h4v-4H7Z"/></svg>
-    Current
+    Dashboard
   </button>
   <button id="navHistory" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 1 1-6.3 4H3l3.5-3.5L10 9H7.7A5 5 0 1 0 12 7v3l4-4-4-4v3Z"/></svg>
-    History <span class="proMini">PRO</span>
+    Pay History <span class="proMini">PRO</span>
   </button>
   <button id="navEntries" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 5h14v3H5V5Zm0 5h14v3H5v-3Zm0 5h14v3H5v-3Z"/></svg>
@@ -1543,7 +1330,7 @@ input:focus,select:focus{
   </button>
   <button id="navStats" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 20V9h3v11H5Zm5 0V4h3v16h-3Zm5 0v-7h3v7h-3Z"/></svg>
-    Stats <span class="proMini">PRO</span>
+    Analytics <span class="proMini">PRO</span>
   </button>
 </nav>
 
@@ -3237,5 +3024,47 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 })();
 </script>
+
+<script>
+(function(){
+  function byId(id){return document.getElementById(id)}
+  function syncMockDashboard(){
+    const totalPay=byId("mockTotalPay");
+    const flightTime=byId("mockFlightTime");
+    const avgRate=byId("mockAvgRate");
+    const entryCount=byId("mockEntriesCount");
+    if(totalPay && byId("statsYearTotal")) totalPay.textContent=byId("statsYearTotal").textContent;
+    if(flightTime && byId("entriesFlight")) flightTime.textContent=byId("entriesFlight").textContent.replace(" hrs","");
+    if(avgRate && byId("efficiencyValue")) avgRate.textContent=byId("efficiencyValue").textContent.replace("/hr","");
+    if(entryCount && byId("entriesCount")) entryCount.textContent=byId("entriesCount").textContent;
+  }
+  function setGreeting(){
+    const h=new Date().getHours();
+    const part=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+    if(byId("mockGreeting")) byId("mockGreeting").textContent=part+", Pilot 👋";
+    const d=new Date();
+    if(byId("mockDateMain")) byId("mockDateMain").textContent=
+      new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
+    if(byId("mockDateSub")) byId("mockDateSub").textContent=
+      new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
+  }
+  document.addEventListener("DOMContentLoaded",function(){
+    setGreeting();
+    if(byId("mockLogEntryBtn") && byId("navEntries")){
+      byId("mockLogEntryBtn").addEventListener("click",function(){byId("navEntries").click()});
+    }
+    syncMockDashboard();
+    ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount"].forEach(function(id){
+      const node=byId(id);
+      if(node){
+        new MutationObserver(syncMockDashboard).observe(node,{childList:true,subtree:true,characterData:true});
+      }
+    });
+    setTimeout(syncMockDashboard,350);
+    setTimeout(syncMockDashboard,1200);
+  });
+})();
+</script>
+
 </body>
 </html>
