@@ -1,4 +1,4 @@
-const CACHE_NAME = "flightdeck-pay-v6-direct-auth";
+const CACHE_NAME = "flightdeck-pay-v7-pro-fix";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -23,10 +23,19 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
-  // For page navigations, prefer the newest deployed app and fall back offline.
+  const requestUrl = new URL(event.request.url);
+  const appUrl = new URL(self.registration.scope);
+
+  // Never cache Supabase, Stripe, or any other cross-origin API response.
+  if (requestUrl.origin !== appUrl.origin) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  // Navigations are network-first so users get the newest deployed app.
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request).then(response => {
+      fetch(event.request, { cache: "no-store" }).then(response => {
         const copy = response.clone();
         caches.open(CACHE_NAME).then(cache => cache.put("./index.html", copy));
         return response;
@@ -35,7 +44,7 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Static assets can be served cache-first.
+  // Only same-origin static app assets are cached.
   event.respondWith(
     caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
       const copy = response.clone();

@@ -1110,14 +1110,8 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       isPro=false; syncProUI(); return false;
     }
     try{
-      const session=await ensureSession();
-      if(!session?.access_token) throw new Error("Sign in again.");
-      const rows=await supabaseFetch(`/rest/v1/entitlements?select=is_pro,purchased_at&user_id=eq.${encodeURIComponent(currentUser.id)}&limit=1`,{
-        accessToken:session.access_token,
-        headers:{Accept:"application/json"}
-      });
-      const data=Array.isArray(rows)?rows[0]:null;
-      isPro=Boolean(data?.is_pro);
+      const data=await invokeFunction("verify-purchase",{check_only:true});
+      isPro=Boolean(data?.pro);
       syncProUI();
       if(showMessage) setAccountStatus(isPro?"Pro is active on this account.":"This account is currently on Free.",false);
       return isPro;
