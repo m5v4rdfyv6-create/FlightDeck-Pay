@@ -851,6 +851,11 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
       </div>
     </div>
     <button id="saveSettings" class="primary" type="button">Save settings</button>
+    <div style="height:10px"></div>
+    <button id="importDataBtn" class="primary" type="button">Import existing FlightDeck Pay data</button>
+    <input id="importDataFile" type="file" accept="application/json,.json" hidden>
+    <button id="exportDataBtn" class="primary" type="button" style="margin-top:8px">Export backup</button>
+    <div id="dataTransferStatus" class="settingsNote" style="margin-top:10px"></div>
     <div class="settingsNote">Federal and state amounts are estimates. Social Security (6.2%) and Medicare (1.45%) are included automatically. Your data stays in this browser on this device.</div>
   </div>
 </div>
@@ -1219,6 +1224,74 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       addBtn.classList.remove("success");
       el("addStatus").textContent="";
     },700);
+  });
+
+  el("importDataBtn").addEventListener("click",()=>{
+    el("dataTransferStatus").textContent="";
+    el("importDataFile").value="";
+    el("importDataFile").click();
+  });
+
+  el("importDataFile").addEventListener("change",async e=>{
+    const file=e.target.files && e.target.files[0];
+    if(!file) return;
+    try{
+      const raw=await file.text();
+      const parsed=JSON.parse(raw);
+      if(!parsed || !Array.isArray(parsed.entries) || !parsed.settings || typeof parsed.settings!=="object"){
+        throw new Error("That file is not a FlightDeck Pay data file.");
+      }
+
+      const importedSettings={...defaultAppState.settings,...parsed.settings};
+      importedSettings.flightRate=num(importedSettings.flightRate,0);
+      importedSettings.groundRate=num(importedSettings.groundRate,0);
+      importedSettings.miscRate=num(importedSettings.miscRate,0);
+      importedSettings.federalRate=num(importedSettings.federalRate,0);
+      importedSettings.stateRate=num(importedSettings.stateRate,0);
+      importedSettings.paycheckGoal=num(importedSettings.paycheckGoal,0);
+      importedSettings.nextPayday=String(importedSettings.nextPayday||"");
+      // The original personal Scriptable build used 2026-08-17 as its pay-period anchor.
+      importedSettings.payPeriodStart=String(importedSettings.payPeriodStart||"2026-08-17");
+      importedSettings.setupComplete=true;
+
+      entries=parsed.entries.map((entry,index)=>({
+        ...entry,
+        id:String(entry.id ?? (Date.now()+"-"+index)),
+        type:entry.type==="ground"?"ground":entry.type==="misc"?"misc":"flight",
+        date:String(entry.date||""),
+        hours:num(entry.hours,0),
+        rate:num(entry.rate, entry.type==="ground"?importedSettings.groundRate:entry.type==="misc"?importedSettings.miscRate:importedSettings.flightRate)
+      })).filter(entry=>parseDate(entry.date) && entry.hours>0);
+
+      settings=importedSettings;
+      anchor=parseDate(settings.payPeriodStart) || new Date(today.getFullYear(),today.getMonth(),today.getDate());
+      const data=snapshot();
+      saveLocalSnapshot(data);
+      await saveIndexedSnapshot(data);
+      populateSettings();
+      render();
+      el("dataTransferStatus").textContent="Imported "+entries.length+" entries successfully.";
+    }catch(err){
+      console.warn("Import failed",err);
+      el("dataTransferStatus").textContent="Could not import that file. Choose FlightDeckPayProData.json or a FlightDeck Pay backup.";
+    }
+  });
+
+  el("exportDataBtn").addEventListener("click",()=>{
+    try{
+      const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:"application/json"});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url;
+      a.download="FlightDeckPayBackup.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      el("dataTransferStatus").textContent="Backup ready to save or share.";
+    }catch(err){
+      el("dataTransferStatus").textContent="Could not create backup.";
+    }
   });
 
   el("saveSettings").addEventListener("click",()=>{
