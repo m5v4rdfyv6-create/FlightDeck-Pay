@@ -1,4 +1,4 @@
-const CACHE_NAME = "flightdeck-pay-v8-pro-gates";
+const CACHE_NAME = "flightdeck-pay-v9-install-button";
 const APP_SHELL = [
   "./",
   "./index.html",
