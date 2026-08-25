@@ -1409,8 +1409,18 @@ input:focus,select:focus{
       <div class="tgGoalMeta"><strong id="tgGoalText">$0 / $0</strong><span id="tgGoalPct">0%</span></div>
     </div>
   </div>
+</section>
 
-    <div class="period">
+  <section id="pageHistory" class="page" hidden>
+    <div class="fdPageHeader">
+      <div>
+        <div class="eyebrow">PAY TRACKER</div>
+        <h2>Current Pay & Pay History</h2>
+        <p>Current pay period, take-home, projections, payday, daily earnings, and completed pay periods.</p>
+      </div>
+    </div>
+
+<div class="period">
       <div style="min-width:0;flex:1">
         <div class="periodTitle">Current pay period</div>
         <div class="meta" id="periodDates"></div>
@@ -1498,9 +1508,7 @@ input:focus,select:focus{
       <div class="proInlineCopy">See exactly what you earned each day in the current pay period.</div>
       <button class="primary proBuyBtn proInlineBuy" type="button">Unlock Pro — $9.99 lifetime</button>
     </div>
-  </section>
 
-  <section id="pageHistory" class="page" hidden>
     <div id="historyGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock pay history</h2>
@@ -1780,7 +1788,14 @@ input:focus,select:focus{
     </div>
 
     <div class="panel fdReportPanel">
-      <div class="sectionTitle">Breakdown</div>
+      <div class="sectionTitle">Year-to-Date</div>
+      <div class="statLine"><span>YTD Gross</span><strong id="reportYtdGross">$0.00</strong></div>
+      <div class="statLine"><span>YTD Hours</span><strong id="reportYtdHours">0.0 hrs</strong></div>
+      <div class="statLine"><span>YTD Entries</span><strong id="reportYtdEntries">0</strong></div>
+    </div>
+
+    <div class="panel fdReportPanel">
+      <div class="sectionTitle">All-Time Breakdown</div>
       <div class="statLine"><span>Flight / Sim</span><strong id="reportFlight">$0.00</strong></div>
       <div class="statLine"><span>Ground</span><strong id="reportGround">$0.00</strong></div>
       <div class="statLine"><span>Miscellaneous</span><strong id="reportMisc">$0.00</strong></div>
@@ -2737,29 +2752,34 @@ window.flightDeckSignedInState=false;
   }
 
   function showPage(which){
-    const current=which==="current",history=which==="history",entriesPage=which==="entries",stats=which==="stats";
-    if(stats) syncProUI();
+    const current=which==="current";
+    const history=which==="history";
+    const entriesPage=which==="entries";
+    const stats=which==="stats";
 
-    ["pageReports","pageGoals","pageEvents","pageRecent","pageSettingsFull"].forEach(id=>{
+    if(stats)syncProUI();
+
+    ["pageCurrent","pageHistory","pageEntries","pageStats","pageReports","pageGoals","pageEvents","pageRecent","pageSettingsFull"].forEach(id=>{
       const node=el(id);
-      if(node) node.hidden=true;
+      if(node)node.hidden=true;
     });
 
-    el("pageCurrent").hidden=!current;
-    el("pageHistory").hidden=!history;
-    el("pageEntries").hidden=!entriesPage;
-    el("pageStats").hidden=!stats;
+    if(current)el("pageCurrent").hidden=false;
+    if(history)el("pageHistory").hidden=false;
+    if(entriesPage)el("pageEntries").hidden=false;
+    if(stats)el("pageStats").hidden=false;
 
     document.querySelectorAll(".nav button").forEach(btn=>{
       btn.classList.remove("active","current","history","stats");
     });
 
-    if(current) el("navCurrent").className="active current";
-    if(history) el("navHistory").className="active history";
-    if(entriesPage) el("navEntries").className="active current";
-    if(stats) el("navStats").className="active stats";
+    if(current)el("navCurrent").className="active current";
+    if(history)el("navHistory").className="active history";
+    if(entriesPage)el("navEntries").className="active current";
+    if(stats)el("navStats").className="active stats";
 
-    if(entriesPage) renderEntriesPage();
+    if(entriesPage)renderEntriesPage();
+    window.scrollTo({top:0,behavior:"smooth"});
   }
 
   el("navCurrent").addEventListener("click",()=>showPage("current"));
@@ -3692,12 +3712,79 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   /* Controlled bridge for newer FlightDeck pages.
      Keeps the original tracker as the single source of truth. */
+
+  function buildFlightDeckMetrics(){
+    const allEntries=Array.isArray(entries)?entries:[];
+    const currentYear=today.getFullYear();
+
+    const ytdEntries=allEntries.filter(e=>{
+      const d=parseDate(e.date);
+      return d && d.getFullYear()===currentYear;
+    });
+
+    function summarize(list){
+      const flight=list.filter(e=>e.type==="flight");
+      const ground=list.filter(e=>e.type==="ground");
+      const misc=list.filter(e=>e.type==="misc");
+
+      const flightHours=flight.reduce((a,e)=>a+num(e.hours),0);
+      const groundHours=ground.reduce((a,e)=>a+num(e.hours),0);
+      const miscHours=misc.reduce((a,e)=>a+num(e.hours),0);
+      const totalHours=flightHours+groundHours+miscHours;
+
+      const flightGross=flight.reduce((a,e)=>a+entryGross(e),0);
+      const groundGross=ground.reduce((a,e)=>a+entryGross(e),0);
+      const miscGross=misc.reduce((a,e)=>a+entryGross(e),0);
+      const gross=flightGross+groundGross+miscGross;
+      const tax=taxFor(gross);
+
+      return {
+        entries:list.length,
+        totalHours,
+        flightHours,
+        groundHours,
+        miscHours,
+        gross,
+        net:tax.net,
+        flightGross,
+        groundGross,
+        miscGross,
+        avgGrossPerHour:totalHours?gross/totalHours:0
+      };
+    }
+
+    const ytd=summarize(ytdEntries);
+    const all=summarize(allEntries);
+
+    const pilotPoints=Math.round(
+      ytd.totalHours*100 +
+      ytd.entries*25 +
+      ytd.gross/10
+    );
+
+    let pilotLevel="Student Pilot";
+    if(pilotPoints>=25000)pilotLevel="Professional Pilot";
+    else if(pilotPoints>=15000)pilotLevel="Commercial Pilot";
+    else if(pilotPoints>=7500)pilotLevel="Instrument Pilot";
+    else if(pilotPoints>=2500)pilotLevel="Private Pilot";
+
+    return {
+      currentYear,
+      ytd,
+      all,
+      pilotPoints,
+      pilotLevel,
+      settings:{...settings}
+    };
+  }
+
   window.flightDeckCore = {
     getEntries: () => entries,
     getSettings: () => settings,
     entryGross: (entry) => entryGross(entry),
     taxFor: (gross) => taxFor(gross),
     money: (value) => money(value),
+    getMetrics: () => buildFlightDeckMetrics(),
     render: () => render(),
     persist: () => persistData(),
     saveSettings: (next) => {
@@ -3769,6 +3856,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   render();
   persistData();
+  window.flightDeckCoreReady=true;
+  window.dispatchEvent(new CustomEvent("flightdeck:coreready",{detail:buildFlightDeckMetrics()}));
+  window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
@@ -3829,13 +3919,31 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   function netOf(g,s){ return Math.max(0,g-g*(num(s.federalRate)/100)-g*(num(s.stateRate)/100)-g*.062-g*.0145); }
 
   function calc(){
-    const list=getAppEntries(), s=getSettings();
-    const gross=list.reduce((a,e)=>a+grossOf(e,s),0);
-    const hours=list.reduce((a,e)=>a+num(e.hours),0);
-    const flightGross=list.filter(e=>e.type==="flight").reduce((a,e)=>a+grossOf(e,s),0);
-    const groundGross=list.filter(e=>e.type==="ground").reduce((a,e)=>a+grossOf(e,s),0);
-    const miscGross=list.filter(e=>e.type==="misc").reduce((a,e)=>a+grossOf(e,s),0);
-    return {list,s,gross,hours,flightGross,groundGross,miscGross,net:netOf(gross,s),eff:hours?gross/hours:0};
+    const core=window.flightDeckCore;
+    if(core && typeof core.getMetrics==="function"){
+      const metrics=core.getMetrics();
+      const a=metrics.all;
+      return {
+        list:core.getEntries(),
+        s:metrics.settings,
+        gross:a.gross,
+        hours:a.totalHours,
+        flightGross:a.flightGross,
+        groundGross:a.groundGross,
+        miscGross:a.miscGross,
+        net:a.net,
+        eff:a.avgGrossPerHour,
+        ytd:metrics.ytd,
+        pilotPoints:metrics.pilotPoints,
+        pilotLevel:metrics.pilotLevel
+      };
+    }
+    return {
+      list:[],s:getSettings(),gross:0,hours:0,
+      flightGross:0,groundGross:0,miscGross:0,net:0,eff:0,
+      ytd:{gross:0,totalHours:0,flightHours:0,entries:0},
+      pilotPoints:0,pilotLevel:"Student Pilot"
+    };
   }
 
   function renderReports(c){
@@ -3848,6 +3956,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     el("reportGround").textContent=money(c.groundGross);
     el("reportMisc").textContent=money(c.miscGross);
     el("reportNet").textContent=money(c.net);
+    if(el("reportYtdGross"))el("reportYtdGross").textContent=money(c.ytd.gross);
+    if(el("reportYtdHours"))el("reportYtdHours").textContent=c.ytd.totalHours.toFixed(1)+" hrs";
+    if(el("reportYtdEntries"))el("reportYtdEntries").textContent=c.ytd.entries;
   }
 
   function pointsFrom(c){
@@ -3868,9 +3979,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     el("goalPercent").textContent=Math.round(pct)+"%";
     el("goalCurrent").textContent=money(c.net)+" / "+money(goal);
     el("goalStatus").textContent=pct>=100?"Goal reached.":"You're "+Math.round(pct)+"% of the way to your goal.";
-    const pts=pointsFrom(c);
+    const pts=num(c.pilotPoints,0);
     el("pointsValue").textContent=pts.toLocaleString()+" pts";
-    el("pointsLevel").textContent=pointLevel(pts);
+    el("pointsLevel").textContent=c.pilotLevel||pointLevel(pts);
     const milestones=[2500,7500,15000,25000,50000];
     const box=el("milestoneList"); box.innerHTML="";
     milestones.forEach(function(m){
@@ -3988,6 +4099,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     renderExtra();
 
     window.addEventListener("flightdeck:datachange",renderExtra);
+    window.addEventListener("flightdeck:coreready",renderExtra);
     // Slow fallback in case browser lifecycle events interrupt an update.
     setInterval(renderExtra,5000);
   });
@@ -4028,39 +4140,37 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     return "Student Pilot";
   }
   function render(){
-    const list=safeEntries(),s=safeSettings();
-    const gross=list.reduce((a,e)=>a+entryGross(e,s),0);
-    const flightHours=list.filter(e=>e.type==="flight").reduce((a,e)=>a+num(e.hours),0);
-    const totalHours=list.reduce((a,e)=>a+num(e.hours),0);
-    const avg=totalHours?gross/totalHours:0;
-    const pts=pointsFor(list,s);
+    const core=window.flightDeckCore;
+    if(!core || typeof core.getMetrics!=="function")return;
 
-    if(byId("tgGross"))byId("tgGross").textContent=money(gross);
-    if(byId("tgFlight"))byId("tgFlight").textContent=flightHours.toFixed(1)+" hrs";
-    if(byId("tgRate"))byId("tgRate").textContent=money(avg)+"/hr";
-    if(byId("tgPoints"))byId("tgPoints").textContent=pts.toLocaleString()+" pts";
-    if(byId("tgLevel"))byId("tgLevel").textContent=level(pts);
+    const metrics=core.getMetrics();
+    const list=core.getEntries();
+    const s=metrics.settings;
+    const y=metrics.ytd;
 
-    const goal=Math.max(0,num(s.paycheckGoal,1500));
-    const net=keepRate(gross,s);
-    const pct=goal?Math.min(100,net/goal*100):100;
-    if(byId("tgGoalFill"))byId("tgGoalFill").style.width=pct+"%";
-    if(byId("tgGoalText"))byId("tgGoalText").textContent=money(net)+" / "+money(goal);
-    if(byId("tgGoalPct"))byId("tgGoalPct").textContent=Math.round(pct)+"%";
+    if(byId("tgGross"))byId("tgGross").textContent=money(y.gross);
+    if(byId("tgFlight"))byId("tgFlight").textContent=y.flightHours.toFixed(1)+" hrs";
+    if(byId("tgRate"))byId("tgRate").textContent=money(y.avgGrossPerHour)+"/hr";
+    if(byId("tgPoints"))byId("tgPoints").textContent=metrics.pilotPoints.toLocaleString()+" pts";
+    if(byId("tgLevel"))byId("tgLevel").textContent=metrics.pilotLevel;
 
     const recentBox=byId("tgRecentPreview");
     if(recentBox){
       recentBox.innerHTML="";
       const recent=list.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).slice(0,4);
-      if(!recent.length){recentBox.innerHTML='<div class="empty">No entries yet.</div>'}
+      if(!recent.length)recentBox.innerHTML='<div class="empty">No entries yet.</div>';
       recent.forEach(function(e){
         const row=document.createElement("div");row.className="tgPreviewRow";
         const left=document.createElement("div");
-        const title=document.createElement("strong");title.textContent=e.type==="flight"?"Flight / Sim":e.type==="ground"?"Ground":"Miscellaneous";
-        const sub=document.createElement("small");sub.textContent=e.date+" • "+num(e.hours).toFixed(2)+" hrs";
+        const title=document.createElement("strong");
+        title.textContent=e.type==="flight"?"Flight / Sim":e.type==="ground"?"Ground":"Miscellaneous";
+        const sub=document.createElement("small");
+        sub.textContent=e.date+" • "+num(e.hours).toFixed(2)+" hrs";
         left.append(title,sub);
-        const amt=document.createElement("strong");amt.textContent=money(entryGross(e,s));
-        row.append(left,amt);recentBox.appendChild(row);
+        const amt=document.createElement("strong");
+        amt.textContent=money(core.entryGross(e));
+        row.append(left,amt);
+        recentBox.appendChild(row);
       });
     }
 
@@ -4070,7 +4180,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       let evs=[];
       try{evs=(JSON.parse(localStorage.getItem("flightdeckExtraFeatures")||"{}").events)||[]}catch(e){}
       evs=evs.slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))).slice(0,4);
-      if(!evs.length){eventBox.innerHTML='<div class="empty">No upcoming events.</div>'}
+      if(!evs.length)eventBox.innerHTML='<div class="empty">No upcoming events.</div>';
       evs.forEach(function(ev){
         const row=document.createElement("div");row.className="tgPreviewRow";
         const left=document.createElement("div");
@@ -4079,6 +4189,14 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
         left.append(title,sub);row.append(left);eventBox.appendChild(row);
       });
     }
+
+    const goal=Math.max(0,num(s.paycheckGoal,1500));
+    const ciNet=(core.taxFor && typeof periodIndex==="undefined") ? 0 : 0;
+    // Dashboard goal uses YTD net only as an overview; detailed goal calculations live on Goals page.
+    const pct=goal?Math.min(100,y.net/goal*100):100;
+    if(byId("tgGoalFill"))byId("tgGoalFill").style.width=pct+"%";
+    if(byId("tgGoalText"))byId("tgGoalText").textContent=money(y.net)+" / "+money(goal);
+    if(byId("tgGoalPct"))byId("tgGoalPct").textContent=Math.round(pct)+"%";
   }
 
   function setWeather(temp,label,icon){
@@ -4128,6 +4246,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     if(byId("tgRecentLink")&&byId("navRecent"))byId("tgRecentLink").addEventListener("click",()=>byId("navRecent").click());
     if(byId("tgGoalsLink")&&byId("navGoals"))byId("tgGoalsLink").addEventListener("click",()=>byId("navGoals").click());
     window.addEventListener("flightdeck:datachange",render);
+    window.addEventListener("flightdeck:coreready",render);
     setInterval(render,5000);
     setInterval(updateDate,60000);
   });
