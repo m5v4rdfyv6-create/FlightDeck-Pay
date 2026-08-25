@@ -566,25 +566,29 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 .seoAboutLinks a{display:inline-flex;align-items:center;min-height:38px;padding:8px 11px;border-radius:11px;border:1px solid #284c87;background:#091932;color:#9fc0ff;text-decoration:none;font-size:12px;font-weight:850}
 
 /* ============================================================
-   FLIGHTDECK PAY — APPROVED DARK DASHBOARD
+   FLIGHTDECK PAY — APPROVED LIGHT AVIATION SAAS THEME
    ============================================================ */
+
 :root{
-  --ap-bg:#020811;
-  --ap-panel:#07111c;
-  --ap-panel2:#091522;
-  --ap-line:#17283a;
-  --ap-blue:#1784ff;
-  --ap-green:#18df91;
-  --ap-purple:#a657ff;
-  --ap-orange:#ff7d22;
-  --ap-muted:#8593a7;
+  --lt-bg:#f3f7fc;
+  --lt-card:#ffffff;
+  --lt-card2:#f9fbfe;
+  --lt-line:#dce6f1;
+  --lt-line2:#cfdceb;
+  --lt-navy:#0e2342;
+  --lt-muted:#6f7f95;
+  --lt-blue:#2585ff;
+  --lt-green:#24b878;
+  --lt-purple:#8a4de8;
+  --lt-orange:#ff8a2a;
+  --lt-red:#e6535f;
 }
 
 html,body{
   background:
-    radial-gradient(circle at 72% -12%,rgba(20,113,255,.13),transparent 30%),
-    linear-gradient(180deg,#020811 0%,#030913 56%,#02070e 100%)!important;
-  color:#f4f8fd!important;
+    radial-gradient(circle at 72% -8%,rgba(77,155,255,.18),transparent 31%),
+    linear-gradient(180deg,#eef5fc 0%,#f8fbff 46%,#f3f7fb 100%)!important;
+  color:var(--lt-navy)!important;
 }
 
 body:before{
@@ -592,325 +596,443 @@ body:before{
   pointer-events:none;
   position:fixed;
   inset:0;
-  opacity:.26;
   background:
-    linear-gradient(rgba(70,125,180,.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(70,125,180,.03) 1px,transparent 1px);
-  background-size:40px 40px;
+    linear-gradient(rgba(72,125,180,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(72,125,180,.025) 1px,transparent 1px);
+  background-size:42px 42px;
 }
 
 .app{max-width:1180px!important}
 
 .header{
-  padding:8px 2px 16px!important;
-  margin-bottom:12px!important;
-  border-bottom:1px solid rgba(39,74,108,.16);
+  padding:10px 4px 18px!important;
+  margin-bottom:14px!important;
+  border-bottom:1px solid rgba(150,178,209,.28);
 }
 .brandLogo{
-  width:56px!important;height:56px!important;border-radius:18px!important;
-  border:1px solid #15528f!important;
-  background:#04101a!important;
-  box-shadow:0 0 30px rgba(23,132,255,.16),inset 0 1px 0 rgba(255,255,255,.04)!important;
+  width:58px!important;height:58px!important;border-radius:18px!important;
+  border:1px solid #bcd4ef!important;
+  background:#fff!important;
+  box-shadow:0 10px 28px rgba(34,88,150,.12),inset 0 1px 0 rgba(255,255,255,.7)!important;
 }
-.brand h1{font-size:32px!important}
-.brand p{color:#7e8da2!important}
+.brand h1{
+  color:#0b2343!important;
+  font-size:32px!important;
+  letter-spacing:-.055em!important;
+}
+.brand p{color:#6f7f95!important}
 .iconBtn{
-  background:#07101a!important;border-color:#1b3045!important;
-  box-shadow:0 10px 28px rgba(0,0,0,.25)!important;
+  color:#4c607a!important;
+  background:#fff!important;
+  border-color:#d6e1ed!important;
+  box-shadow:0 8px 24px rgba(43,84,132,.10)!important;
 }
 
-/* hero */
-.approvedHero{
-  min-height:255px;
+/* top header / weather / date */
+.lightTopRow{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
-  gap:24px;
-  padding:28px 30px;
-  margin-bottom:14px;
-  border:1px solid #14283b;
-  border-radius:22px;
-  background:
-    radial-gradient(circle at 83% 22%,rgba(21,113,255,.12),transparent 30%),
-    linear-gradient(180deg,#06101b,#040b13);
-  box-shadow:0 22px 52px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.025);
+  gap:18px;
+  margin-bottom:16px;
 }
-.approvedGreeting{
-  color:#a0aabd;
-  font-size:12px;
-  margin-bottom:15px;
+.lightGreeting{
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:-.045em;
+  color:#0b2343;
 }
-.approvedHeroCopy h2{
-  margin:0;
-  font-size:44px;
-  line-height:1.04;
-  letter-spacing:-.055em;
-}
-.approvedHeroCopy h2 span{
-  background:linear-gradient(90deg,#2189ff,#7377ff);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-}
-.approvedHeroCopy p{
-  color:#9aa7b8;
-  line-height:1.55;
-  margin:16px 0 0;
+.lightSubline{
+  margin-top:6px;
+  color:#61748f;
   font-size:14px;
 }
-.approvedLogEntry{
-  min-height:48px;
-  padding:0 19px;
-  margin-top:22px;
-  border:0;
-  border-radius:13px;
-  color:#fff;
-  background:linear-gradient(180deg,#1b8bff,#086ae7);
-  font-weight:850;
-  box-shadow:0 10px 26px rgba(8,105,230,.27),inset 0 1px 0 rgba(255,255,255,.14);
-}
-.approvedLogEntry:active{transform:scale(.98)}
-.approvedLogEntry span{font-size:20px;vertical-align:-1px}
-
-.approvedHeroCards{
+.lightTopCards{
   display:flex;
   gap:10px;
-  align-items:stretch;
 }
-.approvedTopCard{
-  min-width:150px;
-  min-height:62px;
+.lightInfoCard{
+  min-width:175px;
+  min-height:70px;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:10px 13px;
-  border:1px solid #1a3045;
-  border-radius:13px;
-  color:#fff;
-  background:#07111c;
+  gap:11px;
+  padding:11px 14px;
+  border:1px solid #d7e4f0;
+  border-radius:14px;
+  background:rgba(255,255,255,.88);
+  color:#0e2342;
   text-align:left;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+  box-shadow:0 8px 24px rgba(43,84,132,.09);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
-button.approvedTopCard:active{transform:scale(.97)}
-.approvedTopIcon{
-  width:34px;height:34px;border-radius:10px;
+button.lightInfoCard:active{transform:scale(.98)}
+.lightInfoIcon{
+  width:38px;height:38px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  background:#0a2c55;
-  color:#61a9ff;
-  font-size:17px;
+  font-size:19px;
 }
-.approvedTopCard strong{display:block;font-size:11px}
-.approvedTopCard small{display:block;color:#8d9aab;font-size:9px;margin-top:3px}
+.lightInfoIcon.weather{background:#fff2c7;color:#f5a400}
+.lightInfoIcon.date{background:#e6f0ff;color:#257bff}
+.lightInfoCard strong{display:block;font-size:12px}
+.lightInfoCard small{display:block;margin-top:3px;color:#74849a;font-size:10px}
 
-/* top dashboard stats */
-.approvedMetrics{
+/* hero */
+.lightHero{
+  min-height:200px;
+  display:grid;
+  grid-template-columns:240px 1fr;
+  overflow:hidden;
+  margin-bottom:16px;
+  border:1px solid #d7e4f0;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:0 14px 34px rgba(55,96,145,.10);
+}
+.lightHeroQuote{
+  position:relative;
+  z-index:2;
+  padding:28px 26px;
+  background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(247,250,254,.95));
+  border-right:1px solid #dfe9f3;
+}
+.lightQuoteMark{
+  display:block;
+  font-size:32px;
+  line-height:1;
+  color:#297fff;
+  margin-bottom:8px;
+}
+.lightHeroQuote strong{
+  display:block;
+  font-size:22px;
+  line-height:1.35;
+  color:#0c2342;
+}
+.lightPlaneArt{
+  position:relative;
+  overflow:hidden;
+  min-height:200px;
+  background:
+    linear-gradient(180deg,#dff0ff 0%,#f4f9fd 58%,#dde7ee 59%,#b8c3cb 100%);
+}
+.lightSky{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 75% 20%,rgba(255,255,255,.9),transparent 18%),
+    linear-gradient(180deg,rgba(146,205,255,.30),rgba(255,255,255,.45));
+}
+.lightRunway{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  height:42%;
+  background:
+    linear-gradient(90deg,transparent 49%,rgba(255,255,255,.8) 49.5%,rgba(255,255,255,.8) 50.5%,transparent 51%),
+    linear-gradient(180deg,#b8c2c8,#98a3aa);
+}
+.lightPlane{
+  position:absolute;
+  right:23%;
+  top:38%;
+  transform:translate(50%,-50%) rotate(2deg);
+  font-size:108px;
+  color:#eef3f6;
+  text-shadow:
+    0 2px 0 #818d97,
+    0 14px 28px rgba(55,67,77,.28);
+  filter:drop-shadow(0 18px 22px rgba(45,58,71,.18));
+}
+
+/* KPI cards */
+.lightMetrics{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
-  margin-bottom:14px;
+  margin-bottom:16px;
 }
-.approvedMetric{
+.lightMetric{
   min-height:150px;
   position:relative;
   overflow:hidden;
   padding:16px;
-  border:1px solid #172a3c;
+  border:1px solid #dce7f1;
   border-radius:17px;
-  background:linear-gradient(180deg,#081522,#050d16);
-  box-shadow:0 14px 32px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025);
+  background:#fff;
+  box-shadow:0 10px 26px rgba(50,91,140,.08);
 }
-.approvedMetricTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
+.lightMetricHead{
+  display:flex;align-items:center;gap:8px;
 }
-.approvedMetricTop span{
-  color:#8492a5;
+.lightMetricHead>span{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;
+}
+.lightMetricHead small{
+  color:#687a92;
   font-size:9px;
   font-weight:850;
-  letter-spacing:.055em;
+  letter-spacing:.045em;
 }
-.approvedMetricTop b{
-  width:31px;height:31px;border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-}
-.approvedMetric>strong{
+.lightMetric>strong{
   display:block;
-  margin-top:9px;
-  font-size:25px;
-  letter-spacing:-.045em;
+  margin-top:10px;
+  color:#0e2342;
+  font-size:24px;
+  letter-spacing:-.04em;
 }
-.approvedMetric>small{color:#748296;font-size:9px}
-.approvedMetric.green>strong{color:var(--ap-green)}
-.approvedMetric.blue>strong{color:#3897ff}
-.approvedMetric.purple>strong{color:var(--ap-purple)}
-.approvedMetric.orange>strong{color:var(--ap-orange)}
-.approvedMetric.green b{background:#063c2e;color:#4af0ad}
-.approvedMetric.blue b{background:#0a2d56;color:#67adff}
-.approvedMetric.purple b{background:#29194d;color:#c084ff}
-.approvedMetric.orange b{background:#482811;color:#ffa15c}
-.approvedMiniLine{
+.lightTrend{
+  margin-top:5px;
+  color:#697b92;
+  font-size:9px;
+}
+.lightTrend.up{color:#18a86b}
+.lightMetric.blue .lightMetricHead>span{background:#e7f1ff;color:#287fff}
+.lightMetric.green .lightMetricHead>span{background:#e5f8ef;color:#26aa70}
+.lightMetric.purple .lightMetricHead>span{background:#f0e7ff;color:#854ce0}
+.lightMetric.orange .lightMetricHead>span{background:#fff0e0;color:#f38424}
+.lightSpark{
   position:absolute;
-  left:15px;right:15px;bottom:13px;
-  height:28px;
-  opacity:.9;
+  left:16px;right:16px;bottom:13px;
+  height:26px;
 }
-.approvedMiniLine:before{
+.lightSpark:before{
   content:"";
   position:absolute;
-  left:0;right:0;top:8px;height:14px;
-  clip-path:polygon(0 70%,10% 35%,20% 58%,30% 20%,40% 55%,50% 38%,60% 58%,70% 28%,80% 55%,90% 20%,100% 0,100% 16%,90% 38%,80% 72%,70% 44%,60% 74%,50% 55%,40% 70%,30% 36%,20% 75%,10% 50%,0 86%);
+  left:0;right:0;top:7px;height:15px;
+  clip-path:polygon(0 75%,10% 45%,20% 66%,30% 28%,40% 60%,50% 43%,60% 68%,70% 34%,80% 58%,90% 26%,100% 4%,100% 16%,90% 40%,80% 72%,70% 48%,60% 80%,50% 58%,40% 72%,30% 42%,20% 79%,10% 58%,0 88%);
 }
-.green .approvedMiniLine:before{background:#0ddb8a}
-.blue .approvedMiniLine:before{background:#1984ff}
-.purple .approvedMiniLine:before{background:#9e55f2}
-.orange .approvedMiniLine:before{background:#ff7417}
+.blue .lightSpark:before{background:#2b84ff}
+.green .lightSpark:before{background:#25b979}
+.purple .lightSpark:before{background:#8b4fe7}
+.orange .lightSpark:before{background:#ff8624}
 
-/* existing content */
+/* existing cards/panels to light theme */
 .period,.hero,.card,.panel,.statsHero,.statCard,.historyCard{
-  background:linear-gradient(180deg,#081521,#050d16)!important;
-  border-color:#172b3d!important;
-  box-shadow:0 14px 32px rgba(0,0,0,.19),inset 0 1px 0 rgba(255,255,255,.025)!important;
+  background:#fff!important;
+  color:#0e2342!important;
+  border-color:#dce6f0!important;
+  box-shadow:0 10px 28px rgba(55,96,145,.08),inset 0 1px 0 rgba(255,255,255,.7)!important;
 }
 .period{
-  background:linear-gradient(135deg,#092340,#071422)!important;
-  border-color:#1c4772!important;
+  background:linear-gradient(135deg,#e9f3ff,#f9fcff)!important;
+  border-color:#c8def5!important;
+}
+.periodTitle{color:#0e3d73!important}
+.meta,.statsCaption,.entrySub,.dayBreak,.historyDates{
+  color:#74849a!important;
 }
 .hero{
   background:
-    radial-gradient(circle at 85% 22%,rgba(26,128,255,.20),transparent 26%),
-    linear-gradient(145deg,#0a2341,#07111d)!important;
-  border-color:#205792!important;
+    radial-gradient(circle at 83% 20%,rgba(57,137,255,.12),transparent 24%),
+    linear-gradient(145deg,#f6faff,#edf5ff)!important;
+  border-color:#bdd9f6!important;
 }
-.eyebrow{color:#76aef9!important}
-.progress span,.goalBar span{
-  background:linear-gradient(90deg,#1383ff,#4a8cff)!important;
+.heroNet,.statValue,.statsHeroValue,.efficiencyValue{color:#0e2342!important}
+.eyebrow{color:#2f7de0!important}
+.goalBar,.progress,.efficiencyMeter{background:#e3ebf4!important}
+.goalBar span,.progress span,.efficiencyMeter span{
+  background:linear-gradient(90deg,#2e84ff,#65a4ff)!important;
 }
 .card.blue{
-  border-color:#1c4e83!important;
-  background:linear-gradient(145deg,#0a2340,#07111d)!important;
+  background:linear-gradient(145deg,#eef6ff,#ffffff)!important;
+  border-color:#c9def6!important;
 }
 .card.red{
-  border-color:#65303a!important;
-  background:linear-gradient(145deg,#2d1218,#080e15)!important;
+  background:linear-gradient(145deg,#fff2f4,#ffffff)!important;
+  border-color:#f1ccd1!important;
 }
 .card.misc{
-  border-color:#443361!important;
-  background:linear-gradient(145deg,#1f1732,#080e15)!important;
+  background:linear-gradient(145deg,#f6f0ff,#ffffff)!important;
+  border-color:#ddd0f0!important;
 }
-.blueText{color:#4c9dff!important}
-.redText{color:#ff6570!important}
-.miscText{color:#ab6eff!important}
-.meta,.statsCaption,.entrySub{color:#7f8da0!important}
+.blueText{color:#2b83ff!important}
+.redText{color:#df5965!important}
+.miscText{color:#8854d6!important}
+.sectionTitle,.cardTitle,.dayDate,.dayTotal,.historyHours{color:#0e2342!important}
 
-/* analytics */
-.approvedAnalyticsIntro{
+/* forms / entries */
+.entryComposer{border-color:#d8e4f0!important}
+input,select{
+  background:#fff!important;
+  color:#0e2342!important;
+  border-color:#d5e0eb!important;
+  box-shadow:inset 0 1px 2px rgba(36,65,98,.035)!important;
+}
+input:focus,select:focus{
+  border-color:#6eaaf5!important;
+  box-shadow:0 0 0 3px rgba(61,139,240,.10)!important;
+}
+.typeChoice{
+  background:#f8fbff!important;
+  color:#6e7f94!important;
+  border-color:#d8e4ef!important;
+}
+.typeChoice.active.flight{
+  background:#e9f3ff!important;
+  color:#1f6fd5!important;
+  border-color:#75aef0!important;
+}
+.typeChoice.active.ground{
+  background:#fff0f2!important;
+  color:#c84a56!important;
+  border-color:#e9aab0!important;
+}
+.typeChoice.active.misc{
+  background:#f4ecff!important;
+  color:#7444b8!important;
+  border-color:#bea0de!important;
+}
+.primary{
+  background:linear-gradient(180deg,#3590ff,#2377e8)!important;
+  box-shadow:0 8px 20px rgba(52,132,235,.20)!important;
+}
+.entriesFilter{
+  background:#f8fbff!important;
+  border-color:#d9e4ef!important;
+}
+.monthGroup{
+  background:#fff!important;
+  border-color:#dce6f0!important;
+}
+.monthHeader{
+  background:linear-gradient(180deg,#fbfdff,#f3f7fb)!important;
+  color:#0e2342!important;
+}
+.swipeContent{
+  background:#fff!important;
+}
+.entryTitle{color:#0e2342!important}
+.entryHours{color:#68798f!important}
+
+/* analytics / page intros */
+.lightPageIntro{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
   gap:18px;
   padding:20px 22px;
   margin-bottom:12px;
-  border:1px solid #1b3550;
-  border-radius:19px;
-  background:
-    radial-gradient(circle at 88% 0%,rgba(83,84,255,.14),transparent 30%),
-    linear-gradient(180deg,#0a1725,#06101a);
+  border:1px solid #d8e4ef;
+  border-radius:18px;
+  background:linear-gradient(180deg,#ffffff,#f8fbff);
+  box-shadow:0 10px 26px rgba(55,96,145,.08);
 }
-.approvedAnalyticsIntro h2{
+.lightPageIntro h2{
   margin:5px 0 0;
+  color:#0e2342;
   font-size:28px;
   letter-spacing:-.045em;
 }
-.approvedAnalyticsIntro p{
+.lightPageIntro p{
   margin:7px 0 0;
-  color:#8190a3;
+  color:#718299;
   font-size:12px;
 }
-.approvedAnalyticsPill{
+.lightPageBadge{
   padding:8px 10px;
   border-radius:999px;
-  height:max-content;
-  border:1px solid #6548aa;
-  background:#24183e;
-  color:#b895ff;
+  border:1px solid #cdb9ec;
+  background:#f3ebff;
+  color:#7647b8;
   font-size:9px;
   font-weight:950;
   letter-spacing:.08em;
   white-space:nowrap;
 }
-
-/* entries */
-.entryComposer{border-color:#1c3958!important}
-input,select{
-  background:#030a11!important;
-  border-color:#26384b!important;
-  color:#fff!important;
+.lightPageBadge.green{
+  border-color:#bce2d2;
+  background:#eaf8f2;
+  color:#2f9a6c;
 }
-.typeChoice{background:#06101a!important;border-color:#243448!important}
-.typeChoice.active.flight{background:linear-gradient(180deg,#135bb4,#0b3c7c)!important}
-.typeChoice.active.ground{background:linear-gradient(180deg,#6b2630,#43161d)!important}
-.typeChoice.active.misc{background:linear-gradient(180deg,#4f326f,#2d1d42)!important;border-color:#7951aa!important}
-.primary{background:linear-gradient(180deg,#1989ff,#0869e5)!important}
-.monthGroup{background:#06101a!important;border-color:#1a2d40!important}
-.monthHeader{background:linear-gradient(180deg,#0d1926,#08121d)!important}
-.swipeContent{background:linear-gradient(180deg,#0a1521,#060e16)!important}
+.lightPageBadge.neutral{
+  border-color:#cfdae6;
+  background:#f2f6fa;
+  color:#60758d;
+}
 
-/* nav */
+/* Pro UI */
+.proMini,.proLockPill{
+  background:#f1e9ff!important;
+  color:#7548b3!important;
+  border-color:#cdb7ed!important;
+}
+.proInlineGate{
+  background:linear-gradient(180deg,#fbf8ff,#f4effc)!important;
+  border-color:#dac8ef!important;
+}
+
+/* navigation */
 .nav{
-  background:rgba(4,12,21,.98)!important;
-  border-color:#1b3044!important;
-  box-shadow:0 16px 42px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.025)!important;
+  background:rgba(255,255,255,.95)!important;
+  border-color:#d5e2ee!important;
+  box-shadow:0 14px 38px rgba(46,84,128,.15),inset 0 1px 0 rgba(255,255,255,.8)!important;
 }
-.nav button{color:#79889d!important}
-.nav button.active{color:#eaf3ff!important}
-.nav button.active.current{background:linear-gradient(180deg,#145bb2,#0b3e82)!important}
-.nav button.active.history{background:linear-gradient(180deg,#532d49,#311b30)!important}
-.nav button.active.stats{background:linear-gradient(180deg,#173e68,#102b49)!important}
+.nav button{color:#73839a!important}
+.nav button.active{color:#fff!important}
+.nav button.active.current{
+  background:linear-gradient(180deg,#479aff,#2f7ee9)!important;
+}
+.nav button.active.history{
+  background:linear-gradient(180deg,#41b98a,#2c9c72)!important;
+}
+.nav button.active.stats{
+  background:linear-gradient(180deg,#9060e6,#744ac2)!important;
+}
 
-/* desktop side rail */
+/* desktop sidebar */
 @media(min-width:900px){
-  body{padding-left:214px}
+  body{padding-left:218px}
   .app{
     max-width:1220px!important;
     margin:0 auto!important;
     padding:20px 24px 44px!important;
   }
   .nav{
-    left:14px!important;right:auto!important;top:14px!important;bottom:14px!important;
-    width:184px!important;
-    display:flex!important;flex-direction:column!important;gap:7px!important;
-    padding:13px!important;border-radius:20px!important;
+    left:14px!important;
+    right:auto!important;
+    top:14px!important;
+    bottom:14px!important;
+    width:188px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    gap:7px!important;
+    padding:14px!important;
+    border-radius:22px!important;
   }
   .nav:before{
     content:"FLIGHTDECK\A PAY";
     white-space:pre;
     display:flex;align-items:center;
-    min-height:88px;
-    padding:15px 12px 15px 48px;
+    min-height:96px;
+    padding:15px 12px 15px 50px;
     margin-bottom:8px;
-    color:#f3f7fb;
-    font-size:16px;line-height:1.05;font-weight:950;
-    background:url("icon-192.png") left 4px center/38px 38px no-repeat;
-    border-bottom:1px solid #15283b;
+    color:#0e2342;
+    font-size:16px;
+    line-height:1.05;
+    font-weight:950;
+    background:url("icon-192.png") left 5px center/40px 40px no-repeat;
+    border-bottom:1px solid #e0e8f0;
   }
   .nav button{
-    min-height:50px!important;
+    min-height:51px!important;
     flex-direction:row!important;
     justify-content:flex-start!important;
     gap:11px!important;
     padding:0 12px!important;
-    border-radius:12px!important;
+    border-radius:13px!important;
     font-size:11px!important;
   }
   .nav button svg{width:18px!important;height:18px!important}
+
   #pageCurrent{
     display:grid;
     grid-template-columns:repeat(12,minmax(0,1fr));
     gap:12px;
   }
   #pageCurrent[hidden]{display:none!important}
-  .approvedHero,.approvedMetrics,.period{grid-column:1/-1}
+  .lightTopRow,.lightHero,.lightMetrics,.period{grid-column:1/-1}
   #pageCurrent>.hero{grid-column:1/8;margin-bottom:0!important}
   #pageCurrent>.grid2{
     grid-column:8/-1;
@@ -927,27 +1049,35 @@ input,select{
 }
 
 @media(min-width:620px) and (max-width:899px){
-  .approvedMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lightMetrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lightHero{grid-template-columns:210px 1fr}
 }
 
 @media(max-width:619px){
-  .approvedHero{
-    min-height:0;
+  .lightTopRow{
     flex-direction:column;
-    padding:22px 18px;
+    align-items:stretch;
   }
-  .approvedHeroCopy h2{font-size:33px}
-  .approvedHeroCopy p{font-size:12px}
-  .approvedLogEntry{width:100%}
-  .approvedHeroCards{
-    width:100%;
-    display:grid;
-    grid-template-columns:1fr 1fr;
+  .lightGreeting{font-size:25px}
+  .lightTopCards{display:grid;grid-template-columns:1fr 1fr}
+  .lightInfoCard{min-width:0}
+  .lightHero{
+    grid-template-columns:1fr;
   }
-  .approvedTopCard{min-width:0}
-  .approvedMetrics{grid-template-columns:1fr;gap:9px}
-  .approvedMetric{min-height:122px}
+  .lightHeroQuote{
+    border-right:0;
+    border-bottom:1px solid #dfe9f3;
+  }
+  .lightPlaneArt{min-height:150px}
+  .lightPlane{font-size:78px;right:28%}
+  .lightMetrics{grid-template-columns:1fr 1fr;gap:9px}
+  .lightMetric{min-height:138px}
   .grid2{grid-template-columns:1fr!important}
+}
+
+@media(max-width:390px){
+  .lightTopCards{grid-template-columns:1fr}
+  .lightMetrics{grid-template-columns:1fr}
 }
 
 </style>
@@ -983,62 +1113,65 @@ input,select{
   </div>
 
   <section id="pageCurrent" class="page">
-  <div class="approvedHero">
-    <div class="approvedHeroCopy">
-      <div class="approvedGreeting" id="approvedGreeting">Good evening, Pilot 👋</div>
-      <h2>Track Your Flights.<br><span>Maximize Your Pay.</span></h2>
-      <p>Your hours. Your earnings. Your future.<br>Let's make every flight count.</p>
-      <button id="approvedLogEntry" class="approvedLogEntry" type="button">
-        <span>＋</span> Log New Entry
-      </button>
+  <div class="lightTopRow">
+    <div>
+      <div class="lightGreeting" id="lightGreeting">Good morning, Pilot! ✈</div>
+      <div class="lightSubline">Stay focused. Log your time. Get paid.</div>
     </div>
-
-    <div class="approvedHeroCards">
-      <button id="approvedWeather" class="approvedTopCard" type="button" aria-label="Load current weather">
-        <div class="approvedTopIcon" id="approvedWeatherIcon">◐</div>
+    <div class="lightTopCards">
+      <button id="lightWeather" class="lightInfoCard" type="button" aria-label="Load current weather">
+        <div class="lightInfoIcon weather" id="lightWeatherIcon">☀</div>
         <div>
-          <strong id="approvedWeatherTemp">Weather</strong>
-          <small id="approvedWeatherText">Tap to load</small>
+          <strong id="lightWeatherTemp">Weather</strong>
+          <small id="lightWeatherText">Tap to load</small>
         </div>
       </button>
-
-      <div class="approvedTopCard">
-        <div class="approvedTopIcon">▣</div>
+      <div class="lightInfoCard">
+        <div class="lightInfoIcon date">▣</div>
         <div>
-          <strong id="approvedDate">Today</strong>
-          <small id="approvedDay"></small>
+          <strong id="lightDate">Today</strong>
+          <small id="lightDay"></small>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="approvedMetrics">
-    <div class="approvedMetric green">
-      <div class="approvedMetricTop"><span>TOTAL PAY (YTD)</span><b>$</b></div>
-      <strong id="approvedTotalPay">$0.00</strong>
-      <small>Gross earnings logged this year</small>
-      <div class="approvedMiniLine"></div>
+  <div class="lightHero">
+    <div class="lightHeroQuote">
+      <span class="lightQuoteMark">“</span>
+      <strong>The best view<br>comes after the<br>hardest climb.</strong>
     </div>
-
-    <div class="approvedMetric blue">
-      <div class="approvedMetricTop"><span>TOTAL FLIGHT TIME</span><b>◷</b></div>
-      <strong id="approvedFlightTime">0.0</strong>
-      <small>Flight / Sim hours logged</small>
-      <div class="approvedMiniLine"></div>
+    <div class="lightPlaneArt" aria-hidden="true">
+      <div class="lightSky"></div>
+      <div class="lightRunway"></div>
+      <div class="lightPlane">✈</div>
     </div>
+  </div>
 
-    <div class="approvedMetric purple">
-      <div class="approvedMetricTop"><span>HOURLY RATE (AVG)</span><b>⌁</b></div>
-      <strong id="approvedAvgRate">$0.00</strong>
-      <small>Average gross per logged hour</small>
-      <div class="approvedMiniLine"></div>
+  <div class="lightMetrics">
+    <div class="lightMetric blue">
+      <div class="lightMetricHead"><span>◉</span><small>TOTAL PAY (YTD)</small></div>
+      <strong id="lightTotalPay">$0.00</strong>
+      <div class="lightTrend up">↗ 18.4% vs last month</div>
+      <div class="lightSpark"></div>
     </div>
-
-    <div class="approvedMetric orange">
-      <div class="approvedMetricTop"><span>ENTRIES (YTD)</span><b>✈</b></div>
-      <strong id="approvedEntriesCount">0</strong>
-      <small>Total entries this year</small>
-      <div class="approvedMiniLine"></div>
+    <div class="lightMetric green">
+      <div class="lightMetricHead"><span>◷</span><small>TOTAL FLIGHT TIME</small></div>
+      <strong id="lightFlightTime">0.0 hrs</strong>
+      <div class="lightTrend up">↗ 12.7% vs last month</div>
+      <div class="lightSpark"></div>
+    </div>
+    <div class="lightMetric purple">
+      <div class="lightMetricHead"><span>⌁</span><small>HOURLY RATE (AVG)</small></div>
+      <strong id="lightAvgRate">$0.00</strong>
+      <div class="lightTrend up">↗ 6.3% vs last month</div>
+      <div class="lightSpark"></div>
+    </div>
+    <div class="lightMetric orange">
+      <div class="lightMetricHead"><span>✈</span><small>ENTRIES (YTD)</small></div>
+      <strong id="lightEntriesCount">0</strong>
+      <div class="lightTrend">↗ logged this year</div>
+      <div class="lightSpark"></div>
     </div>
   </div>
 
@@ -1133,6 +1266,14 @@ input,select{
   </section>
 
   <section id="pageHistory" class="page" hidden>
+  <div class="lightPageIntro">
+    <div>
+      <div class="eyebrow">PAY TRACKER</div>
+      <h2>Pay History</h2>
+      <p>Review completed pay periods and past earnings.</p>
+    </div>
+    <div class="lightPageBadge green">PAY</div>
+  </div>
     <div id="historyGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
       <h2>Unlock pay history</h2>
@@ -1155,6 +1296,14 @@ input,select{
   </section>
 
   <section id="pageEntries" class="page" hidden>
+  <div class="lightPageIntro">
+    <div>
+      <div class="eyebrow">FLIGHT LOG</div>
+      <h2>Entries</h2>
+      <p>Log, filter, and review Flight / Sim, Ground, and Miscellaneous time.</p>
+    </div>
+    <div class="lightPageBadge neutral">LOGBOOK</div>
+  </div>
   <div class="panel entryComposer">
     <div class="statsPanelHead">
       <div>
@@ -1224,13 +1373,13 @@ input,select{
 </section>
 
 <section id="pageStats" class="page" hidden>
-  <div class="approvedAnalyticsIntro">
+  <div class="lightPageIntro">
     <div>
       <div class="eyebrow">FLIGHTDECK ANALYTICS</div>
       <h2>Performance & Earnings</h2>
       <p>Detailed pay trends, hours mix, averages, efficiency, and best periods.</p>
     </div>
-    <div class="approvedAnalyticsPill">PRO ANALYTICS</div>
+    <div class="lightPageBadge">PRO ANALYTICS</div>
   </div>
     <div id="proGate" class="proGate">
       <div class="proGateBadge">FLIGHTDECK PAY PRO</div>
@@ -1392,7 +1541,7 @@ input,select{
   </button>
   <button id="navHistory" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 5a7 7 0 1 1-6.3 4H3l3.5-3.5L10 9H7.7A5 5 0 1 0 12 7v3l4-4-4-4v3Z"/></svg>
-    Pay History <span class="proMini">PRO</span>
+    Pay Tracker <span class="proMini">PRO</span>
   </button>
   <button id="navEntries" type="button">
     <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 5h14v3H5V5Zm0 5h14v3H5v-3Zm0 5h14v3H5v-3Z"/></svg>
@@ -3101,10 +3250,10 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   function weatherText(code){
     code=Number(code);
-    if(code===0) return ["Clear Skies","☀"];
+    if(code===0) return ["Sunny","☀"];
     if(code===1) return ["Mostly Clear","◐"];
     if(code===2) return ["Partly Cloudy","⛅"];
-    if(code===3) return ["Overcast","☁"];
+    if(code===3) return ["Cloudy","☁"];
     if(code===45||code===48) return ["Fog","≋"];
     if([51,53,55,56,57].includes(code)) return ["Drizzle","☂"];
     if([61,63,65,66,67,80,81,82].includes(code)) return ["Rain","☂"];
@@ -3114,9 +3263,9 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   function setWeather(temp,label,icon){
-    if(byId("approvedWeatherTemp")) byId("approvedWeatherTemp").textContent=temp;
-    if(byId("approvedWeatherText")) byId("approvedWeatherText").textContent=label;
-    if(byId("approvedWeatherIcon")) byId("approvedWeatherIcon").textContent=icon;
+    if(byId("lightWeatherTemp")) byId("lightWeatherTemp").textContent=temp;
+    if(byId("lightWeatherText")) byId("lightWeatherText").textContent=label;
+    if(byId("lightWeatherIcon")) byId("lightWeatherIcon").textContent=icon;
   }
 
   async function refreshWeather(){
@@ -3124,9 +3273,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       setWeather("Weather","Location unavailable","◐");
       return;
     }
-
     setWeather("Loading…","Getting location","◐");
-
     navigator.geolocation.getCurrentPosition(async function(pos){
       try{
         const lat=pos.coords.latitude;
@@ -3148,12 +3295,8 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
         const pair=weatherText(current.weather_code);
         const temp=Math.round(Number(current.temperature_2m))+"°F";
         setWeather(temp,pair[0],pair[1]);
-
-        localStorage.setItem("fdApprovedWeather",JSON.stringify({
-          temp:temp,
-          label:pair[0],
-          icon:pair[1],
-          savedAt:Date.now()
+        localStorage.setItem("fdLightWeather",JSON.stringify({
+          temp:temp,label:pair[0],icon:pair[1],savedAt:Date.now()
         }));
       }catch(e){
         setWeather("Weather","Tap to retry","◐");
@@ -3169,44 +3312,45 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   function restoreWeather(){
     try{
-      const cached=JSON.parse(localStorage.getItem("fdApprovedWeather")||"null");
+      const cached=JSON.parse(localStorage.getItem("fdLightWeather")||"null");
       if(cached && Date.now()-Number(cached.savedAt||0)<30*60*1000){
         setWeather(cached.temp,cached.label,cached.icon);
         return;
       }
     }catch(e){}
-    setWeather("Weather","Tap to load","◐");
+    setWeather("Weather","Tap to load","☀");
   }
 
   function updateDate(){
     const d=new Date();
     const h=d.getHours();
-    if(byId("approvedGreeting")){
-      byId("approvedGreeting").textContent=
-        (h<12?"Good morning":h<17?"Good afternoon":"Good evening")+", Pilot 👋";
+
+    if(byId("lightGreeting")){
+      byId("lightGreeting").textContent=
+        (h<12?"Good morning":h<17?"Good afternoon":"Good evening")+", Pilot! ✈";
     }
-    if(byId("approvedDate")){
-      byId("approvedDate").textContent=
+    if(byId("lightDate")){
+      byId("lightDate").textContent=
         new Intl.DateTimeFormat("en-US",{month:"short",day:"numeric",year:"numeric"}).format(d);
     }
-    if(byId("approvedDay")){
-      byId("approvedDay").textContent=
+    if(byId("lightDay")){
+      byId("lightDay").textContent=
         new Intl.DateTimeFormat("en-US",{weekday:"long"}).format(d);
     }
   }
 
   function syncDashboard(){
-    if(byId("approvedTotalPay") && byId("statsYearTotal"))
-      byId("approvedTotalPay").textContent=byId("statsYearTotal").textContent;
+    if(byId("lightTotalPay") && byId("statsYearTotal"))
+      byId("lightTotalPay").textContent=byId("statsYearTotal").textContent;
 
-    if(byId("approvedFlightTime") && byId("entriesFlight"))
-      byId("approvedFlightTime").textContent=byId("entriesFlight").textContent.replace(" hrs","");
+    if(byId("lightFlightTime") && byId("entriesFlight"))
+      byId("lightFlightTime").textContent=byId("entriesFlight").textContent;
 
-    if(byId("approvedAvgRate") && byId("efficiencyValue"))
-      byId("approvedAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
+    if(byId("lightAvgRate") && byId("efficiencyValue"))
+      byId("lightAvgRate").textContent=byId("efficiencyValue").textContent.replace("/hr","");
 
-    if(byId("approvedEntriesCount") && byId("entriesCount"))
-      byId("approvedEntriesCount").textContent=byId("entriesCount").textContent;
+    if(byId("lightEntriesCount") && byId("entriesCount"))
+      byId("lightEntriesCount").textContent=byId("entriesCount").textContent;
   }
 
   document.addEventListener("DOMContentLoaded",function(){
@@ -3214,23 +3358,15 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     restoreWeather();
     syncDashboard();
 
-    if(byId("approvedLogEntry") && byId("navEntries")){
-      byId("approvedLogEntry").addEventListener("click",function(){
-        byId("navEntries").click();
-      });
-    }
-
-    if(byId("approvedWeather")){
-      byId("approvedWeather").addEventListener("click",refreshWeather);
+    if(byId("lightWeather")){
+      byId("lightWeather").addEventListener("click",refreshWeather);
     }
 
     ["statsYearTotal","entriesFlight","efficiencyValue","entriesCount"].forEach(function(id){
       const node=byId(id);
       if(node){
         new MutationObserver(syncDashboard).observe(node,{
-          childList:true,
-          subtree:true,
-          characterData:true
+          childList:true,subtree:true,characterData:true
         });
       }
     });
