@@ -856,8 +856,12 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
 </div>
 
 <script>
-(function(){
+(async function(){
   const STORAGE_KEY = "flightdeckPayData.v1";
+  const DB_NAME = "FlightDeckPayDB";
+  const DB_VERSION = 1;
+  const STORE_NAME = "appState";
+  const STATE_ID = "current";
   const defaultAppState = {
     entries: [],
     settings: {
@@ -909,13 +913,85 @@ input,select{width:100%;min-height:46px;border-radius:12px;border:1px solid #343
   settings.payPeriodStart = String(settings.payPeriodStart || "");
   settings.setupComplete = Boolean(settings.setupComplete);
 
-  function bridge(action,payload){
-    // PWA edition: entries/settings stay only in this browser on this device.
+  function snapshot(){
+    return {
+      entries: Array.isArray(entries) ? entries : [],
+      settings: settings || {},
+      savedAt: new Date().toISOString()
+    };
+  }
+
+  function saveLocalSnapshot(data = snapshot()){
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({entries, settings}));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      return true;
     } catch (e) {
-      console.warn("Could not save FlightDeck Pay data", e);
+      console.warn("Could not save FlightDeck Pay local backup", e);
+      return false;
     }
+  }
+
+  function openDatabase(){
+    return new Promise((resolve,reject)=>{
+      if (!("indexedDB" in window)) { reject(new Error("IndexedDB unavailable")); return; }
+      const req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME,{keyPath:"id"});
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error || new Error("Could not open IndexedDB"));
+    });
+  }
+
+  async function saveIndexedSnapshot(data = snapshot()){
+    let db;
+    try {
+      db = await openDatabase();
+      await new Promise((resolve,reject)=>{
+        const tx = db.transaction(STORE_NAME,"readwrite");
+        tx.objectStore(STORE_NAME).put({id:STATE_ID,...data});
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error || new Error("IndexedDB write failed"));
+        tx.onabort = () => reject(tx.error || new Error("IndexedDB write aborted"));
+      });
+      return true;
+    } catch (e) {
+      console.warn("Could not save FlightDeck Pay IndexedDB backup", e);
+      return false;
+    } finally {
+      try { if (db) db.close(); } catch (_) {}
+    }
+  }
+
+  async function loadIndexedSnapshot(){
+    let db;
+    try {
+      db = await openDatabase();
+      return await new Promise((resolve,reject)=>{
+        const tx = db.transaction(STORE_NAME,"readonly");
+        const req = tx.objectStore(STORE_NAME).get(STATE_ID);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => reject(req.error || new Error("IndexedDB read failed"));
+      });
+    } catch (e) {
+      console.warn("Could not read FlightDeck Pay IndexedDB backup", e);
+      return null;
+    } finally {
+      try { if (db) db.close(); } catch (_) {}
+    }
+  }
+
+  function persistData(){
+    const data = snapshot();
+    saveLocalSnapshot(data);
+    // IndexedDB is the durable primary backup; localStorage remains as a fast fallback.
+    saveIndexedSnapshot(data);
+  }
+
+  function bridge(action,payload){
+    // PWA edition: entries/settings stay only in this browser/app on this device.
+    persistData();
   }
 
   function saveSettings(){
@@ -1847,12 +1923,48 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     try{renderStats();}catch(e){console.log("Stats render: "+e);}
   }
 
+  // Recover from IndexedDB if localStorage was unavailable or cleared while the installed PWA survived.
+  try {
+    const indexedState = await loadIndexedSnapshot();
+    const localRaw = (()=>{ try { return localStorage.getItem(STORAGE_KEY); } catch (_) { return null; } })();
+    if (!localRaw && indexedState) {
+      entries = Array.isArray(indexedState.entries) ? indexedState.entries : [];
+      settings = { ...defaultAppState.settings, ...(indexedState.settings || {}) };
+      settings.flightRate = num(settings.flightRate,0);
+      settings.groundRate = num(settings.groundRate,0);
+      settings.miscRate = num(settings.miscRate,0);
+      settings.federalRate = num(settings.federalRate,0);
+      settings.stateRate = num(settings.stateRate,0);
+      settings.paycheckGoal = num(settings.paycheckGoal,0);
+      settings.nextPayday = String(settings.nextPayday || "");
+      settings.payPeriodStart = String(settings.payPeriodStart || isoDate(today));
+      settings.setupComplete = Boolean(settings.setupComplete);
+      anchor = parseDate(settings.payPeriodStart) || new Date(today.getFullYear(),today.getMonth(),today.getDate());
+      saveLocalSnapshot();
+    }
+  } catch (e) {
+    console.warn("FlightDeck Pay recovery check failed", e);
+  }
+
+  // Ask the browser to keep this origin's storage when supported.
+  try {
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
+  } catch (_) {}
+
+  // Save once more whenever iOS backgrounds or closes the Home Screen app.
+  window.addEventListener("pagehide", persistData);
+  window.addEventListener("beforeunload", persistData);
+  document.addEventListener("visibilitychange",()=>{
+    if (document.visibilityState === "hidden") persistData();
+  });
+
   if(!settings.setupComplete){
     populateSettings();
     openOverlay("settingsOverlay");
   }
 
   render();
+  persistData();
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
