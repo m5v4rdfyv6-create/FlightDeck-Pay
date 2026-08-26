@@ -1497,6 +1497,23 @@ input:focus,select:focus{
   }
 }
 
+
+/* ===== Cross-device cloud sync ===== */
+.cloudSyncBox{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid #29414a;
+}
+#cloudSyncStatus{
+  color:#e3b65e;
+}
+#cloudSyncStatus.synced{
+  color:#69d1b0;
+}
+#cloudSyncStatus.error{
+  color:#ef8585;
+}
+
 </style>
 </head>
 <body>
@@ -2184,7 +2201,13 @@ input:focus,select:focus{
       </div>
       <div id="accountStatus" class="accountStatus">Your pay entries stay on this device. Your account stores only login and Pro-access status.</div>
     </div>
-    </div>
+    
+      <div class="cloudSyncBox">
+        <div class="statLine"><span>Cloud Sync</span><strong id="cloudSyncStatus">Waiting for sign in</strong></div>
+        <div class="settingsNote" id="cloudSyncDetail">Sign in on each device with the same FlightDeck Pay account to keep your tracker data synchronized.</div>
+        <button id="syncNowBtn" class="secondaryBtn" type="button" style="width:100%;margin-top:10px">Sync Now</button>
+      </div>
+</div>
 
     <div id="singleSettingsDataTransfer" class="panel" style="margin-top:12px">
       <div class="sectionTitle">Data & Backups</div>
@@ -2609,6 +2632,11 @@ window.flightDeckSignedInState=false;
         email:currentUser?.email||""
       }
     }));
+    if(currentUser&&currentSession?.access_token){
+      setTimeout(()=>syncCloudData(false),50);
+    }else{
+      cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
+    }
   }
 
   async function refreshEntitlement(showMessage=false){
@@ -2991,6 +3019,7 @@ window.flightDeckSignedInState=false;
   el("signInBtn").addEventListener("click",signInAccount);
   el("createAccountBtn").addEventListener("click",createAccount);
   el("signOutBtn").addEventListener("click",signOutAccount);
+  if(el("syncNowBtn"))el("syncNowBtn").addEventListener("click",()=>syncCloudData(false));
   el("buyProBtn").addEventListener("click",startProCheckout);
   el("proGateBuy").addEventListener("click",startProCheckout);
   if(el("historyGateBuy")) el("historyGateBuy").addEventListener("click",startProCheckout);
@@ -3901,6 +3930,154 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     const efficiencyPct=Math.min(100,(efficiency/Math.max(1,settings.flightRate))*100);
     el("efficiencyBar").style.width=efficiencyPct+"%";
   }
+
+
+  /* ===== FlightDeck cross-device account sync ===== */
+  let cloudSyncBusy=false;
+  let cloudSyncTimer=null;
+  let cloudLastAppliedAt=0;
+
+  function cloudStatus(label,kind="",detail=""){
+    const node=el("cloudSyncStatus");
+    const detailNode=el("cloudSyncDetail");
+    if(node){
+      node.textContent=label;
+      node.classList.remove("synced","error");
+      if(kind)node.classList.add(kind);
+    }
+    if(detailNode && detail)detailNode.textContent=detail;
+  }
+
+  function getExtraFeaturesForCloud(){
+    try{
+      const x=JSON.parse(localStorage.getItem("flightdeckExtraFeatures")||"{}");
+      return Object.assign({events:[]},x&&typeof x==="object"?x:{});
+    }catch(_){
+      return {events:[]};
+    }
+  }
+
+  function cloudPayload(){
+    return {
+      schema_version:1,
+      entries:Array.isArray(entries)?entries:[],
+      settings:settings||{},
+      extraFeatures:getExtraFeaturesForCloud(),
+      client_updated_at:new Date().toISOString()
+    };
+  }
+
+  async function cloudRequest(path,options={}){
+    if(!currentSession?.access_token)throw new Error("Sign in required");
+    const response=await fetch(SUPABASE_URL+"/rest/v1/"+path,{
+      ...options,
+      headers:{
+        "apikey":SUPABASE_ANON_KEY,
+        "Authorization":"Bearer "+currentSession.access_token,
+        "Content-Type":"application/json",
+        "Prefer":options.prefer||"",
+        ...(options.headers||{})
+      }
+    });
+    if(!response.ok){
+      const body=await response.text();
+      throw new Error(body||("Cloud request failed ("+response.status+")"));
+    }
+    const raw=await response.text();
+    return raw?JSON.parse(raw):null;
+  }
+
+  async function pullCloudData(){
+    if(!currentUser||!currentSession?.access_token)return false;
+    cloudStatus("Syncing…","","Checking your account for newer data.");
+
+    const rows=await cloudRequest(
+      "flightdeck_user_data?user_id=eq."+encodeURIComponent(currentUser.id)+"&select=data,updated_at&limit=1",
+      {method:"GET"}
+    );
+
+    if(!Array.isArray(rows)||!rows.length)return false;
+
+    const row=rows[0]||{};
+    const remote=row.data||{};
+    const remoteTime=Date.parse(row.updated_at||remote.client_updated_at||0)||0;
+    const localTime=Number(localStorage.getItem("flightdeckCloudLocalUpdatedAt")||0);
+
+    if(remoteTime<=localTime)return false;
+
+    if(Array.isArray(remote.entries)){
+      entries=remote.entries.map(normalizeEntry).filter(Boolean);
+    }
+    if(remote.settings&&typeof remote.settings==="object"){
+      settings=normalizeSettings(remote.settings);
+      anchor=parseDate(settings.payPeriodStart)||anchor;
+      saveSettings();
+    }
+    if(remote.extraFeatures&&typeof remote.extraFeatures==="object"){
+      localStorage.setItem(
+        "flightdeckExtraFeatures",
+        JSON.stringify(Object.assign({events:[]},remote.extraFeatures))
+      );
+    }
+
+    localStorage.setItem("flightdeckEntries",JSON.stringify(entries));
+    localStorage.setItem("flightdeckCloudLocalUpdatedAt",String(remoteTime));
+    cloudLastAppliedAt=Date.now();
+    render();
+    window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
+    cloudStatus("Synced","synced","This device is up to date with your FlightDeck Pay account.");
+    return true;
+  }
+
+  async function pushCloudData(){
+    if(!currentUser||!currentSession?.access_token)return false;
+    const payload=cloudPayload();
+
+    await cloudRequest("flightdeck_user_data?on_conflict=user_id",{
+      method:"POST",
+      prefer:"resolution=merge-duplicates,return=representation",
+      body:JSON.stringify({
+        user_id:currentUser.id,
+        data:payload,
+        updated_at:new Date().toISOString()
+      })
+    });
+
+    localStorage.setItem("flightdeckCloudLocalUpdatedAt",String(Date.now()));
+    cloudStatus("Synced","synced","Changes are saved to your FlightDeck Pay account.");
+    return true;
+  }
+
+  async function syncCloudData(forcePush=false){
+    if(cloudSyncBusy)return;
+    if(!currentUser||!currentSession?.access_token){
+      cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
+      return;
+    }
+
+    cloudSyncBusy=true;
+    try{
+      if(!forcePush){
+        const pulled=await pullCloudData();
+        if(pulled)return;
+      }
+      await pushCloudData();
+    }catch(e){
+      console.warn("FlightDeck cloud sync",e);
+      cloudStatus("Sync issue","error","Your local data is still safe. Tap Sync Now to try again.");
+    }finally{
+      cloudSyncBusy=false;
+    }
+  }
+
+  function scheduleCloudPush(){
+    if(Date.now()-cloudLastAppliedAt<1200)return;
+    if(!currentUser||!currentSession?.access_token)return;
+    clearTimeout(cloudSyncTimer);
+    cloudSyncTimer=setTimeout(()=>syncCloudData(true),650);
+  }
+
+  window.addEventListener("flightdeck:datachange",scheduleCloudPush);
 
   function render(){
     try{renderCurrent();}catch(e){console.log("Current render: "+e);}
