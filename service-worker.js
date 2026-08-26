@@ -1,11 +1,11 @@
-const CACHE_NAME = "flightdeck-pay-v11-seo";
+const CACHE_NAME = "flightdeck-pay-v12-fd-icon";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./icon-192.png",
-  "./icon-512.png",
-  "./apple-touch-icon.png"
+  "./icon-192.png?v=fd2",
+  "./icon-512.png?v=fd2",
+  "./apple-touch-icon.png?v=fd2"
 ];
 
 self.addEventListener("install", event => {
