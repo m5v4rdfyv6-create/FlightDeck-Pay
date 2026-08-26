@@ -2632,7 +2632,7 @@ window.flightDeckSignedInState=false;
         email:currentUser?.email||""
       }
     }));
-    if(currentUser&&currentSession?.access_token){
+    if(currentUser&&authSession?.access_token){
       setTimeout(()=>syncCloudData(false),50);
     }else{
       cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
@@ -3968,12 +3968,12 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   async function cloudRequest(path,options={}){
-    if(!currentSession?.access_token)throw new Error("Sign in required");
+    if(!authSession?.access_token)throw new Error("Sign in required");
     const response=await fetch(SUPABASE_URL+"/rest/v1/"+path,{
       ...options,
       headers:{
         "apikey":SUPABASE_ANON_KEY,
-        "Authorization":"Bearer "+currentSession.access_token,
+        "Authorization":"Bearer "+authSession.access_token,
         "Content-Type":"application/json",
         "Prefer":options.prefer||"",
         ...(options.headers||{})
@@ -3988,7 +3988,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   async function pullCloudData(){
-    if(!currentUser||!currentSession?.access_token)return false;
+    if(!currentUser||!authSession?.access_token)return false;
     cloudStatus("Syncing…","","Checking your account for newer data.");
 
     const rows=await cloudRequest(
@@ -4030,7 +4030,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   async function pushCloudData(){
-    if(!currentUser||!currentSession?.access_token)return false;
+    if(!currentUser||!authSession?.access_token)return false;
     const payload=cloudPayload();
 
     await cloudRequest("flightdeck_user_data?on_conflict=user_id",{
@@ -4050,7 +4050,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   async function syncCloudData(forcePush=false){
     if(cloudSyncBusy)return;
-    if(!currentUser||!currentSession?.access_token){
+    if(!currentUser||!authSession?.access_token){
       cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
       return;
     }
@@ -4072,7 +4072,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   function scheduleCloudPush(){
     if(Date.now()-cloudLastAppliedAt<1200)return;
-    if(!currentUser||!currentSession?.access_token)return;
+    if(!currentUser||!authSession?.access_token)return;
     clearTimeout(cloudSyncTimer);
     cloudSyncTimer=setTimeout(()=>syncCloudData(true),650);
   }
