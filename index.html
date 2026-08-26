@@ -4015,7 +4015,15 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     if(remoteTime<=localTime)return false;
 
     if(Array.isArray(remote.entries)){
-      entries=remote.entries.map(normalizeEntry).filter(Boolean);
+      entries=remote.entries
+        .filter(e=>e && typeof e==="object")
+        .map(e=>({
+          ...e,
+          id:String(e.id||("cloud-"+Date.now()+"-"+Math.random().toString(36).slice(2))),
+          date:String(e.date||isoDate(today)),
+          type:["flight","ground","misc"].includes(e.type)?e.type:"flight",
+          hours:Math.max(0,num(e.hours,0))
+        }));
     }
     if(remote.settings&&typeof remote.settings==="object"){
       settings=normalizeSettings(remote.settings);
