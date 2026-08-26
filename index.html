@@ -2633,7 +2633,7 @@ window.flightDeckSignedInState=false;
       }
     }));
     if(currentUser&&authSession?.access_token){
-      setTimeout(()=>syncCloudData(false),50);
+      setTimeout(()=>syncCloudData("pull"),150);
     }else{
       cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
     }
@@ -3019,7 +3019,9 @@ window.flightDeckSignedInState=false;
   el("signInBtn").addEventListener("click",signInAccount);
   el("createAccountBtn").addEventListener("click",createAccount);
   el("signOutBtn").addEventListener("click",signOutAccount);
-  if(el("syncNowBtn"))el("syncNowBtn").addEventListener("click",()=>syncCloudData(false));
+  if(el("syncNowBtn"))el("syncNowBtn").addEventListener("click",async()=>{
+    await syncCloudData("force-pull");
+  });
   el("buyProBtn").addEventListener("click",startProCheckout);
   el("proGateBuy").addEventListener("click",startProCheckout);
   if(el("historyGateBuy")) el("historyGateBuy").addEventListener("click",startProCheckout);
@@ -3932,10 +3934,17 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
 
-  /* ===== FlightDeck cross-device account sync ===== */
+
+  /* ===== FlightDeck cross-device account sync =====
+     Model:
+     - local tracker changes -> push to Supabase
+     - remote changes -> periodic pull to this device
+     - pulling never triggers a push-back loop
+  ===== */
   let cloudSyncBusy=false;
-  let cloudSyncTimer=null;
-  let cloudLastAppliedAt=0;
+  let cloudPushTimer=null;
+  let cloudApplyingRemote=false;
+  let cloudLastSeenRemoteAt=Number(localStorage.getItem("flightdeckCloudLastSeenRemoteAt")||0);
 
   function cloudStatus(label,kind="",detail=""){
     const node=el("cloudSyncStatus");
@@ -3959,7 +3968,7 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
   function cloudPayload(){
     return {
-      schema_version:1,
+      schema_version:2,
       entries:Array.isArray(entries)?entries:[],
       settings:settings||{},
       extraFeatures:getExtraFeaturesForCloud(),
@@ -3996,61 +4005,92 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
     return raw?JSON.parse(raw):null;
   }
 
-  async function pullCloudData(){
-    if(!currentUser)return false;
-    cloudStatus("Syncing…","","Checking your account for newer data.");
+  function normalizeCloudSettings(remoteSettings){
+    const merged={...defaultAppState.settings,...(remoteSettings||{})};
+    merged.flightRate=Math.max(0,num(merged.flightRate,0));
+    merged.groundRate=Math.max(0,num(merged.groundRate,0));
+    merged.miscRate=Math.max(0,num(merged.miscRate,0));
+    merged.federalRate=Math.min(100,Math.max(0,num(merged.federalRate,0)));
+    merged.stateRate=Math.min(100,Math.max(0,num(merged.stateRate,0)));
+    merged.paycheckGoal=Math.max(0,num(merged.paycheckGoal,0));
+    merged.nextPayday=String(merged.nextPayday||"");
+    merged.payPeriodStart=String(merged.payPeriodStart||isoDate(today));
+    merged.setupComplete=Boolean(merged.setupComplete);
+    return merged;
+  }
 
+  function normalizeCloudEntries(remoteEntries){
+    if(!Array.isArray(remoteEntries))return [];
+    return remoteEntries
+      .filter(e=>e && typeof e==="object")
+      .map(e=>({
+        ...e,
+        id:String(e.id||("cloud-"+Date.now()+"-"+Math.random().toString(36).slice(2))),
+        date:String(e.date||isoDate(today)),
+        type:["flight","ground","misc"].includes(e.type)?e.type:"flight",
+        hours:Math.max(0,num(e.hours,0)),
+        rate:Math.max(0,num(e.rate,0))
+      }));
+  }
+
+  async function fetchCloudRow(){
+    if(!currentUser)return null;
     const rows=await cloudRequest(
       "flightdeck_user_data?user_id=eq."+encodeURIComponent(currentUser.id)+"&select=data,updated_at&limit=1",
       {method:"GET"}
     );
+    return Array.isArray(rows)&&rows.length ? rows[0] : null;
+  }
 
-    if(!Array.isArray(rows)||!rows.length)return false;
+  async function pullCloudData(force=false){
+    if(!currentUser)return false;
 
-    const row=rows[0]||{};
+    const row=await fetchCloudRow();
+    if(!row)return false;
+
+    const remoteTime=Date.parse(row.updated_at||row.data?.client_updated_at||0)||0;
+    if(!force && remoteTime<=cloudLastSeenRemoteAt)return false;
+
     const remote=row.data||{};
-    const remoteTime=Date.parse(row.updated_at||remote.client_updated_at||0)||0;
-    const localTime=Number(localStorage.getItem("flightdeckCloudLocalUpdatedAt")||0);
 
-    if(remoteTime<=localTime)return false;
+    cloudApplyingRemote=true;
+    try{
+      if(Array.isArray(remote.entries)){
+        entries=normalizeCloudEntries(remote.entries);
+      }
 
-    if(Array.isArray(remote.entries)){
-      entries=remote.entries
-        .filter(e=>e && typeof e==="object")
-        .map(e=>({
-          ...e,
-          id:String(e.id||("cloud-"+Date.now()+"-"+Math.random().toString(36).slice(2))),
-          date:String(e.date||isoDate(today)),
-          type:["flight","ground","misc"].includes(e.type)?e.type:"flight",
-          hours:Math.max(0,num(e.hours,0))
-        }));
-    }
-    if(remote.settings&&typeof remote.settings==="object"){
-      settings=normalizeSettings(remote.settings);
-      anchor=parseDate(settings.payPeriodStart)||anchor;
-      saveSettings();
-    }
-    if(remote.extraFeatures&&typeof remote.extraFeatures==="object"){
-      localStorage.setItem(
-        "flightdeckExtraFeatures",
-        JSON.stringify(Object.assign({events:[]},remote.extraFeatures))
-      );
-    }
+      if(remote.settings&&typeof remote.settings==="object"){
+        settings=normalizeCloudSettings(remote.settings);
+        anchor=parseDate(settings.payPeriodStart)||anchor;
+      }
 
-    localStorage.setItem("flightdeckEntries",JSON.stringify(entries));
-    localStorage.setItem("flightdeckCloudLocalUpdatedAt",String(remoteTime));
-    cloudLastAppliedAt=Date.now();
-    render();
-    window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
-    cloudStatus("Synced","synced","This device is up to date with your FlightDeck Pay account.");
-    return true;
+      if(remote.extraFeatures&&typeof remote.extraFeatures==="object"){
+        localStorage.setItem(
+          "flightdeckExtraFeatures",
+          JSON.stringify(Object.assign({events:[]},remote.extraFeatures))
+        );
+      }
+
+      cloudLastSeenRemoteAt=remoteTime;
+      localStorage.setItem("flightdeckCloudLastSeenRemoteAt",String(remoteTime));
+
+      persistData();
+      populateSettings();
+      render();
+
+      window.dispatchEvent(new CustomEvent("flightdeck:datachange"));
+      cloudStatus("Synced","synced","This device received the latest account data.");
+      return true;
+    }finally{
+      setTimeout(()=>{cloudApplyingRemote=false;},250);
+    }
   }
 
   async function pushCloudData(){
     if(!currentUser)return false;
-    const payload=cloudPayload();
 
-    await cloudRequest("flightdeck_user_data?on_conflict=user_id",{
+    const payload=cloudPayload();
+    const result=await cloudRequest("flightdeck_user_data?on_conflict=user_id",{
       method:"POST",
       prefer:"resolution=merge-duplicates,return=representation",
       body:JSON.stringify({
@@ -4060,12 +4100,17 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
       })
     });
 
-    localStorage.setItem("flightdeckCloudLocalUpdatedAt",String(Date.now()));
-    cloudStatus("Synced","synced","Changes are saved to your FlightDeck Pay account.");
+    const row=Array.isArray(result)&&result.length?result[0]:null;
+    const serverTime=Date.parse(row?.updated_at||payload.client_updated_at)||Date.now();
+
+    cloudLastSeenRemoteAt=serverTime;
+    localStorage.setItem("flightdeckCloudLastSeenRemoteAt",String(serverTime));
+
+    cloudStatus("Synced","synced","Your changes are saved to your FlightDeck Pay account.");
     return true;
   }
 
-  async function syncCloudData(forcePush=false){
+  async function syncCloudData(mode="pull"){
     if(cloudSyncBusy)return;
     if(!currentUser){
       cloudStatus("Waiting for sign in","","Sign in on each device with the same account to enable cloud sync.");
@@ -4074,11 +4119,10 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
 
     cloudSyncBusy=true;
     try{
-      if(!forcePush){
-        const pulled=await pullCloudData();
-        if(pulled)return;
-      }
-      await pushCloudData();
+      cloudStatus("Syncing…","","Checking your FlightDeck Pay account.");
+      if(mode==="push")await pushCloudData();
+      else if(mode==="force-pull")await pullCloudData(true);
+      else await pullCloudData(false);
     }catch(e){
       console.warn("FlightDeck cloud sync",e);
       const msg=String(e?.message||"Unknown cloud sync error");
@@ -4089,13 +4133,22 @@ el("settingsOverlay").addEventListener("click",e=>{ if(e.target===el("settingsOv
   }
 
   function scheduleCloudPush(){
-    if(Date.now()-cloudLastAppliedAt<1200)return;
+    if(cloudApplyingRemote)return;
     if(!currentUser)return;
-    clearTimeout(cloudSyncTimer);
-    cloudSyncTimer=setTimeout(()=>syncCloudData(true),650);
+
+    clearTimeout(cloudPushTimer);
+    cloudPushTimer=setTimeout(()=>syncCloudData("push"),700);
   }
 
   window.addEventListener("flightdeck:datachange",scheduleCloudPush);
+
+  // Pull changes made on another signed-in device.
+  setInterval(()=>{
+    if(currentUser&&!cloudSyncBusy&&!document.hidden){
+      syncCloudData("pull");
+    }
+  },5000);
+
 
   function render(){
     try{renderCurrent();}catch(e){console.log("Current render: "+e);}
